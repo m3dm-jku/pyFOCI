@@ -133,3 +133,7 @@ ignore=[
 [tool.pytest.ini_options]
 addopts = "--doctest-modules --color=yes"
 doctest_optionflags = "NORMALIZE_WHITESPACE"
+testpaths = ["pyFOCI"]
+python_files = "test_*.py"
+python_classes = "Test*"
+python_functions = "test_*"
