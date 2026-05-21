@@ -13,6 +13,7 @@ readme = "README.md"
 requires-python = ">=3.9"
 dependencies = [
   "scikit-learn>=1.4.2",
+  "numpy",
 ]
 classifiers = [
     "Programming Language :: Python :: 3",
@@ -41,6 +42,8 @@ platforms = ["win-64", "linux-64", "osx-64", "osx-arm64"]
 [tool.pixi.dependencies]
 python = ">=3.9"
 scikit-learn = ">=1.4.2"
+numpy = "*"
+openblas = "*"
 
 [tool.pixi.pypi-dependencies]
 pyFOCI = { path=".", editable=true }
@@ -59,7 +62,6 @@ lint = { depends-on = ["black", "ruff"]}
 [tool.pixi.feature.test.dependencies]
 pytest = "*"
 pytest-cov = "*"
-libgfortran = "*"  # For macOS Fortran runtime support
 
 [tool.pixi.feature.test.tasks]
 test = { cmd = "pytest -vsl --cov=pyFOCI --cov-report=xml pyFOCI" }
