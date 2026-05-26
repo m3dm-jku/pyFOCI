@@ -87,7 +87,7 @@ class TemplateTransformer(TransformerMixin, BaseEstimator):
         # We need to set reset=False because we don't want to overwrite `n_features_in_`
         # `feature_names_in_` but only check that the shape is consistent.
         X = self._validate_data(X, accept_sparse=True, reset=False)
-        return np.sqrt(X)
+        return np.sqrt(np.clip(X, 0, None))
 
     def _more_tags(self):
         # This is a quick example to show the tags API:\
