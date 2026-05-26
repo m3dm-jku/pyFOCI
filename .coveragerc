@@ -3,4 +3,4 @@
 [run]
 branch = True
 source = pyFOCI
-include = */pyFOCI/*
+
