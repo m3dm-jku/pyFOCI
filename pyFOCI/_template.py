@@ -7,8 +7,7 @@ This is a module to be used as a reference for building other modules
 
 import numpy as np
 from sklearn.base import BaseEstimator, TransformerMixin, _fit_context
-
-# from sklearn.utils.validation import check_is_fitted
+from sklearn.utils.validation import validate_data  # , check_is_fitted
 
 
 # Note that the mixin class should always be on the left of `BaseEstimator` to ensure
@@ -61,7 +60,7 @@ class TemplateTransformer(TransformerMixin, BaseEstimator):
         self : object
             Returns self.
         """
-        X = self._validate_data(X, accept_sparse=True)
+        X = validate_data(self, X, accept_sparse=True)
 
         # Return the transformer
         return self
@@ -86,7 +85,7 @@ class TemplateTransformer(TransformerMixin, BaseEstimator):
         # Input validation
         # We need to set reset=False because we don't want to overwrite `n_features_in_`
         # `feature_names_in_` but only check that the shape is consistent.
-        X = self._validate_data(X, accept_sparse=True, reset=False)
+        X = validate_data(self, X, reset=False, accept_sparse=True)
         return np.sqrt(np.clip(X, 0, None))
 
     def __sklearn_tags__(self):
