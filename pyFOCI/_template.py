@@ -89,9 +89,12 @@ class TemplateTransformer(TransformerMixin, BaseEstimator):
         X = self._validate_data(X, accept_sparse=True, reset=False)
         return np.sqrt(np.clip(X, 0, None))
 
-    def _more_tags(self):
+    def __sklearn_tags__(self):
         # This is a quick example to show the tags API:\
         # https://scikit-learn.org/dev/developers/develop.html#estimator-tags
         # Here, our transformer does not do any operation in `fit` and only validate
         # the parameters. Thus, it is stateless.
-        return {"stateless": True}
+        tags = super().__sklearn_tags__()
+        tags.requires_fit = False
+        tags.input_tags.sparse = True
+        return tags
