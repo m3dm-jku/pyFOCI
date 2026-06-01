@@ -5,6 +5,7 @@ Plotting Template Transformer
 
 An example plot of :class:`pyFOCI.template.TemplateTransformer`
 """
+
 import numpy as np
 from matplotlib import pyplot as plt
 
