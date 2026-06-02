@@ -22,7 +22,7 @@
 Plotting Template Transformer
 =============================
 
-An example plot of :class:`pyFOCI.template.TemplateTransformer`
+An example plot of :class:`pyFOCI.foci.FOCISelector`
 
 .. GENERATED FROM PYTHON SOURCE LINES 8-29
 
@@ -43,11 +43,11 @@ An example plot of :class:`pyFOCI.template.TemplateTransformer`
     import numpy as np
     from matplotlib import pyplot as plt
 
-    from pyFOCI import TemplateTransformer
+    from pyFOCI import FOCISelector
 
     X = np.arange(50, dtype=np.float64).reshape(-1, 1)
     X /= 50
-    estimator = TemplateTransformer()
+    estimator = FOCISelector()
     X_transformed = estimator.fit_transform(X)
 
     plt.plot(X.flatten(), label="Original Data")
@@ -64,7 +64,7 @@ An example plot of :class:`pyFOCI.template.TemplateTransformer`
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.063 seconds)
+   **Total running time of the script:** (0 minutes 0.062 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_transformer.py:

@@ -3,17 +3,17 @@
 Plotting Template Transformer
 =============================
 
-An example plot of :class:`pyFOCI.template.TemplateTransformer`
+An example plot of :class:`pyFOCI.foci.FOCISelector`
 """
 
 import numpy as np
 from matplotlib import pyplot as plt
 
-from pyFOCI import TemplateTransformer
+from pyFOCI import FOCISelector
 
 X = np.arange(50, dtype=np.float64).reshape(-1, 1)
 X /= 50
-estimator = TemplateTransformer()
+estimator = FOCISelector()
 X_transformed = estimator.fit_transform(X)
 
 plt.plot(X.flatten(), label="Original Data")
