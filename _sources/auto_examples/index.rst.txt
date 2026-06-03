@@ -21,7 +21,7 @@ Introductory examples.
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="An example plot of pyFOCI.foci.FOCISelector">
+    <div class="sphx-glr-thumbcontainer" tooltip="An example plot of pyFOCI.FOCISelector">
 
 .. only:: html
 
@@ -32,7 +32,7 @@ Introductory examples.
 
 .. raw:: html
 
-      <div class="sphx-glr-thumbnail-title">Plotting Template Transformer</div>
+      <div class="sphx-glr-thumbnail-title">Plotting FOCISelector</div>
     </div>
 
 
