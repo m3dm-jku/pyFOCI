@@ -21,7 +21,7 @@ Introductory examples.
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="An example plot of pyFOCI.FOCISelector">
+    <div class="sphx-glr-thumbcontainer" tooltip="This example fits the FOCISelector on synthetic data and plots the absolute feature–target correlations used by the selector. Selected features are highlighted.">
 
 .. only:: html
 
@@ -32,7 +32,7 @@ Introductory examples.
 
 .. raw:: html
 
-      <div class="sphx-glr-thumbnail-title">Plotting FOCISelector</div>
+      <div class="sphx-glr-thumbnail-title">FOCISelector: correlation scree</div>
     </div>
 
 

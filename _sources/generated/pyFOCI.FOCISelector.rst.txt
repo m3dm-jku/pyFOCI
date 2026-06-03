@@ -20,10 +20,19 @@
         ~FOCISelector.fit_transform
       
       
+        ~FOCISelector.get_feature_names_out
+      
+      
         ~FOCISelector.get_metadata_routing
       
       
         ~FOCISelector.get_params
+      
+      
+        ~FOCISelector.get_support
+      
+      
+        ~FOCISelector.inverse_transform
       
       
         ~FOCISelector.set_output
