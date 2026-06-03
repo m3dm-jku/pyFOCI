@@ -15,7 +15,7 @@ Transformer
    :toctree: generated/
    :template: class.rst
 
-   TemplateTransformer
+   FOCISelector
 
 
 Utilities

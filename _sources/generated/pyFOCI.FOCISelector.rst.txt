@@ -1,0 +1,44 @@
+﻿FOCISelector
+=================================
+
+.. currentmodule:: pyFOCI
+
+.. autoclass:: FOCISelector
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      
+      
+        ~FOCISelector.fit
+      
+      
+        ~FOCISelector.fit_transform
+      
+      
+        ~FOCISelector.get_metadata_routing
+      
+      
+        ~FOCISelector.get_params
+      
+      
+        ~FOCISelector.set_output
+      
+      
+        ~FOCISelector.set_params
+      
+      
+        ~FOCISelector.transform
+      
+   
+   
+
+.. include:: pyFOCI.FOCISelector.examples
+
+.. raw:: html
+
+    <div style='clear:both'></div>
