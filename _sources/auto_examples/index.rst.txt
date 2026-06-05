@@ -25,10 +25,10 @@ Introductory examples.
 
 .. only:: html
 
-  .. image:: /auto_examples/images/thumb/sphx_glr_plot_transformer_thumb.png
+  .. image:: /auto_examples/images/thumb/sphx_glr_plot_FOCISelector_thumb.png
     :alt:
 
-  :doc:`/auto_examples/plot_transformer`
+  :doc:`/auto_examples/plot_FOCISelector`
 
 .. raw:: html
 
@@ -46,7 +46,7 @@ Introductory examples.
 .. toctree::
    :hidden:
 
-   /auto_examples/plot_transformer
+   /auto_examples/plot_FOCISelector
 
 
 .. only:: html
