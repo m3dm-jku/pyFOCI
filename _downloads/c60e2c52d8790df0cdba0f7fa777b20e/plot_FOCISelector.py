@@ -1,11 +1,10 @@
 """
-===============================
-FOCISelector: correlation scree
-===============================
+=============================
+FOCISelector: T_n progression
+=============================
 
-This example fits the FOCISelector on synthetic data and plots the absolute
-feature–target correlations used by the selector. Selected features are
-highlighted.
+This example fits the FOCISelector on synthetic data and plots the cumulative
+T_n values along the selection path.
 """
 
 import matplotlib.pyplot as plt
@@ -14,52 +13,35 @@ import numpy as np
 from pyFOCI import FOCISelector
 
 rng = np.random.default_rng(0)
-n, p = 300, 30
+n, p = 1000, 30
 X = rng.normal(size=(n, p))
 
-# Synthetic target with a mixture of marginal and interaction effects
+# Additive signal across multiple features
+# -> incremental improvements with each addition
 y = (
-    X[:, 0] * X[:, 1]
-    + np.sin(X[:, 0] * X[:, 2])
-    + X[:, 3] ** 2
+    np.sin(2.0 * X[:, 0])
+    + X[:, 1]
+    + (X[:, 2] ** 2 - 1.0)
+    + np.tanh(X[:, 3])
+    + (X[:, 4] > 0).astype(float)
     + 0.1 * rng.normal(size=n)  # small noise
 )
 
-selector = FOCISelector(max_features=6)
+selector = FOCISelector(max_features=6, random_state=0)
 selector.fit(X, y)
 
-corr = selector.correlation_
-support_idx = set(selector.get_support(indices=True))
+feat_idx = list(selector.selected_indices_)
+Tn_vals = list(selector.Tn_path_)
 
-# Sort features by descending correlation for a scree-style plot
-order = np.argsort(-corr)
-corr_sorted = corr[order]
-labels_sorted = [f"x{i}" for i in order]
+# Labels: directly prepend "x" to the indices
+labels = [f"step {i+1}: x{j}" for i, j in enumerate(feat_idx)]
 
-# Color selected features differently
-colors = ["tab:orange" if i in support_idx else "tab:blue" for i in order]
-
-plt.figure(figsize=(max(10, p * 0.35), 4))
-bars = plt.bar(
-    range(p),
-    corr_sorted,
-    color=colors,
-    edgecolor="black",
-    linewidth=0.5,
-)
-plt.axvline(
-    x=selector.max_features - 0.5,
-    color="k",
-    linestyle="--",
-    alpha=0.6,
-    label="max_features cutoff",
-)
-
-plt.title("FOCISelector: absolute feature–target correlations")
-plt.ylabel("|corr(Xj, y)|")
-plt.xlabel("Features (sorted)")
-
-plt.xticks(ticks=range(p), labels=labels_sorted, rotation=90, fontsize=8)
-plt.legend(loc="upper right")
+m = len(Tn_vals)
+plt.figure(figsize=(8, 4))
+plt.bar(range(m), Tn_vals, color="tab:orange", edgecolor="black", linewidth=0.5)
+plt.title("FOCISelector: cumulative T_n over selection steps")
+plt.ylabel("T_n(S_k)")
+plt.xlabel("Selection steps")
+plt.xticks(ticks=range(m), labels=labels, rotation=45, ha="right", fontsize=9)
 plt.tight_layout()
 plt.show()
