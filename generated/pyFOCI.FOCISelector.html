@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>FOCISelector &#8212; pyFOCI 0.1.3.dev32+g283f6b0b8 documentation</title>
+    <title>FOCISelector &#8212; pyFOCI 0.1.3.dev37+g19534b85e documentation</title>
   
   
   
@@ -45,7 +45,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=0790524f97105ba85085" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=0790524f97105ba85085" />
 
-    <script src="../_static/documentation_options.js?v=64271fe8"></script>
+    <script src="../_static/documentation_options.js?v=bb447f6a"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/sg-tags.js?v=d80f6fa4"></script>
@@ -130,8 +130,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="pyFOCI 0.1.3.dev32+g283f6b0b8 documentation - Home"/>
-    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="pyFOCI 0.1.3.dev32+g283f6b0b8 documentation - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="pyFOCI 0.1.3.dev37+g19534b85e documentation - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="pyFOCI 0.1.3.dev37+g19534b85e documentation - Home"/>
   
   
 </a></div>
@@ -434,8 +434,9 @@ when no improvement over the previous best T_n is achieved or when
 <dd class="field-odd"><dl class="simple">
 <dt><strong>max_features</strong><span class="classifier">int, default=4</span></dt><dd><p>Maximum number of features to select.</p>
 </dd>
-<dt><strong>random_state</strong><span class="classifier">int or None, default=None</span></dt><dd><p>Seed for the randomized nearest neighbor tie-breaking. If None,
-uses NumPy’s default RNG.</p>
+<dt><strong>random_state</strong><span class="classifier">int, RandomState instance or None, default=None</span></dt><dd><p>Controls the random tie-breaking among nearest neighbors. Pass an int
+for reproducible results across multiple calls. If None, the global
+NumPy random state is used.</p>
 </dd>
 </dl>
 </dd>

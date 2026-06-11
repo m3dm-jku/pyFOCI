@@ -12,9 +12,9 @@ import numpy as np
 
 from pyFOCI import FOCISelector
 
-rng = np.random.default_rng(0)
+random_state = np.random.RandomState(0)
 n, p = 1000, 30
-X = rng.normal(size=(n, p))
+X = random_state.normal(size=(n, p))
 
 # Additive signal across multiple features
 # -> incremental improvements with each addition
@@ -24,7 +24,7 @@ y = (
     + (X[:, 2] ** 2 - 1.0)
     + np.tanh(X[:, 3])
     + (X[:, 4] > 0).astype(float)
-    + 0.1 * rng.normal(size=n)  # small noise
+    + 0.1 * random_state.normal(size=n)  # small noise
 )
 
 selector = FOCISelector(max_features=6, random_state=0)
