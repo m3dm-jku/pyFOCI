@@ -6,18 +6,18 @@
 :notoc:
 
 #############################################
-Project template for `scikit-learn` extension
+pyFOCI documentation
 #############################################
 
 **Date**: |today| **Version**: |version|
 
 **Useful links**:
-`Source Repository <https://github.com/scikit-learn-contrib/pyFOCI>`__ |
-`Issues & Ideas <https://github.com/scikit-learn-contrib/pyFOCIk/issues>`__ |
+`Package Repository <https://pypi.org/project/pyFOCI>`__ |
+`Source Repository <https://github.com/m3dm-jku/pyFOCI>`__ |
+`Issues & Ideas <https://github.com/m3dm-jku/pyFOCI/issues>`__ |
 
-This is the documentation for the `pyFOCI` to help at extending
-`scikit-learn`. It provides some information on how to build your own custom
-`scikit-learn` compatible estimators as well as a template to package them.
+This is the documentation for the open source Python package `pyFOCI`, which
+provides the feature selection algorithm "Feature Ordering by Conditional Independence" (FOCI).
 
 
 .. grid:: 1 2 2 2
@@ -30,7 +30,7 @@ This is the documentation for the `pyFOCI` to help at extending
         :class-card: intro-card
         :shadow: md
 
-        Information regarding this template and how to modify it for your own project.
+        How to install `pyFOCI`.
 
         +++
 
@@ -40,15 +40,14 @@ This is the documentation for the `pyFOCI` to help at extending
             :color: secondary
             :expand:
 
-            To the getting started guideline
+            To the installation guideline
 
     .. grid-item-card::  User guide
         :img-top: _static/img/index_user_guide.svg
         :class-card: intro-card
         :shadow: md
 
-        An example of narrative documentation. Here, we will explain how to create your
-        own `scikit-learn` estimator.
+        The user guide gives background information about the key concepts of FOCI.
 
         +++
 
@@ -65,8 +64,8 @@ This is the documentation for the `pyFOCI` to help at extending
         :class-card: intro-card
         :shadow: md
 
-        An example of API documentation. This is an example how to use `sphinx` to
-        automatically generate reference API page.
+        The API reference contains a systematic description of the `pyFOCI` programming interface:
+        All available classes, methods and parameters.
 
         +++
 
@@ -83,8 +82,7 @@ This is the documentation for the `pyFOCI` to help at extending
         :class-card: intro-card
         :shadow: md
 
-        A set of examples. It complements the User Guide and it is the right place to
-        show how to use your compatible estimator.
+        The examples showcase  `pyFOCI` in action. Look at result diagrams and see the corresponding source.
 
         +++
 

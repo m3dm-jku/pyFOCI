@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Getting started &#8212; pyFOCI 0.1.3.dev41+gbc1fff895 documentation</title>
+    <title>Getting started &#8212; pyFOCI 0.1.3.dev42+g2d8096d98 documentation</title>
   
   
   
@@ -45,7 +45,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=0790524f97105ba85085" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=0790524f97105ba85085" />
 
-    <script src="_static/documentation_options.js?v=9f65d458"></script>
+    <script src="_static/documentation_options.js?v=9634852a"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/sg-tags.js?v=d80f6fa4"></script>
@@ -55,7 +55,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="User Guide" href="user_guide.html" />
-    <link rel="prev" title="Project template for scikit-learn extension" href="index.html" />
+    <link rel="prev" title="pyFOCI documentation" href="index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="0.1.3" />
@@ -130,8 +130,8 @@
       
     
     
-    <img src="_static/logo.png" class="logo__image only-light" alt="pyFOCI 0.1.3.dev41+gbc1fff895 documentation - Home"/>
-    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt="pyFOCI 0.1.3.dev41+gbc1fff895 documentation - Home"/>
+    <img src="_static/logo.png" class="logo__image only-light" alt="pyFOCI 0.1.3.dev42+g2d8096d98 documentation - Home"/>
+    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt="pyFOCI 0.1.3.dev42+g2d8096d98 documentation - Home"/>
   
   
 </a></div>
@@ -393,122 +393,19 @@
                   
   <section id="getting-started">
 <span id="quick-start"></span><h1>Getting started<a class="headerlink" href="#getting-started" title="Link to this heading">#</a></h1>
-<p>This package serves as a skeleton package aiding at developing compatible
-scikit-learn contribution.</p>
-<section id="creating-your-own-scikit-learn-contribution-package">
-<h2>Creating your own scikit-learn contribution package<a class="headerlink" href="#creating-your-own-scikit-learn-contribution-package" title="Link to this heading">#</a></h2>
-<section id="download-and-setup-your-repository">
-<h3>Download and setup your repository<a class="headerlink" href="#download-and-setup-your-repository" title="Link to this heading">#</a></h3>
-<p>To create your package, you need to clone the <code class="docutils literal notranslate"><span class="pre">project-template</span></code> repository:</p>
+<section id="install">
+<h2>Install<a class="headerlink" href="#install" title="Link to this heading">#</a></h2>
+<section id="from-pypi">
+<h3>From PyPI<a class="headerlink" href="#from-pypi" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">pyFOCI</span></code> is available in the PyPI repositories. You can install it via <code class="docutils literal notranslate"><span class="pre">pip</span></code>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><style type="text/css">
 span.prompt1:before {
   content: "$ ";
 }
-</style><span class="prompt1">git<span class="w"> </span>clone<span class="w"> </span>https://github.com/scikit-learn-contrib/project-template.git</span>
-</pre></div></div><p>Before to reinitialize your git repository, you need to make the following
-changes. Replace all occurrences of <code class="docutils literal notranslate"><span class="pre">skltemplate</span></code>, <code class="docutils literal notranslate"><span class="pre">sklearn-template</span></code>, or
-<code class="docutils literal notranslate"><span class="pre">project-template</span></code> with the name of you own project. You can find all the
-occurrences using the following command:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span class="prompt1">git<span class="w"> </span>grep<span class="w"> </span>skltemplate</span>
-<span class="prompt1">git<span class="w"> </span>grep<span class="w"> </span>sklearn-template</span>
-<span class="prompt1">git<span class="w"> </span>grep<span class="w"> </span>project-template</span>
-</pre></div></div><p>To remove the history of the template package, you need to remove the <code class="docutils literal notranslate"><span class="pre">.git</span></code>
-directory:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span class="prompt1">rm<span class="w"> </span>-rf<span class="w"> </span>.git</span>
-</pre></div></div><p>Then, you need to initialize your new git repository:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span class="prompt1">git<span class="w"> </span>init</span>
-<span class="prompt1">git<span class="w"> </span>add<span class="w"> </span>.</span>
-<span class="prompt1">git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s1">&#39;Initial commit&#39;</span></span>
-</pre></div></div><p>Finally, you create an online repository on GitHub and push your code online:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span class="prompt1">git<span class="w"> </span>remote<span class="w"> </span>add<span class="w"> </span>origin<span class="w"> </span>https://github.com/your_remote/your_contribution.git</span>
-<span class="prompt1">git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>main</span>
+</style><span class="prompt1">pip<span class="w"> </span>install<span class="w"> </span>pyFOCI</span>
+</pre></div></div><p>Or e.g. with <a class="reference external" href="https://docs.astral.sh/uv/">uv</a>, here by creating a temporary virtual environment:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="prompt1">uv<span class="w"> </span>run<span class="w"> </span>--with<span class="w"> </span>pyFOCI<span class="w"> </span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import pyFOCI; print(pyFOCI.__version__)&quot;</span></span>
 </pre></div></div></section>
-<section id="develop-your-own-scikit-learn-estimators">
-<h3>Develop your own scikit-learn estimators<a class="headerlink" href="#develop-your-own-scikit-learn-estimators" title="Link to this heading">#</a></h3>
-<p>You can modify the source files as you want. However, your custom estimators
-need to pass the <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.utils.estimator_checks.check_estimator.html#sklearn.utils.estimator_checks.check_estimator">check_estimator</a> test to be scikit-learn compatible. We provide a
-file called <code class="docutils literal notranslate"><span class="pre">test_common.py</span></code> where we run the checks on our custom estimators.</p>
-<p>You can refer to the <a class="reference internal" href="user_guide.html#user-guide"><span class="std std-ref">User Guide</span></a> to help you create a compatible
-scikit-learn estimator.</p>
-<p>In any case, developers should endeavor to adhere to scikit-learn’s
-<a class="reference external" href="http://scikit-learn.org/stable/developers/">Contributor’s Guide</a> which promotes the use of:</p>
-<ul class="simple">
-<li><p>algorithm-specific unit tests, in addition to <code class="docutils literal notranslate"><span class="pre">check_estimator</span></code>’s common
-tests;</p></li>
-<li><p><a class="reference external" href="https://www.python.org/dev/peps/pep-0008/">PEP8</a>-compliant code;</p></li>
-<li><p>a clearly documented API using <a class="reference external" href="https://github.com/numpy/numpydoc">NumpyDoc</a> and <a class="reference external" href="https://www.python.org/dev/peps/pep-0257/">PEP257</a>-compliant docstrings;</p></li>
-<li><p>references to relevant scientific literature in standard citation formats;</p></li>
-<li><p><a class="reference external" href="https://docs.python.org/3/library/doctest.html">doctests</a> to provide succinct usage examples;</p></li>
-<li><p>standalone examples to illustrate the usage, model visualisation, and
-benefits/benchmarks of particular algorithms;</p></li>
-<li><p>efficient code when the need for optimization is supported by benchmarks.</p></li>
-</ul>
-</section>
-<section id="managing-your-local-and-continuous-integration-environment">
-<h3>Managing your local and continuous integration environment<a class="headerlink" href="#managing-your-local-and-continuous-integration-environment" title="Link to this heading">#</a></h3>
-<p>Here, we set up for you an repository that uses <code class="docutils literal notranslate"><span class="pre">pixi</span></code>. The <code class="docutils literal notranslate"><span class="pre">pixi.toml</span></code> file defines
-the packages and tasks to be run that we will present below. You can refer to the
-following documentation link to install <code class="docutils literal notranslate"><span class="pre">pixi</span></code>: <a class="reference external" href="https://pixi.sh/latest/#installation">https://pixi.sh/latest/#installation</a></p>
-<p>Once done, you can refer to the documentation to get started but we provide the
-command below to interact with the main task requested to develop your package.</p>
-</section>
-<section id="edit-the-documentation">
-<h3>Edit the documentation<a class="headerlink" href="#edit-the-documentation" title="Link to this heading">#</a></h3>
-<p>The documentation is created using <a class="reference external" href="http://www.sphinx-doc.org/en/stable/">Sphinx</a>. In addition, the examples are
-created using <code class="docutils literal notranslate"><span class="pre">sphinx-gallery</span></code>. Therefore, to generate locally the
-documentation, you can leverage the following <code class="docutils literal notranslate"><span class="pre">pixi</span></code> task:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span class="prompt1">pixi<span class="w"> </span>run<span class="w"> </span>build-doc</span>
-</pre></div></div><p>The documentation is made of:</p>
-<ul class="simple">
-<li><p>a home page, <code class="docutils literal notranslate"><span class="pre">doc/index.rst</span></code>;</p></li>
-<li><p>an API documentation, <code class="docutils literal notranslate"><span class="pre">doc/api.rst</span></code> in which you should add all public
-objects for which the docstring should be exposed publicly.</p></li>
-<li><p>a User Guide documentation, <code class="docutils literal notranslate"><span class="pre">doc/user_guide.rst</span></code>, containing the narrative
-documentation of your package, to give as much intuition as possible to your
-users.</p></li>
-<li><p>examples which are created in the <code class="docutils literal notranslate"><span class="pre">examples/</span></code> folder. Each example
-illustrates some usage of the package. the example file name should start by
-<code class="docutils literal notranslate"><span class="pre">plot_*.py</span></code>.</p></li>
-</ul>
-</section>
-<section id="local-testing">
-<h3>Local testing<a class="headerlink" href="#local-testing" title="Link to this heading">#</a></h3>
-<p>To run the tests locally, you can use the following command:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span class="prompt1">pixi<span class="w"> </span>run<span class="w"> </span><span class="nb">test</span></span>
-</pre></div></div><p>It will use <code class="docutils literal notranslate"><span class="pre">pytest</span></code> under the hood to run the package tests.</p>
-<p>In addition, you have a linter task to check the code consistency in terms of style:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span class="prompt1">pixi<span class="w"> </span>run<span class="w"> </span>lint</span>
-</pre></div></div></section>
-<section id="activating-the-development-environment">
-<h3>Activating the development environment<a class="headerlink" href="#activating-the-development-environment" title="Link to this heading">#</a></h3>
-<p>In the case that you don’t want to use the <code class="docutils literal notranslate"><span class="pre">pixi</span> <span class="pre">run</span></code> commands and directly interact
-with the usual python tools, you can activate the development environment:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span class="prompt1">pixi<span class="w"> </span>shell<span class="w"> </span>-e<span class="w"> </span>dev</span>
-</pre></div></div><p>This will activate an environment containing the dependencies needed to run the linters,
-tests, and build the documentation. So for instance, you can run the tests with:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span class="prompt1">pytest<span class="w"> </span>-vsl<span class="w"> </span>skltemplate</span>
-</pre></div></div><p>In this case, you can even use pre-commit before using git. You will need to initialize
-it with:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span class="prompt1">pre-commit<span class="w"> </span>install</span>
-</pre></div></div></section>
-<section id="setup-the-continuous-integration">
-<h3>Setup the continuous integration<a class="headerlink" href="#setup-the-continuous-integration" title="Link to this heading">#</a></h3>
-<p>The project template already contains configuration files of the continuous
-integration system. It leverage the above pixi commands and run on GitHub Actions.
-In short, it will:</p>
-<ul class="simple">
-<li><p>run the tests on the different platforms (Linux, MacOS, Windows) and upload the
-coverage report to codecov.io;</p></li>
-<li><p>check the code style (linter);</p></li>
-<li><p>build the documentation and deploy it automatically on GitHub Pages.</p></li>
-</ul>
-</section>
-</section>
-<section id="publish-your-package">
-<h2>Publish your package<a class="headerlink" href="#publish-your-package" title="Link to this heading">#</a></h2>
-<p>You can make your package available through <a class="reference external" href="https://packaging.python.org/tutorials/packaging-projects/">PyPi</a> and <a class="reference external" href="https://conda-forge.org/">conda-forge</a>. Refer to
-the associated documentation to be able to upload your packages such that
-it will be installable with <code class="docutils literal notranslate"><span class="pre">pip</span></code> and <code class="docutils literal notranslate"><span class="pre">conda</span></code>.</p>
 </section>
 </section>
 
@@ -528,7 +425,7 @@ it will be installable with <code class="docutils literal notranslate"><span cla
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Project template for <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> extension</p>
+        <p class="prev-next-title">pyFOCI documentation</p>
       </div>
     </a>
     <a class="right-next"
@@ -559,17 +456,10 @@ it will be installable with <code class="docutils literal notranslate"><span cla
   </div>
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="pst-show_toc_level nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-your-own-scikit-learn-contribution-package">Creating your own scikit-learn contribution package</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#download-and-setup-your-repository">Download and setup your repository</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#develop-your-own-scikit-learn-estimators">Develop your own scikit-learn estimators</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#managing-your-local-and-continuous-integration-environment">Managing your local and continuous integration environment</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#edit-the-documentation">Edit the documentation</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#local-testing">Local testing</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#activating-the-development-environment">Activating the development environment</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setup-the-continuous-integration">Setup the continuous integration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#install">Install</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#from-pypi">From PyPI</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#publish-your-package">Publish your package</a></li>
 </ul>
   </nav></div>
 

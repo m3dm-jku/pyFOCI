@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>User guide : contents &#8212; pyFOCI 0.1.3.dev41+gbc1fff895 documentation</title>
+    <title>User Guide : contents &#8212; pyFOCI 0.1.3.dev42+g2d8096d98 documentation</title>
   
   
   
@@ -45,7 +45,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=0790524f97105ba85085" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=0790524f97105ba85085" />
 
-    <script src="_static/documentation_options.js?v=9f65d458"></script>
+    <script src="_static/documentation_options.js?v=9634852a"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/sg-tags.js?v=d80f6fa4"></script>
@@ -131,8 +131,8 @@
       
     
     
-    <img src="_static/logo.png" class="logo__image only-light" alt="pyFOCI 0.1.3.dev41+gbc1fff895 documentation - Home"/>
-    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt="pyFOCI 0.1.3.dev41+gbc1fff895 documentation - Home"/>
+    <img src="_static/logo.png" class="logo__image only-light" alt="pyFOCI 0.1.3.dev42+g2d8096d98 documentation - Home"/>
+    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt="pyFOCI 0.1.3.dev42+g2d8096d98 documentation - Home"/>
   
   
 </a></div>
@@ -375,7 +375,7 @@
         <i class="fa-solid fa-home"></i>
       </a>
     </li>
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">User guide : contents</span></li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">User Guide : contents</span></li>
   </ul>
 </nav>
 </div>
@@ -394,173 +394,77 @@
                   
   <section id="user-guide">
 <span id="id1"></span><h1>User Guide<a class="headerlink" href="#user-guide" title="Link to this heading">#</a></h1>
-<section id="estimator">
-<h2>Estimator<a class="headerlink" href="#estimator" title="Link to this heading">#</a></h2>
-<p>The central piece of transformer, regressor, and classifier is
-<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.base.BaseEstimator.html#sklearn.base.BaseEstimator" title="(in scikit-learn v1.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.base.BaseEstimator</span></code></a>. All estimators in scikit-learn are derived
-from this class. In more details, this base class enables to set and get
-parameters of the estimator. It can be imported as:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseEstimator</span>
-</pre></div>
-</div>
-<p>Once imported, you can create a class which inherate from this base class:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span><span class="w"> </span><span class="nc">MyOwnEstimator</span><span class="p">(</span><span class="n">BaseEstimator</span><span class="p">):</span>
-<span class="gp">... </span>    <span class="k">pass</span>
-</pre></div>
-</div>
-</section>
-<section id="transformer">
-<h2>Transformer<a class="headerlink" href="#transformer" title="Link to this heading">#</a></h2>
-<p>Transformers are scikit-learn estimators which implement a <code class="docutils literal notranslate"><span class="pre">transform</span></code> method.
-The use case is the following:</p>
+<p>pyFOCI provides a Python implementation of the <strong>Feature Ordering by Conditional Independence (FOCI)</strong> algorithm.
+FOCI is a feature selection method designed to identify a subset of features that are most relevant for modeling a
+regression target variable, specifically accounting for nonlinear dependencies.</p>
+<p>The algorithm is based on a nonlinear generalization of the partial R² statistic.
+This can make pyFOCI particularly useful in scenarios where the relationship between features and the target is strongly nonlinear,
+where traditional linear feature selection methods (like Lasso or correlation-based selection) might fail.</p>
+<section id="how-original-foci-works">
+<h2>How original FOCI Works<a class="headerlink" href="#how-original-foci-works" title="Link to this heading">#</a></h2>
+<p>FOCI performs <strong>hierarchical forward selection</strong>. The selection process, as described in <strong>Azadkia, M., &amp; Chatterjee, S. (2021)</strong>, works as follows:</p>
+<ol class="arabic">
+<li><p><strong>Initial Step</strong>: The algorithm searches for the single feature that maximizes the (nonlinear) dependence with the target variable <span class="math notranslate nohighlight">\(y\)</span>, measured by the unconditional <span class="math notranslate nohighlight">\(T_n\)</span> coefficient.</p></li>
+<li><p><strong>Iterative Step</strong>: Once a set of features <span class="math notranslate nohighlight">\(S_{k-1}\)</span> has been selected, FOCI searches for the next feature <span class="math notranslate nohighlight">\(j\)</span> among the remaining candidates that maximizes the conditional dependence:</p>
+<p><span class="math notranslate nohighlight">\(T_n(y, j \mid S_{k-1})\)</span></p>
+<p>This means it selects the feature that provides the most “additional” information about the target, given the features already selected.</p>
+</li>
+<li><p><strong>Stopping Criteria</strong>: The process continues until one of the following conditions is met:</p>
 <ul class="simple">
-<li><p>at <code class="docutils literal notranslate"><span class="pre">fit</span></code>, some parameters can be learned from <code class="docutils literal notranslate"><span class="pre">X</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code>;</p></li>
-<li><p>at <code class="docutils literal notranslate"><span class="pre">transform</span></code>, <code class="docutils literal notranslate"><span class="pre">X</span></code> will be transformed, using the parameters learned
-during <code class="docutils literal notranslate"><span class="pre">fit</span></code>.</p></li>
+<li><p>The conditional <span class="math notranslate nohighlight">\(T_n\)</span> of <span class="math notranslate nohighlight">\(j\)</span> is not positive.</p></li>
+<li><p>All available features have been selected.</p></li>
 </ul>
-<p>In addition, scikit-learn provides a
-<a class="reference external" href="https://en.wikipedia.org/wiki/Mixin">mixin</a>, i.e. <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.base.TransformerMixin.html#sklearn.base.TransformerMixin" title="(in scikit-learn v1.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.base.TransformerMixin</span></code></a>, which
-implement the combination of <code class="docutils literal notranslate"><span class="pre">fit</span></code> and <code class="docutils literal notranslate"><span class="pre">transform</span></code> called <code class="docutils literal notranslate"><span class="pre">fit_transform</span></code>.</p>
-<p>One can import the mixin class as:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">TransformerMixin</span>
-</pre></div>
-</div>
-<p>Therefore, when creating a transformer, you need to create a class which
-inherits from both <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.base.BaseEstimator.html#sklearn.base.BaseEstimator" title="(in scikit-learn v1.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.base.BaseEstimator</span></code></a> and
-<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.base.TransformerMixin.html#sklearn.base.TransformerMixin" title="(in scikit-learn v1.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.base.TransformerMixin</span></code></a>. The scikit-learn API imposed <code class="docutils literal notranslate"><span class="pre">fit</span></code> to
-<strong>return ``self``</strong>. The reason is that it allows to pipeline <code class="docutils literal notranslate"><span class="pre">fit</span></code> and
-<code class="docutils literal notranslate"><span class="pre">transform</span></code> imposed by the <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.base.TransformerMixin.html#sklearn.base.TransformerMixin" title="(in scikit-learn v1.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.base.TransformerMixin</span></code></a>. The
-<code class="docutils literal notranslate"><span class="pre">fit</span></code> method is expected to have <code class="docutils literal notranslate"><span class="pre">X</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code> as inputs. Note that
-<code class="docutils literal notranslate"><span class="pre">transform</span></code> takes only <code class="docutils literal notranslate"><span class="pre">X</span></code> as input and is expected to return the
-transformed version of <code class="docutils literal notranslate"><span class="pre">X</span></code>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span><span class="w"> </span><span class="nc">MyOwnTransformer</span><span class="p">(</span><span class="n">TransformerMixin</span><span class="p">,</span> <span class="n">BaseEstimator</span><span class="p">):</span>
-<span class="gp">... </span>    <span class="k">def</span><span class="w"> </span><span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="gp">... </span>        <span class="k">return</span> <span class="bp">self</span>
-<span class="gp">... </span>    <span class="k">def</span><span class="w"> </span><span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
-<span class="gp">... </span>        <span class="k">return</span> <span class="n">X</span>
-</pre></div>
-</div>
-<p>We build a basic example to show that our <code class="xref py py-class docutils literal notranslate"><span class="pre">MyOwnTransformer</span></code> is working
-within a scikit-learn <code class="docutils literal notranslate"><span class="pre">pipeline</span></code>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_iris</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.pipeline</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_pipeline</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LogisticRegression</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">load_iris</span><span class="p">(</span><span class="n">return_X_y</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pipe</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">MyOwnTransformer</span><span class="p">(),</span>
-<span class="gp">... </span>                     <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-<span class="gp">... </span>                                        <span class="n">solver</span><span class="o">=</span><span class="s1">&#39;lbfgs&#39;</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pipe</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-<span class="go">Pipeline(...)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pipe</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-<span class="go">array([...])</span>
-</pre></div>
-</div>
+</li>
+</ol>
 </section>
-<section id="predictor">
-<h2>Predictor<a class="headerlink" href="#predictor" title="Link to this heading">#</a></h2>
-<section id="regressor">
-<h3>Regressor<a class="headerlink" href="#regressor" title="Link to this heading">#</a></h3>
-<p>Similarly, regressors are scikit-learn estimators which implement a <code class="docutils literal notranslate"><span class="pre">predict</span></code>
-method. The use case is the following:</p>
+<section id="how-our-implementation-works">
+<h2>How our Implementation Works<a class="headerlink" href="#how-our-implementation-works" title="Link to this heading">#</a></h2>
+<p>We have added a <code class="docutils literal notranslate"><span class="pre">max_features</span></code> parameter, and a <span class="math notranslate nohighlight">\(T_n\)</span> threshold <code class="docutils literal notranslate"><span class="pre">min_delta</span></code>.</p>
+<p>Also, the selection process, modified as in the <a class="reference external" href="https://cran.r-project.org/package=FOCI">FOCI R reference implementation</a>
+and via <strong>Fuchs, S. (2024)</strong> , works as follows:</p>
+<ol class="arabic" start="2">
+<li><p><strong>Iterative Step</strong>: Once a set of features <span class="math notranslate nohighlight">\(S_{k-1}\)</span> has been selected, FOCI searches for the next feature <span class="math notranslate nohighlight">\(j\)</span> among the remaining candidates that maximizes the <strong>unconditional</strong> dependence:</p>
+<p><span class="math notranslate nohighlight">\(T_n(y, j ∪ S_{k-1})\)</span></p>
+<p>This results in the same selection as in original FOCI, because the numerator of the conditional <span class="math notranslate nohighlight">\(T_n\)</span> is the difference
+of the numerators of two such unconditional <span class="math notranslate nohighlight">\(T_n\)</span> values.</p>
+</li>
+<li><p><strong>Stopping Criteria</strong>: The process continues until one of the following conditions is met:</p>
 <ul class="simple">
-<li><p>at <code class="docutils literal notranslate"><span class="pre">fit</span></code>, some parameters can be learned from <code class="docutils literal notranslate"><span class="pre">X</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code>;</p></li>
-<li><p>at <code class="docutils literal notranslate"><span class="pre">predict</span></code>, predictions will be computed using <code class="docutils literal notranslate"><span class="pre">X</span></code> using the parameters
-learned during <code class="docutils literal notranslate"><span class="pre">fit</span></code>.</p></li>
+<li><p>The first <span class="math notranslate nohighlight">\(T_n\)</span> coefficient or the <strong>improvement</strong> in the <span class="math notranslate nohighlight">\(T_n\)</span> is less than the specified <code class="docutils literal notranslate"><span class="pre">min_delta</span></code>.</p></li>
+<li><p>All available features have been selected.</p></li>
+<li><p>The number of selected features reaches <code class="docutils literal notranslate"><span class="pre">max_features</span></code>.</p></li>
 </ul>
-<p>In addition, scikit-learn provides a <a class="reference external" href="https://en.wikipedia.org/wiki/Mixin">mixin</a>, i.e.
-<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.base.RegressorMixin.html#sklearn.base.RegressorMixin" title="(in scikit-learn v1.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.base.RegressorMixin</span></code></a>, which implements the <code class="docutils literal notranslate"><span class="pre">score</span></code> method
-which computes the <span class="math notranslate nohighlight">\(R^2\)</span> score of the predictions.</p>
-<p>One can import the mixin as:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">RegressorMixin</span>
-</pre></div>
-</div>
-<p>Therefore, we create a regressor, <code class="xref py py-class docutils literal notranslate"><span class="pre">MyOwnRegressor</span></code> which inherits from
-both <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.base.BaseEstimator.html#sklearn.base.BaseEstimator" title="(in scikit-learn v1.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.base.BaseEstimator</span></code></a> and
-<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.base.RegressorMixin.html#sklearn.base.RegressorMixin" title="(in scikit-learn v1.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.base.RegressorMixin</span></code></a>. The method <code class="docutils literal notranslate"><span class="pre">fit</span></code> gets <code class="docutils literal notranslate"><span class="pre">X</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code>
-as input and should return <code class="docutils literal notranslate"><span class="pre">self</span></code>. It should implement the <code class="docutils literal notranslate"><span class="pre">predict</span></code>
-function which should output the predictions of your regressor:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span><span class="w"> </span><span class="nc">MyOwnRegressor</span><span class="p">(</span><span class="n">RegressorMixin</span><span class="p">,</span> <span class="n">BaseEstimator</span><span class="p">):</span>
-<span class="gp">... </span>    <span class="k">def</span><span class="w"> </span><span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
-<span class="gp">... </span>        <span class="k">return</span> <span class="bp">self</span>
-<span class="gp">... </span>    <span class="k">def</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
-<span class="gp">... </span>        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>We illustrate that this regressor is working within a scikit-learn pipeline:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_diabetes</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">load_diabetes</span><span class="p">(</span><span class="n">return_X_y</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pipe</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">MyOwnTransformer</span><span class="p">(),</span> <span class="n">MyOwnRegressor</span><span class="p">())</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pipe</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-<span class="go">Pipeline(...)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pipe</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-<span class="go">array([...])</span>
-</pre></div>
-</div>
-<p>Since we inherit from the <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.base.RegressorMixin.html#sklearn.base.RegressorMixin" title="(in scikit-learn v1.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.base.RegressorMixin</span></code></a>, we can call
-the <code class="docutils literal notranslate"><span class="pre">score</span></code> method which will return the <span class="math notranslate nohighlight">\(R^2\)</span> score:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pipe</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-<span class="go">-3.9...</span>
-</pre></div>
-</div>
+</li>
+</ol>
 </section>
-<section id="classifier">
-<h3>Classifier<a class="headerlink" href="#classifier" title="Link to this heading">#</a></h3>
-<p>Similarly to regressors, classifiers implement <code class="docutils literal notranslate"><span class="pre">predict</span></code>. In addition, they
-output the probabilities of the prediction using the <code class="docutils literal notranslate"><span class="pre">predict_proba</span></code> method:</p>
+<section id="using-fociselector">
+<h2>Using <code class="docutils literal notranslate"><span class="pre">FOCISelector</span></code><a class="headerlink" href="#using-fociselector" title="Link to this heading">#</a></h2>
+<p>The main class provided by the package is <a class="reference internal" href="generated/pyFOCI.FOCISelector.html#pyFOCI.FOCISelector" title="pyFOCI.FOCISelector"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyFOCI.FOCISelector</span></code></a>.
+It is compatible with the scikit-learn API, meaning it implements <code class="docutils literal notranslate"><span class="pre">fit</span></code> and <code class="docutils literal notranslate"><span class="pre">transform</span></code> methods and can be used within a <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.pipeline.Pipeline.html#sklearn.pipeline.Pipeline" title="(in scikit-learn v1.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.pipeline.Pipeline</span></code></a>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.pipeline</span><span class="w"> </span><span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.ensemble</span><span class="w"> </span><span class="kn">import</span> <span class="n">RandomForestRegressor</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyFOCI</span><span class="w"> </span><span class="kn">import</span> <span class="n">FOCISelector</span>
+
+<span class="c1"># Create a pipeline that first selects features and then fits a model</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([</span>
+    <span class="p">(</span><span class="s1">&#39;foci&#39;</span><span class="p">,</span> <span class="n">FOCISelector</span><span class="p">(</span><span class="n">max_features</span><span class="o">=</span><span class="mi">5</span><span class="p">)),</span>
+    <span class="p">(</span><span class="s1">&#39;rf&#39;</span><span class="p">,</span> <span class="n">RandomForestRegressor</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">))</span>
+<span class="p">])</span>
+
+<span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">score</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>For more information on the available parameters and attributes, see the <a class="reference internal" href="api.html#api"><span class="std std-ref">API Reference</span></a>.</p>
+<p>For usage examples, please refer to the <a class="reference internal" href="auto_examples/index.html#general-examples"><span class="std std-ref">Example Gallery</span></a>.</p>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<p>The pyFOCI implementation is based on the following publications:</p>
 <ul class="simple">
-<li><p>at <code class="docutils literal notranslate"><span class="pre">fit</span></code>, some parameters can be learned from <code class="docutils literal notranslate"><span class="pre">X</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code>;</p></li>
-<li><p>at <code class="docutils literal notranslate"><span class="pre">predict</span></code>, predictions will be computed using <code class="docutils literal notranslate"><span class="pre">X</span></code> using the parameters
-learned during <code class="docutils literal notranslate"><span class="pre">fit</span></code>. The output corresponds to the predicted class for each sample;</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">predict_proba</span></code> will give a 2D matrix where each column corresponds to the
-class and each entry will be the probability of the associated class.</p></li>
+<li><p><strong>Azadkia, M., &amp; Chatterjee, S. (2021).</strong> A simple measure of conditional dependence. <em>The Annals of Statistics</em>, 49(6), 3070-3102.</p></li>
+<li><p><strong>Fuchs, S. (2024).</strong> Quantifying directed dependence via dimension reduction. <em>Journal of Multivariate Analysis</em>, 201, 105266.</p></li>
 </ul>
-<p>In addition, scikit-learn provides a mixin, i.e.
-<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.base.ClassifierMixin.html#sklearn.base.ClassifierMixin" title="(in scikit-learn v1.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.base.ClassifierMixin</span></code></a>, which implements the <code class="docutils literal notranslate"><span class="pre">score</span></code> method
-which computes the accuracy score of the predictions.</p>
-<p>One can import this mixin as:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">ClassifierMixin</span>
-</pre></div>
-</div>
-<p>Therefore, we create a classifier, <code class="xref py py-class docutils literal notranslate"><span class="pre">MyOwnClassifier</span></code> which inherits
-from both <code class="xref py py-class docutils literal notranslate"><span class="pre">slearn.base.BaseEstimator</span></code> and
-<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.base.ClassifierMixin.html#sklearn.base.ClassifierMixin" title="(in scikit-learn v1.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.base.ClassifierMixin</span></code></a>. The method <code class="docutils literal notranslate"><span class="pre">fit</span></code> gets <code class="docutils literal notranslate"><span class="pre">X</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code>
-as input and should return <code class="docutils literal notranslate"><span class="pre">self</span></code>. It should implement the <code class="docutils literal notranslate"><span class="pre">predict</span></code>
-function which should output the class inferred by the classifier.
-<code class="docutils literal notranslate"><span class="pre">predict_proba</span></code> will output some probabilities instead:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span><span class="w"> </span><span class="nc">MyOwnClassifier</span><span class="p">(</span><span class="n">ClassifierMixin</span><span class="p">,</span> <span class="n">BaseEstimator</span><span class="p">):</span>
-<span class="gp">... </span>    <span class="k">def</span><span class="w"> </span><span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
-<span class="gp">... </span>        <span class="bp">self</span><span class="o">.</span><span class="n">classes_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
-<span class="gp">... </span>        <span class="k">return</span> <span class="bp">self</span>
-<span class="gp">... </span>    <span class="k">def</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
-<span class="gp">... </span>        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">classes_</span><span class="o">.</span><span class="n">size</span><span class="p">,</span>
-<span class="gp">... </span>                                 <span class="n">size</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-<span class="gp">... </span>    <span class="k">def</span><span class="w"> </span><span class="nf">predict_proba</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
-<span class="gp">... </span>        <span class="n">pred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">classes_</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
-<span class="gp">... </span>        <span class="k">return</span> <span class="n">pred</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
-</pre></div>
-</div>
-<p>We illustrate that this regressor is working within a scikit-learn pipeline:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">load_iris</span><span class="p">(</span><span class="n">return_X_y</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pipe</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">MyOwnTransformer</span><span class="p">(),</span> <span class="n">MyOwnClassifier</span><span class="p">())</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pipe</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-<span class="go">Pipeline(...)</span>
-</pre></div>
-</div>
-<p>Then, you can call <code class="docutils literal notranslate"><span class="pre">predict</span></code> and <code class="docutils literal notranslate"><span class="pre">predict_proba</span></code>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pipe</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-<span class="go">array([...])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pipe</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-<span class="go">array([...])</span>
-</pre></div>
-</div>
-<p>Since our classifier inherits from <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.base.ClassifierMixin.html#sklearn.base.ClassifierMixin" title="(in scikit-learn v1.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.base.ClassifierMixin</span></code></a>, we
-can compute the accuracy by calling the <code class="docutils literal notranslate"><span class="pre">score</span></code> method:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pipe</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-<span class="go">0...</span>
-</pre></div>
-</div>
-</section>
 </section>
 </section>
 
@@ -611,13 +515,10 @@ can compute the accuracy by calling the <code class="docutils literal notranslat
   </div>
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="pst-show_toc_level nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#estimator">Estimator</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#transformer">Transformer</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#predictor">Predictor</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#regressor">Regressor</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#classifier">Classifier</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-original-foci-works">How original FOCI Works</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-our-implementation-works">How our Implementation Works</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-fociselector">Using <code class="docutils literal notranslate"><span class="pre">FOCISelector</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
 </ul>
   </nav></div>
 
