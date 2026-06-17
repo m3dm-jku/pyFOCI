@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>API Reference &#8212; pyFOCI 0.1.3.dev42+g2d8096d98 documentation</title>
+    <title>API Reference &#8212; pyFOCI 0.2.1.dev7+g6941a21a2 documentation</title>
   
   
   
@@ -45,7 +45,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=0790524f97105ba85085" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=0790524f97105ba85085" />
 
-    <script src="_static/documentation_options.js?v=9634852a"></script>
+    <script src="_static/documentation_options.js?v=6c6848b0"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/sg-tags.js?v=d80f6fa4"></script>
@@ -58,7 +58,7 @@
     <link rel="prev" title="User Guide" href="user_guide.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.1.3" />
+  <meta name="docsearch:version" content="0.2.1" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -130,8 +130,8 @@
       
     
     
-    <img src="_static/logo.png" class="logo__image only-light" alt="pyFOCI 0.1.3.dev42+g2d8096d98 documentation - Home"/>
-    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt="pyFOCI 0.1.3.dev42+g2d8096d98 documentation - Home"/>
+    <img src="_static/logo.png" class="logo__image only-light" alt="pyFOCI 0.2.1.dev7+g6941a21a2 documentation - Home"/>
+    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt="pyFOCI 0.2.1.dev7+g6941a21a2 documentation - Home"/>
   
   
 </a></div>
@@ -354,11 +354,6 @@
   <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="generated/pyFOCI.FOCISelector.html">FOCISelector</a></li>
 </ul>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="generated/pyFOCI.utils.discovery.all_estimators.html">pyFOCI.utils.discovery.all_estimators</a></li>
-<li class="toctree-l1"><a class="reference internal" href="generated/pyFOCI.utils.discovery.all_displays.html">pyFOCI.utils.discovery.all_displays</a></li>
-<li class="toctree-l1"><a class="reference internal" href="generated/pyFOCI.utils.discovery.all_functions.html">pyFOCI.utils.discovery.all_functions</a></li>
-</ul>
 </div>
 </nav></div>
     </div>
@@ -417,30 +412,13 @@
                   
   <section id="api-reference">
 <span id="api"></span><h1>API Reference<a class="headerlink" href="#api-reference" title="Link to this heading">#</a></h1>
-<p>This is an example on how to document the API of your own project.</p>
+<p>This is the full API documentation of the pyFOCI package.</p>
 <section id="transformer">
 <h2>Transformer<a class="headerlink" href="#transformer" title="Link to this heading">#</a></h2>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/pyFOCI.FOCISelector.html#pyFOCI.FOCISelector" title="pyFOCI.FOCISelector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FOCISelector</span></code></a>([max_features, min_delta, ...])</p></td>
-<td><p>Feature selector using hierarchical forward selection based on the Azadkia–Chatterjee T_n coefficient (see reference below).</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</section>
-<section id="utilities">
-<h2>Utilities<a class="headerlink" href="#utilities" title="Link to this heading">#</a></h2>
-<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/pyFOCI.utils.discovery.all_estimators.html#pyFOCI.utils.discovery.all_estimators" title="pyFOCI.utils.discovery.all_estimators"><code class="xref py py-obj docutils literal notranslate"><span class="pre">utils.discovery.all_estimators</span></code></a>([type_filter])</p></td>
-<td><p>Get a list of all estimators from <code class="docutils literal notranslate"><span class="pre">pyFOCI</span></code>.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/pyFOCI.utils.discovery.all_displays.html#pyFOCI.utils.discovery.all_displays" title="pyFOCI.utils.discovery.all_displays"><code class="xref py py-obj docutils literal notranslate"><span class="pre">utils.discovery.all_displays</span></code></a>()</p></td>
-<td><p>Get a list of all displays from <code class="docutils literal notranslate"><span class="pre">pyFOCI</span></code>.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/pyFOCI.utils.discovery.all_functions.html#pyFOCI.utils.discovery.all_functions" title="pyFOCI.utils.discovery.all_functions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">utils.discovery.all_functions</span></code></a>()</p></td>
-<td><p>Get a list of all functions from <code class="docutils literal notranslate"><span class="pre">pyFOCI</span></code>.</p></td>
+<td><p>Feature selector using hierarchical forward selection based on the nonlinear Azadkia–Chatterjee T_n coefficient and its Fuchs form (see references).</p></td>
 </tr>
 </tbody>
 </table>
@@ -496,7 +474,6 @@
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#transformer">Transformer</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#utilities">Utilities</a></li>
 </ul>
   </nav></div>
 

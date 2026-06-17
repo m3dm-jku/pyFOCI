@@ -1,6 +1,0 @@
-﻿pyFOCI.utils.discovery.all\_displays
-====================================
-
-.. currentmodule:: pyFOCI.utils.discovery
-
-.. autofunction:: all_displays

@@ -1,6 +1,0 @@
-﻿pyFOCI.utils.discovery.all\_functions
-=====================================
-
-.. currentmodule:: pyFOCI.utils.discovery
-
-.. autofunction:: all_functions

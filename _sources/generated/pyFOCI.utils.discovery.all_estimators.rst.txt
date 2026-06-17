@@ -1,6 +1,0 @@
-﻿pyFOCI.utils.discovery.all\_estimators
-======================================
-
-.. currentmodule:: pyFOCI.utils.discovery
-
-.. autofunction:: all_estimators
