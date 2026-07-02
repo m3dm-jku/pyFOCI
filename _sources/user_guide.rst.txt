@@ -33,7 +33,7 @@ FOCI performs **hierarchical forward selection**. The selection process, as desc
 How our Implementation Works
 ----------------------------
 
-We have added a ``max_features`` parameter, and a :math:`T_n` threshold ``min_delta``.
+We have added a ``max_features`` parameter, and a :math:`T_n` threshold ``min_delta`` to extend the stopping criteria.
 
 Also, the selection process, modified as in the `FOCI R reference implementation <https://cran.r-project.org/package=FOCI>`_
 and via **Fuchs, S. (2024)** , works as follows:

@@ -25,14 +25,31 @@ Introductory examples.
 
 .. only:: html
 
-  .. image:: /auto_examples/images/thumb/sphx_glr_plot_FOCISelector_thumb.png
+  .. image:: /auto_examples/images/thumb/sphx_glr_plot_FOCISelector_progression_thumb.png
     :alt:
 
-  :doc:`/auto_examples/plot_FOCISelector`
+  :doc:`/auto_examples/plot_FOCISelector_progression`
 
 .. raw:: html
 
       <div class="sphx-glr-thumbnail-title">FOCISelector: T_n progression</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example creates a small additive nonlinear synthetic dataset with redundant distractor features to demonstrate how Feature Ordering by Conditional Independence (FOCI) isolates complementary nonlinear signals, in comparison with some basic Scikit-Learn feature selectors.">
+
+.. only:: html
+
+  .. image:: /auto_examples/images/thumb/sphx_glr_plot_FOCISelector_comparison_thumb.png
+    :alt:
+
+  :doc:`/auto_examples/plot_FOCISelector_comparison`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Selectors compared on nonlinear redundant dataset</div>
     </div>
 
 
@@ -46,7 +63,8 @@ Introductory examples.
 .. toctree::
    :hidden:
 
-   /auto_examples/plot_FOCISelector
+   /auto_examples/plot_FOCISelector_progression
+   /auto_examples/plot_FOCISelector_comparison
 
 
 .. only:: html
