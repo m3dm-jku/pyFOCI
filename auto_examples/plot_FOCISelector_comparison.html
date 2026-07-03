@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Selectors compared on nonlinear redundant dataset &#8212; pyFOCI 0.3.1 documentation</title>
+    <title>FOCI vs others on synthetic dataset &#8212; pyFOCI 0.3.2.dev2+g13a49e165 documentation</title>
   
   
   
@@ -45,7 +45,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5" />
 
-    <script src="../_static/documentation_options.js?v=4621528c"></script>
+    <script src="../_static/documentation_options.js?v=b6405ab8"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/sg-tags.js?v=d80f6fa4"></script>
@@ -54,10 +54,10 @@
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="FOCISelector: T_n progression" href="plot_FOCISelector_progression.html" />
+    <link rel="prev" title="FOCI vs Lasso on real-world dataset" href="plot_FOCISelector_bike_sharing.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.3.1" />
+  <meta name="docsearch:version" content="0.3.2" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -129,8 +129,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="pyFOCI 0.3.1 documentation - Home"/>
-    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="pyFOCI 0.3.1 documentation - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="pyFOCI 0.3.2.dev2+g13a49e165 documentation - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="pyFOCI 0.3.2.dev2+g13a49e165 documentation - Home"/>
   
   
 </a></div>
@@ -352,7 +352,8 @@
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="plot_FOCISelector_progression.html">FOCISelector: T_n progression</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Selectors compared on nonlinear redundant dataset</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plot_FOCISelector_bike_sharing.html">FOCI vs Lasso on real-world dataset</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">FOCI vs others on synthetic dataset</a></li>
 </ul>
 </div>
 </nav></div>
@@ -396,7 +397,7 @@
     
     <li class="breadcrumb-item"><a href="index.html" class="nav-link">Example Gallery</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Selectors compared on nonlinear redundant dataset</span></li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">FOCI vs others on synthetic dataset</span></li>
   </ul>
 </nav>
 </div>
@@ -418,31 +419,31 @@
 <p><a class="reference internal" href="#sphx-glr-download-auto-examples-plot-fociselector-comparison-py"><span class="std std-ref">Go to the end</span></a>
 to download the full example code.</p>
 </div>
-<section class="sphx-glr-example-title" id="selectors-compared-on-nonlinear-redundant-dataset">
-<span id="sphx-glr-auto-examples-plot-fociselector-comparison-py"></span><h1>Selectors compared on nonlinear redundant dataset<a class="headerlink" href="#selectors-compared-on-nonlinear-redundant-dataset" title="Link to this heading">#</a></h1>
+<section class="sphx-glr-example-title" id="foci-vs-others-on-synthetic-dataset">
+<span id="sphx-glr-auto-examples-plot-fociselector-comparison-py"></span><h1>FOCI vs others on synthetic dataset<a class="headerlink" href="#foci-vs-others-on-synthetic-dataset" title="Link to this heading">#</a></h1>
 <p>This example creates a small additive nonlinear synthetic dataset with redundant
 distractor features to demonstrate how Feature Ordering by Conditional Independence
 (FOCI) isolates complementary nonlinear signals, in comparison with some basic
 Scikit-Learn feature selectors.</p>
 <p>Univariate feature selectors (SelectKBest) evaluate features marginally, ranking
-redundant collinear features equally high. LASSO is a (sparse) linear method,
+redundant collinear features equally high. Lasso is a (sparse) linear method,
 therefore does not work well on strongly nonlinear data, similar to Recursive Feature
 Elimination (RFE) with a linear model, which also cannot deal well with collinear
 features. Tree-based RFE works better, but is much slower and still dilutes split
 importances across collinear groups. A kernel-based method (SequentialFeatureSelector
 with Support Vector Regression) works well, but takes even longer.</p>
-<img src="../_images/sphx_glr_plot_FOCISelector_comparison_001.png" srcset="../_images/sphx_glr_plot_FOCISelector_comparison_001.png" alt="Downstream R² vs Runtime" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>================================================================================
+<img src="../_images/sphx_glr_plot_FOCISelector_comparison_001.png" srcset="../_images/sphx_glr_plot_FOCISelector_comparison_001.png" alt="Selected-feature utility vs Runtime" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>================================================================================
 Feature Selector comparison on small additive nonlinear data (n=600, p=25, k=5)
 ================================================================================
 Method        | Time (s) | Signal Cov | Test R²  | Sel Groups   | Sel Indices
 --------------------------------------------------------------------------------
-F-reg         |    0.001 |       0.50 |   0.4042 | x1,x2        | [1, 2, 10, 19, 24]
-Mutual Info   |    0.051 |       0.25 |   0.3541 | x0           | [0, 4, 5, 6, 7]
-Lasso (L1)    |    0.002 |       0.50 |   0.3890 | x1,x2        | [1, 2, 10, 19, 22]
-RFE (LinReg)  |    0.020 |       0.25 |   0.3541 | x0           | [0, 4, 5, 6, 7]
-RFE (RF)      |    4.552 |       0.75 |   0.8721 | x0,x1,x3     | [1, 3, 4, 5, 6]
-SFS (SVR-RBF) |    6.437 |       1.00 |   0.9109 | x0,x1,x2,x3  | [1, 2, 3, 5, 7]
-FOCI          |    0.536 |       1.00 |   0.9106 | x0,x1,x2,x3  | [0, 1, 2, 3]
+F-reg         |    0.001 |       0.50 |   0.4041 | x1,x2        | [1, 2, 10, 19, 24]
+Mutual Info   |    0.053 |       0.25 |   0.3531 | x0           | [0, 4, 5, 6, 7]
+Lasso (L1)    |    0.002 |       0.50 |   0.3897 | x1,x2        | [1, 2, 10, 19, 22]
+RFE (LinReg)  |    0.018 |       0.25 |   0.3531 | x0           | [0, 4, 5, 6, 7]
+RFE (RF)      |    4.500 |       0.75 |   0.8722 | x0,x1,x3     | [1, 3, 4, 5, 6]
+SFS (SVR-RBF) |    6.221 |       1.00 |   0.9109 | x0,x1,x2,x3  | [1, 2, 3, 5, 7]
+FOCI          |    0.581 |       1.00 |   0.9105 | x0,x1,x2,x3  | [0, 1, 2, 3]
 ================================================================================
 </pre></div>
 </div>
@@ -622,7 +623,7 @@ FOCI          |    0.536 |       1.00 |   0.9106 | x0,x1,x2,x3  | [0, 1, 2, 3]
     <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
 <span class="p">)</span>
 
-<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.set_title.html#matplotlib.axes.Axes.set_title" title="matplotlib.axes.Axes.set_title" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">ax</span><span class="o">.</span><span class="n">set_title</span></a><span class="p">(</span><span class="s2">&quot;Downstream R² vs Runtime&quot;</span><span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.set_title.html#matplotlib.axes.Axes.set_title" title="matplotlib.axes.Axes.set_title" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">ax</span><span class="o">.</span><span class="n">set_title</span></a><span class="p">(</span><span class="s2">&quot;Selected-feature utility vs Runtime&quot;</span><span class="p">)</span>
 <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.set_xticks.html#matplotlib.axes.Axes.set_xticks" title="matplotlib.axes.Axes.set_xticks" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">x_pos</span></a><span class="p">)</span>
 <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.set_xticklabels.html#matplotlib.axes.Axes.set_xticklabels" title="matplotlib.axes.Axes.set_xticklabels" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span></a><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">names</span></a><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;right&quot;</span><span class="p">)</span>
 <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.set_ylabel.html#matplotlib.axes.Axes.set_ylabel" title="matplotlib.axes.Axes.set_ylabel" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span></a><span class="p">(</span><span class="s2">&quot;Test R² Score&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;tab:purple&quot;</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">)</span>
@@ -636,7 +637,7 @@ FOCI          |    0.536 |       1.00 |   0.9106 | x0,x1,x2,x3  | [0, 1, 2, 3]
 <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.show.html#matplotlib.pyplot.show" title="matplotlib.pyplot.show" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">show</span></a><span class="p">()</span>
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 12.707 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 12.524 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-plot-fociselector-comparison-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/aea065c71c8ad48645aa89fd300ff7f3/plot_FOCISelector_comparison.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_FOCISelector_comparison.ipynb</span></code></a></p>
@@ -662,12 +663,12 @@ FOCI          |    0.536 |       1.00 |   0.9106 | x0,x1,x2,x3  | [0, 1, 2, 3]
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="plot_FOCISelector_progression.html"
+       href="plot_FOCISelector_bike_sharing.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">FOCISelector: T_n progression</p>
+        <p class="prev-next-title">FOCI vs Lasso on real-world dataset</p>
       </div>
     </a>
 </div>

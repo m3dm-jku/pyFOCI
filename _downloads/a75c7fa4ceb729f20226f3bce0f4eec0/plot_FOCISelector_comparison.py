@@ -1,7 +1,7 @@
 """
-=================================================
-Selectors compared on nonlinear redundant dataset
-=================================================
+===================================
+FOCI vs others on synthetic dataset
+===================================
 
 This example creates a small additive nonlinear synthetic dataset with redundant
 distractor features to demonstrate how Feature Ordering by Conditional Independence
@@ -9,7 +9,7 @@ distractor features to demonstrate how Feature Ordering by Conditional Independe
 Scikit-Learn feature selectors.
 
 Univariate feature selectors (SelectKBest) evaluate features marginally, ranking
-redundant collinear features equally high. LASSO is a (sparse) linear method,
+redundant collinear features equally high. Lasso is a (sparse) linear method,
 therefore does not work well on strongly nonlinear data, similar to Recursive Feature
 Elimination (RFE) with a linear model, which also cannot deal well with collinear
 features. Tree-based RFE works better, but is much slower and still dilutes split
@@ -190,7 +190,7 @@ ax_time.bar(
     alpha=0.7,
 )
 
-ax.set_title("Downstream R² vs Runtime")
+ax.set_title("Selected-feature utility vs Runtime")
 ax.set_xticks(x_pos)
 ax.set_xticklabels(names, rotation=20, ha="right")
 ax.set_ylabel("Test R² Score", color="tab:purple", fontweight="bold")
