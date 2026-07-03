@@ -9,7 +9,7 @@
 pyFOCI documentation
 #############################################
 
-**Date**: |today| **Version**: |version|
+**Date**: |today| **Version**: |release|
 
 **Useful links**:
 `Package Repository <https://pypi.org/project/pyFOCI>`__ |
