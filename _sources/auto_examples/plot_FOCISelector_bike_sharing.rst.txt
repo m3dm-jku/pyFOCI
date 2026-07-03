@@ -35,7 +35,7 @@ We use a fixed chronological train/test split, a fixed five-feature budget for a
 methods, and the same nonlinear downstream regressor for evaluation. Lasso's
 regularization strength is selected by cross-validation.
 
-.. GENERATED FROM PYTHON SOURCE LINES 19-195
+.. GENERATED FROM PYTHON SOURCE LINES 19-192
 
 
 
@@ -55,9 +55,9 @@ regularization strength is selected by cross-validation.
     ===========================================================================================
     Method         | Time (s) | Test R²  | MAE      | Features
     -------------------------------------------------------------------------------------------
-    Mutual Info    |    0.291 |   0.5745 |    95.19 | ['month', 'hour', 'temp', 'feel_temp', 'humidity']
-    LassoCV top-k  |    0.086 |   0.7212 |    79.76 | ['season', 'year', 'hour', 'temp', 'humidity']
-    FOCI           |    4.010 |   0.8673 |    51.71 | ['year', 'hour', 'workingday', 'weather', 'temp']
+    Mutual Info    |    0.310 |   0.5745 |    95.19 | ['month', 'hour', 'temp', 'feel_temp', 'humidity']
+    LassoCV top-k  |    0.069 |   0.7212 |    79.76 | ['season', 'year', 'hour', 'temp', 'humidity']
+    FOCI           |    3.627 |   0.8673 |    51.71 | ['year', 'hour', 'workingday', 'weather', 'temp']
     ===========================================================================================
 
 
@@ -70,9 +70,6 @@ regularization strength is selected by cross-validation.
 
 .. code-block:: Python
 
-
-    # Authors: Robert Pollak <robert.pollak@jku.at>
-    # License: BSD 3 clause
 
     import time
     from functools import partial
@@ -250,7 +247,7 @@ regularization strength is selected by cross-validation.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 14.072 seconds)
+   **Total running time of the script:** (0 minutes 10.723 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_FOCISelector_bike_sharing.py:

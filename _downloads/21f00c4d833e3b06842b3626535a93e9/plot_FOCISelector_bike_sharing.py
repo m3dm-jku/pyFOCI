@@ -17,9 +17,6 @@ methods, and the same nonlinear downstream regressor for evaluation. Lasso's
 regularization strength is selected by cross-validation.
 """
 
-# Authors: Robert Pollak <robert.pollak@jku.at>
-# License: BSD 3 clause
-
 import time
 from functools import partial
 
