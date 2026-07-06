@@ -55,7 +55,7 @@ Introductory examples.
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="This example creates a small additive nonlinear synthetic dataset with redundant distractor features to demonstrate how Feature Ordering by Conditional Independence (FOCI) isolates complementary nonlinear signals, in comparison with some basic Scikit-Learn feature selectors.">
+    <div class="sphx-glr-thumbcontainer" tooltip="This example creates a small additive nonlinear synthetic dataset with redundant distractor features to demonstrate how Feature Ordering by Conditional Independence (FOCI) isolates complementary nonlinear signals, in comparison with some basic scikit-learn feature selectors.">
 
 .. only:: html
 

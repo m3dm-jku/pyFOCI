@@ -6,7 +6,7 @@ FOCI vs others on synthetic dataset
 This example creates a small additive nonlinear synthetic dataset with redundant
 distractor features to demonstrate how Feature Ordering by Conditional Independence
 (FOCI) isolates complementary nonlinear signals, in comparison with some basic
-Scikit-Learn feature selectors.
+scikit-learn feature selectors.
 
 Univariate feature selectors (SelectKBest) evaluate features marginally, ranking
 redundant collinear features equally high. Lasso is a (sparse) linear method,
