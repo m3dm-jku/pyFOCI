@@ -50,6 +50,8 @@ and via **Fuchs, S. (2024)** , works as follows:
    - All available features have been selected.
    - The number of selected features reaches ``max_features``.
 
+Additionally, we offer a parameter ``nn_tie_breaking`` to switch from the original stochastic :math:`T_n` estimator
+to a deterministic version that uses the mean :math:`y` rank of all tied nearest neighbors.
 
 Using ``FOCISelector``
 ----------------------

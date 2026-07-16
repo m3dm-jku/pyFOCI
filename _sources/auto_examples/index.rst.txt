@@ -70,6 +70,23 @@ Introductory examples.
     </div>
 
 
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example compares FOCI with nn_tie_breaking=&quot;random&quot; across several seeds against deterministic nn_tie_breaking=&quot;mean&quot;.">
+
+.. only:: html
+
+  .. image:: /auto_examples/images/thumb/sphx_glr_plot_FOCISelector_tie_breaking_thumb.png
+    :alt:
+
+  :doc:`/auto_examples/plot_FOCISelector_tie_breaking`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">FOCISelector: nearest-neighbor tie breaking</div>
+    </div>
+
+
 .. thumbnail-parent-div-close
 
 .. raw:: html
@@ -83,6 +100,7 @@ Introductory examples.
    /auto_examples/plot_FOCISelector_progression
    /auto_examples/plot_FOCISelector_bike_sharing
    /auto_examples/plot_FOCISelector_comparison
+   /auto_examples/plot_FOCISelector_tie_breaking
 
 
 .. only:: html
