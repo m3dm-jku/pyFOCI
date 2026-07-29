@@ -297,7 +297,7 @@ in this case even better than the others.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 10.224 seconds)
+   **Total running time of the script:** (0 minutes 6.889 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_FOCISelector_tie_breaking.py:

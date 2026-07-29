@@ -19,6 +19,25 @@ How original FOCI Works
 
 FOCI performs **hierarchical forward selection**. The selection process, as described in **Azadkia, M., & Chatterjee, S. (2021)**, works as follows:
 
+First estimators for a conditional dependence coefficient and its unconditional version are defined:
+
+.. math::
+
+    T_n(y,\textbf{Z}|\textbf{X}) :=
+    \frac{\sum_{i=1}^n (\min\{R_i, R_{M(i)}\} - \min\{R_i, R_{N(i)}\})}{\sum_{i=1}^n (R_i - \min\{R_i, R_{N(i)}\})}
+
+and
+
+.. math::
+
+    T_n(y,\textbf{Z}) := \frac{\sum_{i=1}^n (n \min\{R_i, R_{M(i)}\} - L_i^2)}{\sum_{i=1}^n L_i(n-L_i)}.
+
+Here :math:`R` is the maximum-rank of the corresponding :math:`y` values: tied values receive the maximal
+rank in their tie group. This rank definition is necessary for the paper's proof that :math:`T_n` is a consistent estimator.
+:math:`M` and :math:`N` are Euclidean metric nearest neighbors, with ties broken uniformly at random.
+
+The selection process then works as follows:
+
 1. **Initial Step**: The algorithm searches for the single feature that maximizes the (nonlinear) dependence with the target variable :math:`y`, measured by the unconditional :math:`T_n` coefficient.
 2. **Iterative Step**: Once a set of features :math:`S_{k-1}` has been selected, FOCI searches for the next feature :math:`j` among the remaining candidates that maximizes the conditional dependence:
    
@@ -35,15 +54,30 @@ How our Implementation Works
 
 We have added a ``max_features`` parameter, and a :math:`T_n` threshold ``min_delta`` to extend the stopping criteria.
 
-Also, the selection process, modified as in the `FOCI R reference implementation <https://cran.r-project.org/package=FOCI>`_
-and via **Fuchs, S. (2024)** , works as follows:
+Also, the selection process is modified as in the `FOCI R reference implementation <https://cran.r-project.org/package=FOCI>`_
+and via the following formula from **Fuchs, S. (2024)**:
+
+.. math::
+
+   T_n(y,\textbf{Z}) =
+   1-\frac{3}{n^-1}\sum_{i=1}^n|R_i-R_{N(i)}|+\frac{3}{n^2-1}\left(\sum_{i=1}^n R_{N(i)} + \sum_{i=1}^n R_i - n(n+1)\right).
+
+The Fuchs :math:`T_n` formula is derived for continuous :math:`y`, so using it on data with repeated :math:`y` values
+can lead to suboptimal feature selection. Note that the formula contains the offset :math:`-n(n+1)`. It corresponds to the
+rank sum equation :math:`\sum_i R_i = n(n+1)/2`, which for non-continuous :math:`y` and maximum rank
+does not hold. To alleviate this, we offer a parameter ``rank_method`` to switch from maximum-rank to average-rank:
+tied values receive the average rank in their tie group. With average-rank the sum equation always holds.
+See :doc:`the rank method comparison example </auto_examples/plot_FOCISelector_average_beats_max>`.
+
+The selection works as follows:
 
 2. **Iterative Step**: Once a set of features :math:`S_{k-1}` has been selected, FOCI searches for the next feature :math:`j` among the remaining candidates that maximizes the **unconditional** dependence:
-   
-   :math:`T_n(y, j ∪ S_{k-1})`
-   
-   This results in the same selection as in original FOCI, because the numerator of the conditional :math:`T_n` is the difference
-   of the numerators of two such unconditional :math:`T_n` values.
+
+   :math:`T_n(y, \{j\} \cup S_{k-1})`
+
+   For continuous :math:`y`, this results in the same selection as in original FOCI, because the numerator of the
+   conditional :math:`T_n` is the difference of the numerators of two such unconditional :math:`T_n` values.
+
 3. **Stopping Criteria**: The process continues until one of the following conditions is met:
 
    - The first :math:`T_n` coefficient or the **improvement** in the :math:`T_n` is less than the specified ``min_delta``.

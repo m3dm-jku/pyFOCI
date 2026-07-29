@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>User Guide : contents &#8212; pyFOCI 0.4.0 documentation</title>
+    <title>User Guide : contents &#8212; pyFOCI 0.5.0 documentation</title>
   
   
   
@@ -45,7 +45,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5" />
 
-    <script src="_static/documentation_options.js?v=6c02275b"></script>
+    <script src="_static/documentation_options.js?v=1dd76d02"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/sg-tags.js?v=d80f6fa4"></script>
@@ -59,7 +59,7 @@
     <link rel="prev" title="Getting started" href="quick_start.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.4.0" />
+  <meta name="docsearch:version" content="0.5.0" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -131,8 +131,8 @@
       
     
     
-    <img src="_static/logo.png" class="logo__image only-light" alt="pyFOCI 0.4.0 documentation - Home"/>
-    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt="pyFOCI 0.4.0 documentation - Home"/>
+    <img src="_static/logo.png" class="logo__image only-light" alt="pyFOCI 0.5.0 documentation - Home"/>
+    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt="pyFOCI 0.5.0 documentation - Home"/>
   
   
 </a></div>
@@ -403,6 +403,17 @@ where traditional linear feature selection methods (like Lasso or correlation-ba
 <section id="how-original-foci-works">
 <h2>How original FOCI Works<a class="headerlink" href="#how-original-foci-works" title="Link to this heading">#</a></h2>
 <p>FOCI performs <strong>hierarchical forward selection</strong>. The selection process, as described in <strong>Azadkia, M., &amp; Chatterjee, S. (2021)</strong>, works as follows:</p>
+<p>First estimators for a conditional dependence coefficient and its unconditional version are defined:</p>
+<div class="math notranslate nohighlight">
+\[T_n(y,\textbf{Z}|\textbf{X}) :=
+\frac{\sum_{i=1}^n (\min\{R_i, R_{M(i)}\} - \min\{R_i, R_{N(i)}\})}{\sum_{i=1}^n (R_i - \min\{R_i, R_{N(i)}\})}\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[T_n(y,\textbf{Z}) := \frac{\sum_{i=1}^n (n \min\{R_i, R_{M(i)}\} - L_i^2)}{\sum_{i=1}^n L_i(n-L_i)}.\]</div>
+<p>Here <span class="math notranslate nohighlight">\(R\)</span> is the maximum-rank of the corresponding <span class="math notranslate nohighlight">\(y\)</span> values: tied values receive the maximal
+rank in their tie group. This rank definition is necessary for the paper’s proof that <span class="math notranslate nohighlight">\(T_n\)</span> is a consistent estimator.
+<span class="math notranslate nohighlight">\(M\)</span> and <span class="math notranslate nohighlight">\(N\)</span> are Euclidean metric nearest neighbors, with ties broken uniformly at random.</p>
+<p>The selection process then works as follows:</p>
 <ol class="arabic">
 <li><p><strong>Initial Step</strong>: The algorithm searches for the single feature that maximizes the (nonlinear) dependence with the target variable <span class="math notranslate nohighlight">\(y\)</span>, measured by the unconditional <span class="math notranslate nohighlight">\(T_n\)</span> coefficient.</p></li>
 <li><p><strong>Iterative Step</strong>: Once a set of features <span class="math notranslate nohighlight">\(S_{k-1}\)</span> has been selected, FOCI searches for the next feature <span class="math notranslate nohighlight">\(j\)</span> among the remaining candidates that maximizes the conditional dependence:</p>
@@ -420,13 +431,23 @@ where traditional linear feature selection methods (like Lasso or correlation-ba
 <section id="how-our-implementation-works">
 <h2>How our Implementation Works<a class="headerlink" href="#how-our-implementation-works" title="Link to this heading">#</a></h2>
 <p>We have added a <code class="docutils literal notranslate"><span class="pre">max_features</span></code> parameter, and a <span class="math notranslate nohighlight">\(T_n\)</span> threshold <code class="docutils literal notranslate"><span class="pre">min_delta</span></code> to extend the stopping criteria.</p>
-<p>Also, the selection process, modified as in the <a class="reference external" href="https://cran.r-project.org/package=FOCI">FOCI R reference implementation</a>
-and via <strong>Fuchs, S. (2024)</strong> , works as follows:</p>
+<p>Also, the selection process is modified as in the <a class="reference external" href="https://cran.r-project.org/package=FOCI">FOCI R reference implementation</a>
+and via the following formula from <strong>Fuchs, S. (2024)</strong>:</p>
+<div class="math notranslate nohighlight">
+\[T_n(y,\textbf{Z}) =
+1-\frac{3}{n^-1}\sum_{i=1}^n|R_i-R_{N(i)}|+\frac{3}{n^2-1}\left(\sum_{i=1}^n R_{N(i)} + \sum_{i=1}^n R_i - n(n+1)\right).\]</div>
+<p>The Fuchs <span class="math notranslate nohighlight">\(T_n\)</span> formula is derived for continuous <span class="math notranslate nohighlight">\(y\)</span>, so using it on data with repeated <span class="math notranslate nohighlight">\(y\)</span> values
+can lead to suboptimal feature selection. Note that the formula contains the offset <span class="math notranslate nohighlight">\(-n(n+1)\)</span>. It corresponds to the
+rank sum equation <span class="math notranslate nohighlight">\(\sum_i R_i = n(n+1)/2\)</span>, which for non-continuous <span class="math notranslate nohighlight">\(y\)</span> and maximum rank
+does not hold. To alleviate this, we offer a parameter <code class="docutils literal notranslate"><span class="pre">rank_method</span></code> to switch from maximum-rank to average-rank:
+tied values receive the average rank in their tie group. With average-rank the sum equation always holds.
+See <a class="reference internal" href="auto_examples/plot_FOCISelector_average_beats_max.html"><span class="doc">the rank method comparison example</span></a>.</p>
+<p>The selection works as follows:</p>
 <ol class="arabic" start="2">
 <li><p><strong>Iterative Step</strong>: Once a set of features <span class="math notranslate nohighlight">\(S_{k-1}\)</span> has been selected, FOCI searches for the next feature <span class="math notranslate nohighlight">\(j\)</span> among the remaining candidates that maximizes the <strong>unconditional</strong> dependence:</p>
-<p><span class="math notranslate nohighlight">\(T_n(y, j ∪ S_{k-1})\)</span></p>
-<p>This results in the same selection as in original FOCI, because the numerator of the conditional <span class="math notranslate nohighlight">\(T_n\)</span> is the difference
-of the numerators of two such unconditional <span class="math notranslate nohighlight">\(T_n\)</span> values.</p>
+<p><span class="math notranslate nohighlight">\(T_n(y, \{j\} \cup S_{k-1})\)</span></p>
+<p>For continuous <span class="math notranslate nohighlight">\(y\)</span>, this results in the same selection as in original FOCI, because the numerator of the
+conditional <span class="math notranslate nohighlight">\(T_n\)</span> is the difference of the numerators of two such unconditional <span class="math notranslate nohighlight">\(T_n\)</span> values.</p>
 </li>
 <li><p><strong>Stopping Criteria</strong>: The process continues until one of the following conditions is met:</p>
 <ul class="simple">
