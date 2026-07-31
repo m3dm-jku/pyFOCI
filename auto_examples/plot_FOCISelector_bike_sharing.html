@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>FOCI vs Lasso on real-world dataset &#8212; pyFOCI 0.5.0 documentation</title>
+    <title>FOCI vs Lasso on real-world dataset &#8212; pyFOCI 0.6.0 documentation</title>
   
   
   
@@ -45,7 +45,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5" />
 
-    <script src="../_static/documentation_options.js?v=1dd76d02"></script>
+    <script src="../_static/documentation_options.js?v=8fa8b3e9"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/sg-tags.js?v=d80f6fa4"></script>
@@ -54,11 +54,11 @@
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="FOCISelector: nearest-neighbor tie breaking" href="plot_FOCISelector_tie_breaking.html" />
+    <link rel="next" title="FOCISelector: nearest-neighbor tie breaking" href="plot_FOCISelector_NN_tie_breaking.html" />
     <link rel="prev" title="FOCI vs others on synthetic dataset" href="plot_FOCISelector_comparison.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.5.0" />
+  <meta name="docsearch:version" content="0.6.0" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -130,8 +130,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="pyFOCI 0.5.0 documentation - Home"/>
-    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="pyFOCI 0.5.0 documentation - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="pyFOCI 0.6.0 documentation - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="pyFOCI 0.6.0 documentation - Home"/>
   
   
 </a></div>
@@ -355,7 +355,7 @@
 <li class="toctree-l1"><a class="reference internal" href="plot_FOCISelector_progression.html">FOCISelector: T_n progression</a></li>
 <li class="toctree-l1"><a class="reference internal" href="plot_FOCISelector_comparison.html">FOCI vs others on synthetic dataset</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">FOCI vs Lasso on real-world dataset</a></li>
-<li class="toctree-l1"><a class="reference internal" href="plot_FOCISelector_tie_breaking.html">FOCISelector: nearest-neighbor tie breaking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plot_FOCISelector_NN_tie_breaking.html">FOCISelector: nearest-neighbor tie breaking</a></li>
 <li class="toctree-l1"><a class="reference internal" href="plot_FOCISelector_average_beats_max.html">Average vs max rank in FOCI</a></li>
 </ul>
 </div>
@@ -439,9 +439,9 @@ Feature selector comparison on Bike Sharing Demand (n=8690, p=12, k=5)
 ===========================================================================================
 Method         | Time (s) | Test R²  | MAE      | Features
 -------------------------------------------------------------------------------------------
-Mutual Info    |    0.248 |   0.5745 |    95.19 | [&#39;month&#39;, &#39;hour&#39;, &#39;temp&#39;, &#39;feel_temp&#39;, &#39;humidity&#39;]
-LassoCV top-k  |    0.076 |   0.7212 |    79.76 | [&#39;season&#39;, &#39;year&#39;, &#39;hour&#39;, &#39;temp&#39;, &#39;humidity&#39;]
-FOCI           |    2.803 |   0.8673 |    51.71 | [&#39;year&#39;, &#39;hour&#39;, &#39;workingday&#39;, &#39;weather&#39;, &#39;temp&#39;]
+Mutual Info    |    0.287 |   0.5745 |    95.19 | [&#39;month&#39;, &#39;hour&#39;, &#39;temp&#39;, &#39;feel_temp&#39;, &#39;humidity&#39;]
+LassoCV top-k  |    0.085 |   0.7212 |    79.76 | [&#39;season&#39;, &#39;year&#39;, &#39;hour&#39;, &#39;temp&#39;, &#39;humidity&#39;]
+FOCI           |    3.601 |   0.8610 |    52.62 | [&#39;year&#39;, &#39;hour&#39;, &#39;workingday&#39;, &#39;weather&#39;, &#39;feel_temp&#39;]
 ===========================================================================================
 </pre></div>
 </div>
@@ -622,7 +622,7 @@ FOCI           |    2.803 |   0.8673 |    51.71 | [&#39;year&#39;, &#39;hour&#39
 <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.show.html#matplotlib.pyplot.show" title="matplotlib.pyplot.show" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">show</span></a><span class="p">()</span>
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 10.188 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 11.262 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-plot-fociselector-bike-sharing-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/43940fc6a08428ddd642a2fbec28f7a8/plot_FOCISelector_bike_sharing.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_FOCISelector_bike_sharing.ipynb</span></code></a></p>
@@ -657,7 +657,7 @@ FOCI           |    2.803 |   0.8673 |    51.71 | [&#39;year&#39;, &#39;hour&#39
       </div>
     </a>
     <a class="right-next"
-       href="plot_FOCISelector_tie_breaking.html"
+       href="plot_FOCISelector_NN_tie_breaking.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>

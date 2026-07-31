@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>User Guide : contents &#8212; pyFOCI 0.5.0 documentation</title>
+    <title>User Guide &#8212; pyFOCI 0.6.0 documentation</title>
   
   
   
@@ -45,7 +45,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5" />
 
-    <script src="_static/documentation_options.js?v=1dd76d02"></script>
+    <script src="_static/documentation_options.js?v=8fa8b3e9"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/sg-tags.js?v=d80f6fa4"></script>
@@ -59,7 +59,7 @@
     <link rel="prev" title="Getting started" href="quick_start.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.5.0" />
+  <meta name="docsearch:version" content="0.6.0" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -131,8 +131,8 @@
       
     
     
-    <img src="_static/logo.png" class="logo__image only-light" alt="pyFOCI 0.5.0 documentation - Home"/>
-    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt="pyFOCI 0.5.0 documentation - Home"/>
+    <img src="_static/logo.png" class="logo__image only-light" alt="pyFOCI 0.6.0 documentation - Home"/>
+    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt="pyFOCI 0.6.0 documentation - Home"/>
   
   
 </a></div>
@@ -375,7 +375,7 @@
         <i class="fa-solid fa-home"></i>
       </a>
     </li>
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">User Guide : contents</span></li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">User Guide</span></li>
   </ul>
 </nav>
 </div>
@@ -489,6 +489,41 @@ It is compatible with the scikit-learn API, meaning it implements <code class="d
 <li><p><strong>Fuchs, S. (2024).</strong> Quantifying directed dependence via dimension reduction. <em>Journal of Multivariate Analysis</em>, 201, 105266.</p></li>
 </ul>
 </section>
+<section id="parallel-candidate-scoring">
+<h2>Parallel candidate scoring<a class="headerlink" href="#parallel-candidate-scoring" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">FOCISelector</span></code> can score the remaining candidate features in each forward-selection
+round in parallel using the scikit-learn convention <code class="docutils literal notranslate"><span class="pre">n_jobs</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">selector</span> <span class="o">=</span> <span class="n">FOCISelector</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">selector</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">n_jobs=None</span></code> (the default) and <code class="docutils literal notranslate"><span class="pre">n_jobs=1</span></code> score candidates sequentially.
+<code class="docutils literal notranslate"><span class="pre">n_jobs=-1</span></code> uses all processors made available to joblib; other non-zero integer
+values request that many worker processes. Parallelism is most useful when many
+features remain to be evaluated and computing <span class="math notranslate nohighlight">\(T_n\)</span> is expensive. Small data
+sets may be slower because starting and communicating with worker processes has a
+cost.</p>
+<p>A fixed integer <code class="docutils literal notranslate"><span class="pre">random_state</span></code> assigns deterministic random streams to candidate
+features. Consequently, sequential and parallel runs give the same result across
+worker counts, including with the default random tie-breaking.</p>
+<p>Benchmark locally rather than assuming that <code class="docutils literal notranslate"><span class="pre">n_jobs=-1</span></code> is fastest for a particular
+data set. From a source checkout, use the Pixi task:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">OPENBLAS_NUM_THREADS</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>pixi<span class="w"> </span>run<span class="w"> </span>benchmark-n-jobs
+</pre></div>
+</div>
+<p>When pyFOCI is installed, run the same benchmark as Python module:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">OPENBLAS_NUM_THREADS</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>pyFOCI.benchmark
+</pre></div>
+</div>
+<p>The thread limit prevents each process from creating its own pool of BLAS threads.
+If benchmarking in an environment linked against MKL or another OpenMP-based numerical
+backend, also set MKL_NUM_THREADS=1 or OMP_NUM_THREADS=1, respectively.</p>
+<p>By default, the benchmark compares powers of two below the CPU count and then
+<code class="docutils literal notranslate"><span class="pre">n_jobs=-1</span></code> (all processors). Override the worker counts when needed:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">OPENBLAS_NUM_THREADS</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>pixi<span class="w"> </span>run<span class="w"> </span>benchmark-n-jobs<span class="w"> </span>--n-jobs<span class="w"> </span><span class="m">3</span><span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="m">7</span>
+</pre></div>
+</div>
+</section>
 </section>
 
 
@@ -542,6 +577,7 @@ It is compatible with the scikit-learn API, meaning it implements <code class="d
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-our-implementation-works">How our Implementation Works</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-fociselector">Using <code class="docutils literal notranslate"><span class="pre">FOCISelector</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parallel-candidate-scoring">Parallel candidate scoring</a></li>
 </ul>
   </nav></div>
 

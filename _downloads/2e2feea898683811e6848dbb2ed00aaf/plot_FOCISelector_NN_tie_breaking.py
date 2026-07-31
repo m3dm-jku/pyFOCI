@@ -9,9 +9,10 @@ seeds against deterministic ``nn_tie_breaking="mean"``.
 The synthetic features are discrete, which creates many nearest-neighbor ties
 in low-dimensional selected feature subspaces. The target depends on several
 similarly informative features, making the selection problem intentionally
-ambiguous. This makes it possible to see how random tie-breaking can affect the
+ambiguous. This makes it possible to see how random NN tie-breaking can affect the
 selected feature subset while mean tie-breaking gives a deterministic result –
-in this case even better than the others.
+in this case even better than the others. A poor random NN tie-breaking can even score
+below the constant-predictor baseline on held-out data (negative test R²).
 """
 
 import matplotlib.pyplot as plt
@@ -202,7 +203,11 @@ axes[0].set_ylabel("Test R²")
 r2_min = min(r2_scores)
 r2_max = max(r2_scores)
 r2_pad = max(0.02, 0.1 * (r2_max - r2_min))
-axes[0].set_ylim(max(0.0, r2_min - r2_pad), min(1.0, r2_max + r2_pad))
+axes[0].set_ylim(
+    min(0.0, r2_min - r2_pad),
+    min(1.0, max(0.02, r2_max + r2_pad)),
+)
+axes[0].axhline(0.0, color="black", linewidth=0.8, linestyle="--")
 
 seed_labels = [result["name"].replace("random seed ", "") for result in random_results]
 seed_pos = np.arange(len(random_results))

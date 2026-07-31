@@ -76,10 +76,10 @@ Introductory examples.
 
 .. only:: html
 
-  .. image:: /auto_examples/images/thumb/sphx_glr_plot_FOCISelector_tie_breaking_thumb.png
+  .. image:: /auto_examples/images/thumb/sphx_glr_plot_FOCISelector_NN_tie_breaking_thumb.png
     :alt:
 
-  :doc:`/auto_examples/plot_FOCISelector_tie_breaking`
+  :doc:`/auto_examples/plot_FOCISelector_NN_tie_breaking`
 
 .. raw:: html
 
@@ -117,7 +117,7 @@ Introductory examples.
    /auto_examples/plot_FOCISelector_progression
    /auto_examples/plot_FOCISelector_comparison
    /auto_examples/plot_FOCISelector_bike_sharing
-   /auto_examples/plot_FOCISelector_tie_breaking
+   /auto_examples/plot_FOCISelector_NN_tie_breaking
    /auto_examples/plot_FOCISelector_average_beats_max
 
 
