@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>User Guide &#8212; pyFOCI 0.6.0 documentation</title>
+    <title>User Guide &#8212; pyFOCI 0.7.0 documentation</title>
   
   
   
@@ -45,7 +45,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5" />
 
-    <script src="_static/documentation_options.js?v=8fa8b3e9"></script>
+    <script src="_static/documentation_options.js?v=fe7df9b0"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/sg-tags.js?v=d80f6fa4"></script>
@@ -59,7 +59,7 @@
     <link rel="prev" title="Getting started" href="quick_start.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.6.0" />
+  <meta name="docsearch:version" content="0.7.0" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -131,8 +131,8 @@
       
     
     
-    <img src="_static/logo.png" class="logo__image only-light" alt="pyFOCI 0.6.0 documentation - Home"/>
-    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt="pyFOCI 0.6.0 documentation - Home"/>
+    <img src="_static/logo.png" class="logo__image only-light" alt="pyFOCI 0.7.0 documentation - Home"/>
+    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt="pyFOCI 0.7.0 documentation - Home"/>
   
   
 </a></div>
@@ -400,66 +400,6 @@ regression target variable, specifically accounting for nonlinear dependencies.<
 <p>The algorithm is based on a nonlinear generalization of the partial R² statistic.
 This can make pyFOCI particularly useful in scenarios where the relationship between features and the target is strongly nonlinear,
 where traditional linear feature selection methods (like Lasso or correlation-based selection) might fail.</p>
-<section id="how-original-foci-works">
-<h2>How original FOCI Works<a class="headerlink" href="#how-original-foci-works" title="Link to this heading">#</a></h2>
-<p>FOCI performs <strong>hierarchical forward selection</strong>. The selection process, as described in <strong>Azadkia, M., &amp; Chatterjee, S. (2021)</strong>, works as follows:</p>
-<p>First estimators for a conditional dependence coefficient and its unconditional version are defined:</p>
-<div class="math notranslate nohighlight">
-\[T_n(y,\textbf{Z}|\textbf{X}) :=
-\frac{\sum_{i=1}^n (\min\{R_i, R_{M(i)}\} - \min\{R_i, R_{N(i)}\})}{\sum_{i=1}^n (R_i - \min\{R_i, R_{N(i)}\})}\]</div>
-<p>and</p>
-<div class="math notranslate nohighlight">
-\[T_n(y,\textbf{Z}) := \frac{\sum_{i=1}^n (n \min\{R_i, R_{M(i)}\} - L_i^2)}{\sum_{i=1}^n L_i(n-L_i)}.\]</div>
-<p>Here <span class="math notranslate nohighlight">\(R\)</span> is the maximum-rank of the corresponding <span class="math notranslate nohighlight">\(y\)</span> values: tied values receive the maximal
-rank in their tie group. This rank definition is necessary for the paper’s proof that <span class="math notranslate nohighlight">\(T_n\)</span> is a consistent estimator.
-<span class="math notranslate nohighlight">\(M\)</span> and <span class="math notranslate nohighlight">\(N\)</span> are Euclidean metric nearest neighbors, with ties broken uniformly at random.</p>
-<p>The selection process then works as follows:</p>
-<ol class="arabic">
-<li><p><strong>Initial Step</strong>: The algorithm searches for the single feature that maximizes the (nonlinear) dependence with the target variable <span class="math notranslate nohighlight">\(y\)</span>, measured by the unconditional <span class="math notranslate nohighlight">\(T_n\)</span> coefficient.</p></li>
-<li><p><strong>Iterative Step</strong>: Once a set of features <span class="math notranslate nohighlight">\(S_{k-1}\)</span> has been selected, FOCI searches for the next feature <span class="math notranslate nohighlight">\(j\)</span> among the remaining candidates that maximizes the conditional dependence:</p>
-<p><span class="math notranslate nohighlight">\(T_n(y, j \mid S_{k-1})\)</span></p>
-<p>This means it selects the feature that provides the most “additional” information about the target, given the features already selected.</p>
-</li>
-<li><p><strong>Stopping Criteria</strong>: The process continues until one of the following conditions is met:</p>
-<ul class="simple">
-<li><p>The conditional <span class="math notranslate nohighlight">\(T_n\)</span> of <span class="math notranslate nohighlight">\(j\)</span> is not positive.</p></li>
-<li><p>All available features have been selected.</p></li>
-</ul>
-</li>
-</ol>
-</section>
-<section id="how-our-implementation-works">
-<h2>How our Implementation Works<a class="headerlink" href="#how-our-implementation-works" title="Link to this heading">#</a></h2>
-<p>We have added a <code class="docutils literal notranslate"><span class="pre">max_features</span></code> parameter, and a <span class="math notranslate nohighlight">\(T_n\)</span> threshold <code class="docutils literal notranslate"><span class="pre">min_delta</span></code> to extend the stopping criteria.</p>
-<p>Also, the selection process is modified as in the <a class="reference external" href="https://cran.r-project.org/package=FOCI">FOCI R reference implementation</a>
-and via the following formula from <strong>Fuchs, S. (2024)</strong>:</p>
-<div class="math notranslate nohighlight">
-\[T_n(y,\textbf{Z}) =
-1-\frac{3}{n^-1}\sum_{i=1}^n|R_i-R_{N(i)}|+\frac{3}{n^2-1}\left(\sum_{i=1}^n R_{N(i)} + \sum_{i=1}^n R_i - n(n+1)\right).\]</div>
-<p>The Fuchs <span class="math notranslate nohighlight">\(T_n\)</span> formula is derived for continuous <span class="math notranslate nohighlight">\(y\)</span>, so using it on data with repeated <span class="math notranslate nohighlight">\(y\)</span> values
-can lead to suboptimal feature selection. Note that the formula contains the offset <span class="math notranslate nohighlight">\(-n(n+1)\)</span>. It corresponds to the
-rank sum equation <span class="math notranslate nohighlight">\(\sum_i R_i = n(n+1)/2\)</span>, which for non-continuous <span class="math notranslate nohighlight">\(y\)</span> and maximum rank
-does not hold. To alleviate this, we offer a parameter <code class="docutils literal notranslate"><span class="pre">rank_method</span></code> to switch from maximum-rank to average-rank:
-tied values receive the average rank in their tie group. With average-rank the sum equation always holds.
-See <a class="reference internal" href="auto_examples/plot_FOCISelector_average_beats_max.html"><span class="doc">the rank method comparison example</span></a>.</p>
-<p>The selection works as follows:</p>
-<ol class="arabic" start="2">
-<li><p><strong>Iterative Step</strong>: Once a set of features <span class="math notranslate nohighlight">\(S_{k-1}\)</span> has been selected, FOCI searches for the next feature <span class="math notranslate nohighlight">\(j\)</span> among the remaining candidates that maximizes the <strong>unconditional</strong> dependence:</p>
-<p><span class="math notranslate nohighlight">\(T_n(y, \{j\} \cup S_{k-1})\)</span></p>
-<p>For continuous <span class="math notranslate nohighlight">\(y\)</span>, this results in the same selection as in original FOCI, because the numerator of the
-conditional <span class="math notranslate nohighlight">\(T_n\)</span> is the difference of the numerators of two such unconditional <span class="math notranslate nohighlight">\(T_n\)</span> values.</p>
-</li>
-<li><p><strong>Stopping Criteria</strong>: The process continues until one of the following conditions is met:</p>
-<ul class="simple">
-<li><p>The first <span class="math notranslate nohighlight">\(T_n\)</span> coefficient or the <strong>improvement</strong> in the <span class="math notranslate nohighlight">\(T_n\)</span> is less than the specified <code class="docutils literal notranslate"><span class="pre">min_delta</span></code>.</p></li>
-<li><p>All available features have been selected.</p></li>
-<li><p>The number of selected features reaches <code class="docutils literal notranslate"><span class="pre">max_features</span></code>.</p></li>
-</ul>
-</li>
-</ol>
-<p>Additionally, we offer a parameter <code class="docutils literal notranslate"><span class="pre">nn_tie_breaking</span></code> to switch from the original stochastic <span class="math notranslate nohighlight">\(T_n\)</span> estimator
-to a deterministic version that uses the mean <span class="math notranslate nohighlight">\(y\)</span> rank of all tied nearest neighbors.</p>
-</section>
 <section id="using-fociselector">
 <h2>Using <code class="docutils literal notranslate"><span class="pre">FOCISelector</span></code><a class="headerlink" href="#using-fociselector" title="Link to this heading">#</a></h2>
 <p>The main class provided by the package is <a class="reference internal" href="generated/pyFOCI.FOCISelector.html#pyFOCI.FOCISelector" title="pyFOCI.FOCISelector"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyFOCI.FOCISelector</span></code></a>.
@@ -488,6 +428,105 @@ It is compatible with the scikit-learn API, meaning it implements <code class="d
 <li><p><strong>Azadkia, M., &amp; Chatterjee, S. (2021).</strong> A simple measure of conditional dependence. <em>The Annals of Statistics</em>, 49(6), 3070-3102.</p></li>
 <li><p><strong>Fuchs, S. (2024).</strong> Quantifying directed dependence via dimension reduction. <em>Journal of Multivariate Analysis</em>, 201, 105266.</p></li>
 </ul>
+</section>
+<section id="how-original-foci-works">
+<h2>How original FOCI Works<a class="headerlink" href="#how-original-foci-works" title="Link to this heading">#</a></h2>
+<p>FOCI performs <strong>hierarchical forward selection</strong>. The algorithm is based on the <strong>conditional dependence coefficient (CODEC)</strong> introduced in <strong>Azadkia, M., &amp; Chatterjee, S. (2021)</strong>, denoted <span class="math notranslate nohighlight">\(T(Y, \textbf{Z} \mid \textbf{X})\)</span>. The sample coefficient <span class="math notranslate nohighlight">\(T_n\)</span> provides a consistent measure bounded between 0 (conditional independence) and 1 (when <span class="math notranslate nohighlight">\(Y\)</span> is almost surely a measurable function of the variables).</p>
+<p>First estimators for the conditional dependence coefficient (conditional CODEC) and its unconditional version are defined:</p>
+<div class="math notranslate nohighlight">
+\[T_n(y,\textbf{Z}|\textbf{X}) :=
+\frac{\sum_{i=1}^n (\min\{R_i, R_{M(i)}\} - \min\{R_i, R_{N(i)}\})}{\sum_{i=1}^n (R_i - \min\{R_i, R_{N(i)}\})}\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[T_n(y,\textbf{Z}) := \frac{\sum_{i=1}^n (n \min\{R_i, R_{M(i)}\} - L_i^2)}{\sum_{i=1}^n L_i(n-L_i)}.\]</div>
+<p>Here <span class="math notranslate nohighlight">\(R\)</span> is the maximum-rank of the corresponding <span class="math notranslate nohighlight">\(y\)</span> values: tied values receive the maximal
+rank in their tie group. This rank definition is necessary for the paper’s proof that <span class="math notranslate nohighlight">\(T_n\)</span> is a consistent estimator.
+<span class="math notranslate nohighlight">\(M\)</span> and <span class="math notranslate nohighlight">\(N\)</span> are Euclidean metric nearest neighbors, with ties broken uniformly at random.</p>
+<p>The selection process then works as follows:</p>
+<ol class="arabic">
+<li><p><strong>Initial Step</strong>: The algorithm searches for the single feature that maximizes the (nonlinear) dependence with the target variable <span class="math notranslate nohighlight">\(y\)</span>, measured by the unconditional <span class="math notranslate nohighlight">\(T_n\)</span> coefficient.</p></li>
+<li><p><strong>Iterative Step</strong>: Once a set of features <span class="math notranslate nohighlight">\(S_{k-1}\)</span> has been selected, FOCI searches for the next feature <span class="math notranslate nohighlight">\(j\)</span> among the remaining candidates that maximizes the conditional dependence:</p>
+<p><span class="math notranslate nohighlight">\(T_n(y, j \mid S_{k-1})\)</span></p>
+<p>This means it selects the feature that provides the most “additional” information about the target, given the features already selected.</p>
+</li>
+<li><p><strong>Stopping Criteria</strong>: The process continues until one of the following conditions is met:</p>
+<ul class="simple">
+<li><p>The conditional <span class="math notranslate nohighlight">\(T_n\)</span> of <span class="math notranslate nohighlight">\(j\)</span> is not positive.</p></li>
+<li><p>All available features have been selected.</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="how-our-implementation-works">
+<h2>How our Implementation Works<a class="headerlink" href="#how-our-implementation-works" title="Link to this heading">#</a></h2>
+<p>Our implementation provides two selection scoring methods via the <code class="docutils literal notranslate"><span class="pre">method</span></code> parameter:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">method=&quot;fuchs&quot;</span></code> (default): uses the closed-form score from <strong>Fuchs, S. (2024)</strong>:</p>
+<div class="math notranslate nohighlight">
+\[T_n(y,\textbf{Z}) =
+1-\frac{3}{n^2-1}\sum_{i=1}^n|R_i-R_{N(i)}|+\frac{3}{n^2-1}\left(\sum_{i=1}^n R_{N(i)} + \sum_{i=1}^n R_i - n(n+1)\right).\]</div>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">method=&quot;r_foci&quot;</span></code>: uses the <span class="math notranslate nohighlight">\(Q_n / S(y)\)</span> score corresponding to the <a class="reference external" href="https://cran.r-project.org/package=FOCI">FOCI R reference implementation</a> based on <strong>Azadkia, M., &amp; Chatterjee, S. (2021)</strong>:</p>
+<div class="math notranslate nohighlight">
+\[Q_n(y,\textbf{Z}) = \frac{1}{n^2} \sum_{i=1}^n \left(\min\{R_i, R_{N(i)}\} - \frac{L_i^2}{n}\right)\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[S(y) = \frac{1}{n^3} \sum_{i=1}^n L_i(n - L_i),\]</div>
+<p>where <span class="math notranslate nohighlight">\(R_i = \text{rank}(y_i)\)</span>, <span class="math notranslate nohighlight">\(L_i = \text{rank}(-y_i)\)</span>, and <span class="math notranslate nohighlight">\(R_{N(i)}\)</span> is the target rank of the nearest neighbor of sample <span class="math notranslate nohighlight">\(i\)</span> in <span class="math notranslate nohighlight">\(\textbf{Z}\)</span>. The selection score is <span class="math notranslate nohighlight">\(Q_n(y, \textbf{Z}) / S(y)\)</span> (or 1.0 if <span class="math notranslate nohighlight">\(S(y) = 0\)</span>).</p>
+</li>
+</ul>
+<p>The selection works as follows:</p>
+<ol class="arabic simple">
+<li><p><strong>Initial Step</strong>: The algorithm searches for the single feature <span class="math notranslate nohighlight">\(j\)</span> that maximizes the selection score on <span class="math notranslate nohighlight">\(\{j\}\)</span>. If this initial score is less than or equal to the specified <code class="docutils literal notranslate"><span class="pre">min_delta</span></code>, selection terminates immediately with zero features selected.</p></li>
+<li><p><strong>Iterative Step</strong>: Once a set of features <span class="math notranslate nohighlight">\(S_{k-1}\)</span> has been selected, FOCI searches for the next feature <span class="math notranslate nohighlight">\(j\)</span> among the remaining candidates that maximizes the per-step selection score on <span class="math notranslate nohighlight">\(\{j\} \cup S_{k-1}\)</span>.</p></li>
+<li><p><strong>Stopping Criteria</strong>: The process continues until one of the following conditions is met:</p>
+<ul class="simple">
+<li><p>The <strong>improvement</strong> in the score is less than or equal to the specified <code class="docutils literal notranslate"><span class="pre">min_delta</span></code>.</p></li>
+<li><p>All available features have been selected.</p></li>
+<li><p>The number of selected features reaches <code class="docutils literal notranslate"><span class="pre">max_features</span></code>.</p></li>
+</ul>
+</li>
+</ol>
+<p><code class="docutils literal notranslate"><span class="pre">min_delta=0</span></code> corresponds to stopping when the score does not increase (matching the R reference’s <code class="docutils literal notranslate"><span class="pre">stop=TRUE</span></code>), while <code class="docutils literal notranslate"><span class="pre">min_delta=None</span></code> disables early stopping (matching <code class="docutils literal notranslate"><span class="pre">stop=FALSE</span></code>). The per-step selection scores along the path are recorded in the fitted attribute <code class="docutils literal notranslate"><span class="pre">score_path_</span></code>.</p>
+<p>We also offer the parameter <code class="docutils literal notranslate"><span class="pre">rank_method</span></code> to configure target rank tie handling: <code class="docutils literal notranslate"><span class="pre">rank_method=&quot;max&quot;</span></code> (default) corresponds to the original definition in <strong>Azadkia &amp; Chatterjee (2021)</strong> and is used in its estimator consistency proof, while <code class="docutils literal notranslate"><span class="pre">rank_method=&quot;average&quot;</span></code> assigns the average rank to tied target values, which improves selection on discrete or tied targets (see <a class="reference internal" href="#average-vs-max-ranking"><span class="std std-ref">Average vs. Max Ranking on Tied Targets</span></a> for details).</p>
+<p>Additionally, we offer a parameter <code class="docutils literal notranslate"><span class="pre">nn_tie_breaking</span></code> to switch from the original stochastic nearest-neighbor selection to a deterministic version (<code class="docutils literal notranslate"><span class="pre">nn_tie_breaking=&quot;mean&quot;</span></code>) that uses the mean target rank of all tied nearest neighbors.</p>
+<section id="difference-between-azadkia-paper-and-r-reference-implementation">
+<h3>Difference between Azadkia Paper and R Reference Implementation<a class="headerlink" href="#difference-between-azadkia-paper-and-r-reference-implementation" title="Link to this heading">#</a></h3>
+<p>Note that <code class="docutils literal notranslate"><span class="pre">method=&quot;r_foci&quot;</span></code> corresponds to the <strong>CRAN FOCI R reference implementation</strong>, which differs slightly from the theoretical algorithm description in Section 5 of <strong>Azadkia &amp; Chatterjee (2021)</strong>:</p>
+<ul class="simple">
+<li><p>The <strong>original paper algorithm</strong> evaluates candidates in the forward-selection loop using the <em>conditional</em> dependence coefficient <span class="math notranslate nohighlight">\(T_n(y, j \mid S_{k-1})\)</span>, which consists of a <em>conditional</em> numerator <span class="math notranslate nohighlight">\(Q_n(y, j \mid S_{k-1})\)</span> and a <em>conditional</em> denominator <span class="math notranslate nohighlight">\(S_n(y \mid S_{k-1})\)</span>.</p></li>
+<li><p>The <strong>R reference implementation</strong> (and pyFOCI’s <code class="docutils literal notranslate"><span class="pre">method=&quot;r_foci&quot;</span></code>) instead maximizes the <em>unconditional</em> dependence coefficient <span class="math notranslate nohighlight">\(T_n(y, \{j\} \cup S_{k-1}) = Q_n(y, \{j\} \cup S_{k-1}) / S(y)\)</span> on the growing subset at each step, using the unconditional versions of <span class="math notranslate nohighlight">\(Q_n\)</span> and <span class="math notranslate nohighlight">\(S(y)\)</span>.</p></li>
+</ul>
+<p>On continuous data, the candidate feature that maximizes the unconditional coefficient on <span class="math notranslate nohighlight">\(\{j\} \cup S_{k-1}\)</span> is identical to the one maximizing the conditional coefficient <span class="math notranslate nohighlight">\(T_n(y, j \mid S_{k-1})\)</span>, because the conditional numerator is the difference of the two unconditional numerators and the denominator <span class="math notranslate nohighlight">\(S(y)\)</span> depends only on <span class="math notranslate nohighlight">\(y\)</span>. Using the unconditional form avoids estimating sample-dependent conditional denominators at every step.</p>
+</section>
+</section>
+<section id="average-vs-max-ranking-on-tied-targets">
+<span id="average-vs-max-ranking"></span><h2>Average vs. Max Ranking on Tied Targets<a class="headerlink" href="#average-vs-max-ranking-on-tied-targets" title="Link to this heading">#</a></h2>
+<p>On continuous targets without ties, <span class="math notranslate nohighlight">\(Q_n / S(y)\)</span> and the Fuchs score are identical, and both ranking methods coincide.</p>
+<p>When the target variable <span class="math notranslate nohighlight">\(y\)</span> contains ties or is discrete (e.g. rounded measurements, counts, or binned categories), the choice of <code class="docutils literal notranslate"><span class="pre">rank_method</span></code> affects both scoring methods in two distinct ways:</p>
+<ol class="arabic">
+<li><p><strong>Feature ordering (affects both ``method=”fuchs”`` and ``method=”r_foci”``):</strong></p>
+<ul class="simple">
+<li><p><strong>Top-heavy asymmetry of max-ranking:</strong> Under <code class="docutils literal notranslate"><span class="pre">rank_method=&quot;max&quot;</span></code>, all tied observations in a group receive the highest rank in that group. Consequently, pairs of nearest neighbors matching at high target levels contribute much larger values to the nearest-neighbor agreement term (the pairwise minimums <span class="math notranslate nohighlight">\(\sum_{i=1}^n \min\{R_i, R_{N(i)}\}\)</span> in <span class="math notranslate nohighlight">\(Q_n\)</span>, or the equivalent rank differences in Fuchs) than pairs matching at low target levels. This creates an asymmetric top-heavy weighting that overemphasizes dependencies among high-target samples while under-weighting dependencies among lower-target samples.</p></li>
+<li><p><strong>Symmetric balance of average-ranking:</strong> Under <code class="docutils literal notranslate"><span class="pre">rank_method=&quot;average&quot;</span></code>, tied observations receive the midpoint rank of their group. This preserves symmetric rank intervals across all target levels and balances the contribution of nearest-neighbor agreements across the entire target distribution.</p></li>
+</ul>
+<p>How this can affect forward selection in both methods:</p>
+<ul class="simple">
+<li><p><strong>Premature early stopping:</strong> When adding a feature with moderate or subtle marginal gain (such as a complementary interacting feature), max-ranking’s top-heavy distortion can cause metric perturbations among high-rank nearest neighbors to outweigh the feature’s genuine discriminatory gain in lower or middle target levels. This can reduce the apparent score increment below the stopping threshold, causing selection to stop prematurely and miss the remaining signal features.</p></li>
+<li><p><strong>Selection of spurious distractor features:</strong> The disproportionate weight given to high-target matches under max-ranking can cause a noise feature with coincidental clustering among upper-tier samples to outscore genuine signal features that operate across middle or lower target levels.</p></li>
+</ul>
+<p>See <a class="reference internal" href="auto_examples/plot_FOCISelector_average_beats_max.html"><span class="doc">the rank method comparison example</span></a> for an empirical demonstration.</p>
+</li>
+<li><p><strong>Score scaling and baseline calibration (specifically affects ``method=”fuchs”``):</strong></p>
+<ul class="simple">
+<li><p>The Fuchs formula contains the constant offset <span class="math notranslate nohighlight">\(-n(n+1)\)</span>, which is mathematically derived under the continuous target rank-sum assumption <span class="math notranslate nohighlight">\(\sum_{i=1}^n R_i = n(n+1)/2\)</span>.</p></li>
+<li><p>On tied data with <code class="docutils literal notranslate"><span class="pre">rank_method=&quot;max&quot;</span></code>, the sum of maximum ranks is inflated above <span class="math notranslate nohighlight">\(n(n+1)/2\)</span>. This breaks the offset cancellation, adding an artificial positive shift that frequently pushes Fuchs scores above 1.0 (escaping the unit interval <span class="math notranslate nohighlight">\([0, 1]\)</span>).</p></li>
+<li><p>With <code class="docutils literal notranslate"><span class="pre">rank_method=&quot;average&quot;</span></code>, the sum of average ranks <strong>always</strong> equals <span class="math notranslate nohighlight">\(n(n+1)/2\)</span> exactly, regardless of the number or size of ties. Average ranking thus restores the continuous target rank-sum identity, eliminating the baseline shift and keeping Fuchs scores properly bounded <span class="math notranslate nohighlight">\(\le 1.0\)</span>.</p></li>
+<li><p>In contrast, <code class="docutils literal notranslate"><span class="pre">method=&quot;r_foci&quot;</span></code> normalizes by the sample denominator <span class="math notranslate nohighlight">\(S(y) = \frac{1}{n^3} \sum L_i(n - L_i)\)</span> rather than relying on the continuous target rank-sum assumption, so its scores remain within <span class="math notranslate nohighlight">\([0, 1]\)</span> under both ranking methods while still benefiting from average ranking for feature ordering.</p></li>
+</ul>
+<p>See <a class="reference internal" href="auto_examples/plot_FOCISelector_methods.html"><span class="doc">the score normalization comparison example</span></a> for an empirical demonstration.</p>
+</li>
+</ol>
 </section>
 <section id="parallel-candidate-scoring">
 <h2>Parallel candidate scoring<a class="headerlink" href="#parallel-candidate-scoring" title="Link to this heading">#</a></h2>
@@ -521,6 +560,29 @@ backend, also set MKL_NUM_THREADS=1 or OMP_NUM_THREADS=1, respectively.</p>
 <p>By default, the benchmark compares powers of two below the CPU count and then
 <code class="docutils literal notranslate"><span class="pre">n_jobs=-1</span></code> (all processors). Override the worker counts when needed:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">OPENBLAS_NUM_THREADS</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>pixi<span class="w"> </span>run<span class="w"> </span>benchmark-n-jobs<span class="w"> </span>--n-jobs<span class="w"> </span><span class="m">3</span><span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="m">7</span>
+</pre></div>
+</div>
+<p>All available benchmark options can be displayed via <code class="docutils literal notranslate"><span class="pre">--help</span></code>:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>usage: benchmark.py [-h] [--samples SAMPLES] [--features FEATURES]
+                    [--max-features MAX_FEATURES] [--repeats REPEATS]
+                    [--seed SEED] [--method {fuchs,r_foci}]
+                    [--n-jobs N_JOBS [N_JOBS ...]]
+
+Measure local FOCISelector candidate-scoring parallelism. This is
+intentionally a benchmark script, rather than a test: performance varies with
+available CPUs, BLAS threading, and host load.
+
+options:
+  -h, --help            show this help message and exit
+  --samples SAMPLES
+  --features FEATURES
+  --max-features MAX_FEATURES
+  --repeats REPEATS
+  --seed SEED
+  --method {fuchs,r_foci}
+                        Selection scoring method: &#39;fuchs&#39; (default) or &#39;r_foci&#39;.
+  --n-jobs N_JOBS [N_JOBS ...]
+                        Worker counts to measure; defaults to powers of two and -1.
 </pre></div>
 </div>
 </section>
@@ -573,10 +635,14 @@ backend, also set MKL_NUM_THREADS=1 or OMP_NUM_THREADS=1, respectively.</p>
   </div>
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="pst-show_toc_level nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-original-foci-works">How original FOCI Works</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-our-implementation-works">How our Implementation Works</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-fociselector">Using <code class="docutils literal notranslate"><span class="pre">FOCISelector</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-original-foci-works">How original FOCI Works</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-our-implementation-works">How our Implementation Works</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#difference-between-azadkia-paper-and-r-reference-implementation">Difference between Azadkia Paper and R Reference Implementation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#average-vs-max-ranking-on-tied-targets">Average vs. Max Ranking on Tied Targets</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parallel-candidate-scoring">Parallel candidate scoring</a></li>
 </ul>
   </nav></div>

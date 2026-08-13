@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>FOCISelector &#8212; pyFOCI 0.6.0 documentation</title>
+    <title>FOCISelector &#8212; pyFOCI 0.7.0 documentation</title>
   
   
   
@@ -45,7 +45,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5" />
 
-    <script src="../_static/documentation_options.js?v=8fa8b3e9"></script>
+    <script src="../_static/documentation_options.js?v=fe7df9b0"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/sg-tags.js?v=d80f6fa4"></script>
@@ -59,7 +59,7 @@
     <link rel="prev" title="API Reference" href="../api.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.6.0" />
+  <meta name="docsearch:version" content="0.7.0" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -131,8 +131,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="pyFOCI 0.6.0 documentation - Home"/>
-    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="pyFOCI 0.6.0 documentation - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="pyFOCI 0.7.0 documentation - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="pyFOCI 0.7.0 documentation - Home"/>
   
   
 </a></div>
@@ -418,11 +418,11 @@
 <h1>FOCISelector<a class="headerlink" href="#fociselector" title="Link to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="pyFOCI.FOCISelector">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">pyFOCI.</span></span><span class="sig-name descname"><span class="pre">FOCISelector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_features</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_delta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">standardize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'normalize'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rank_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'max'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nn_strategy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'grouping'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nn_tie_breaking</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'random'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_jobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyFOCI.FOCISelector" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">pyFOCI.</span></span><span class="sig-name descname"><span class="pre">FOCISelector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_features</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_delta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'fuchs'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">standardize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'normalize'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rank_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'max'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nn_strategy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'grouping'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nn_tie_breaking</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'random'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_jobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyFOCI.FOCISelector" title="Link to this definition">#</a></dt>
 <dd><p>Feature selector using hierarchical forward selection based on the
 nonlinear Azadkia–Chatterjee T_n coefficient and its Fuchs form (see references).</p>
 <p>At each step, among remaining features, we choose the feature that maximizes
-the cumulative T_n on the growing set S_k = S_{k-1} ∪ {j}.</p>
+the per-step score on the growing set S_k = S_{k-1} ∪ {j}.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl>
@@ -430,14 +430,14 @@ the cumulative T_n on the growing set S_k = S_{k-1} ∪ {j}.</p>
 and selection proceeds until early stopping (if <code class="docutils literal notranslate"><span class="pre">min_delta</span></code> is not None)
 or until all features are selected (if <code class="docutils literal notranslate"><span class="pre">min_delta</span></code> is None).</p>
 </dd>
-<dt><strong>min_delta</strong><span class="classifier">float or None, default=0</span></dt><dd><p>Minimum required improvement in the cumulative T_n to continue selecting.
+<dt><strong>min_delta</strong><span class="classifier">float or None, default=0</span></dt><dd><p>Minimum required improvement in the selection score to continue selecting.
 Behavior:</p>
 <blockquote>
 <div><ul class="simple">
 <li><p>First step:
-select a feature only if best_Tn &gt; min_delta; otherwise, select none.</p></li>
+select a feature only if best_score &gt; min_delta; otherwise, select none.</p></li>
 <li><p>Subsequent steps:
-continue only if best_Tn &gt; previous_best + min_delta; otherwise, stop.</p></li>
+continue only if best_score &gt; previous_best + min_delta; otherwise, stop.</p></li>
 <li><p>None disables early stopping (select up to <code class="docutils literal notranslate"><span class="pre">max_features</span></code>).</p></li>
 </ul>
 </div></blockquote>
@@ -457,6 +457,13 @@ and positive to require stricter improvement.</p></li>
 </ul>
 </div></blockquote>
 </dd>
+<dt><strong>method</strong><span class="classifier">{“fuchs”, “r_foci”}, default=”fuchs”</span></dt><dd><p>Selection scoring method:</p>
+<ul class="simple">
+<li><p>“fuchs” (default): Fuchs (2024) closed-form score.</p></li>
+<li><p>“r_foci”: Azadkia–Chatterjee <span class="math notranslate nohighlight">\(Q_n/S(y)\)</span> numerator/denominator form,
+matching the FOCI R reference implementation’s selection and stopping.</p></li>
+</ul>
+</dd>
 <dt><strong>standardize</strong><span class="classifier">{“normalize”, None}, default=”normalize”</span></dt><dd><p>If “normalize”, each column of X is standardized to zero mean and unit
 variance before computing nearest neighbors. If None, X is used as-is.
 Columns with zero variance are left unchanged.</p>
@@ -465,7 +472,7 @@ Columns with zero variance are left unchanged.</p>
 If “max”, tied values receive the maximum rank in their tie group.
 If “average”, tied values receive the average rank in their tie group.</p>
 </dd>
-<dt><strong>nn_strategy</strong><span class="classifier">{“grouping”, “radius”}, default=”grouping”</span></dt><dd><p>Strategy used to compute NN tie sets for <span class="math notranslate nohighlight">\(T_n\)</span>.</p>
+<dt><strong>nn_strategy</strong><span class="classifier">{“grouping”, “radius”}, default=”grouping”</span></dt><dd><p>Strategy used to compute NN tie sets.</p>
 </dd>
 <dt><strong>nn_tie_breaking</strong><span class="classifier">{“random”, “mean”}, default=”random”</span></dt><dd><p>How to resolve ties among equally-distanced nearest neighbors.
 If “random”, one tied neighbor is selected at random.
@@ -492,7 +499,8 @@ reproducible and identical across worker counts.</p>
 </dd>
 <dt><strong>support_mask_</strong><span class="classifier">ndarray of shape (<code class="docutils literal notranslate"><span class="pre">n_features_in_</span></code>,), dtype=bool</span></dt><dd><p>Boolean mask of selected features determined during fit.</p>
 </dd>
-<dt><strong>Tn_path_</strong><span class="classifier">ndarray of shape (n_selected,)</span></dt><dd><p>Values of the cumulative T_n along the selection path.</p>
+<dt><strong>score_path_</strong><span class="classifier">ndarray of shape (n_selected,)</span></dt><dd><p>Values of the per-step selection scores; their interpretation
+depends on <code class="docutils literal notranslate"><span class="pre">method</span></code>.</p>
 </dd>
 </dl>
 </dd>
@@ -507,7 +515,7 @@ Journal of Multivariate Analysis 201 (2024): 105266. <a class="reference externa
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#pyFOCI.FOCISelector.fit" title="pyFOCI.FOCISelector.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(X, y)</p></td>
-<td><p>Fit the selector by hierarchical forward selection maximizing T_n over the growing feature set.</p></td>
+<td><p>Fit the selector by hierarchical forward selection maximizing the per-step score (see <code class="docutils literal notranslate"><span class="pre">method</span></code>) over the growing feature set.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#pyFOCI.FOCISelector.fit_transform" title="pyFOCI.FOCISelector.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code></a>(X[, y])</p></td>
 <td><p>Fit to data, then transform it.</p></td>
@@ -542,8 +550,8 @@ Journal of Multivariate Analysis 201 (2024): 105266. <a class="reference externa
 <dl class="py method">
 <dt class="sig sig-object py" id="pyFOCI.FOCISelector.fit">
 <span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyFOCI.FOCISelector.fit" title="Link to this definition">#</a></dt>
-<dd><p>Fit the selector by hierarchical forward selection maximizing T_n
-over the growing feature set.</p>
+<dd><p>Fit the selector by hierarchical forward selection maximizing the
+per-step score (see <code class="docutils literal notranslate"><span class="pre">method</span></code>) over the growing feature set.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
@@ -781,9 +789,9 @@ possible to update each component of a nested object.</p>
 
 <section id="examples-using-pyfoci-fociselector">
 <h2>Examples using <code class="docutils literal notranslate"><span class="pre">pyFOCI.FOCISelector</span></code><a class="headerlink" href="#examples-using-pyfoci-fociselector" title="Link to this heading">#</a></h2>
-<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="This example fits the FOCISelector on synthetic data and plots the cumulative T_n values along the selection path."><img alt="" src="../_images/sphx_glr_plot_FOCISelector_progression_thumb.png" />
-<p><a class="reference internal" href="../auto_examples/plot_FOCISelector_progression.html"><span class="doc">FOCISelector: T_n progression</span></a></p>
-  <div class="sphx-glr-thumbnail-title">FOCISelector: T_n progression</div>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="This example fits the FOCISelector on synthetic data and plots the cumulative selection score along the selection path."><img alt="" src="../_images/sphx_glr_plot_FOCISelector_progression_thumb.png" />
+<p><a class="reference internal" href="../auto_examples/plot_FOCISelector_progression.html"><span class="doc">FOCISelector: score progression</span></a></p>
+  <div class="sphx-glr-thumbnail-title">FOCISelector: score progression</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="This example creates a small additive nonlinear synthetic dataset with redundant distractor features to demonstrate how Feature Ordering by Conditional Independence (FOCI) isolates complementary nonlinear signals, in comparison with some basic scikit-learn feature selectors."><img alt="" src="../_images/sphx_glr_plot_FOCISelector_comparison_thumb.png" />
 <p><a class="reference internal" href="../auto_examples/plot_FOCISelector_comparison.html"><span class="doc">FOCI vs others on synthetic dataset</span></a></p>
   <div class="sphx-glr-thumbnail-title">FOCI vs others on synthetic dataset</div>
@@ -793,9 +801,12 @@ possible to update each component of a nested object.</p>
 </div><div class="sphx-glr-thumbcontainer" tooltip="This example compares FOCI with nn_tie_breaking=&quot;random&quot; across several seeds against deterministic nn_tie_breaking=&quot;mean&quot;."><img alt="" src="../_images/sphx_glr_plot_FOCISelector_NN_tie_breaking_thumb.png" />
 <p><a class="reference internal" href="../auto_examples/plot_FOCISelector_NN_tie_breaking.html"><span class="doc">FOCISelector: nearest-neighbor tie breaking</span></a></p>
   <div class="sphx-glr-thumbnail-title">FOCISelector: nearest-neighbor tie breaking</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="The Fuchs (2024) T_n formula contains the term"><img alt="" src="../_images/sphx_glr_plot_FOCISelector_average_beats_max_thumb.png" />
+</div><div class="sphx-glr-thumbcontainer" tooltip="When the target contains ties, rank_method=&quot;max&quot; can suffer from two failure modes (see average_vs_max_ranking in the User Guide for more information):"><img alt="" src="../_images/sphx_glr_plot_FOCISelector_average_beats_max_thumb.png" />
 <p><a class="reference internal" href="../auto_examples/plot_FOCISelector_average_beats_max.html"><span class="doc">Average vs max rank in FOCI</span></a></p>
   <div class="sphx-glr-thumbnail-title">Average vs max rank in FOCI</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example illustrates the difference in score normalization between the two scoring methods on discrete (tied) target data:"><img alt="" src="../_images/sphx_glr_plot_FOCISelector_methods_thumb.png" />
+<p><a class="reference internal" href="../auto_examples/plot_FOCISelector_methods.html"><span class="doc">Fuchs vs R-FOCI score normalization</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Fuchs vs R-FOCI score normalization</div>
 </div></div><div style='clear:both'></div></section>
 </section>
 

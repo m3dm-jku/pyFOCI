@@ -1,10 +1,10 @@
 """
-=============================
-FOCISelector: T_n progression
-=============================
+================================
+FOCISelector: score progression
+================================
 
 This example fits the FOCISelector on synthetic data and plots the cumulative
-T_n values along the selection path.
+selection score along the selection path.
 """
 
 import matplotlib.pyplot as plt
@@ -31,16 +31,16 @@ selector = FOCISelector(max_features=6, random_state=0)
 selector.fit(X, y)
 
 feat_idx = list(selector.selected_indices_)
-Tn_vals = list(selector.Tn_path_)
+scores = list(selector.score_path_)
 
 # Labels: directly prepend "x" to the indices
 labels = [f"step {i+1}: x{j}" for i, j in enumerate(feat_idx)]
 
-m = len(Tn_vals)
+m = len(scores)
 plt.figure(figsize=(8, 4))
-plt.bar(range(m), Tn_vals, color="tab:orange", edgecolor="black", linewidth=0.5)
-plt.title("FOCISelector: cumulative T_n over selection steps")
-plt.ylabel("T_n(S_k)")
+plt.bar(range(m), scores, color="tab:orange", edgecolor="black", linewidth=0.5)
+plt.title("Score over cumulative selection steps")
+plt.ylabel("Score(S_k)")
 plt.xlabel("Selection steps")
 plt.xticks(ticks=range(m), labels=labels, rotation=45, ha="right", fontsize=9)
 plt.tight_layout()

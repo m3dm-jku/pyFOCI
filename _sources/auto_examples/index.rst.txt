@@ -21,7 +21,7 @@ Introductory examples.
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="This example fits the FOCISelector on synthetic data and plots the cumulative T_n values along the selection path.">
+    <div class="sphx-glr-thumbcontainer" tooltip="This example fits the FOCISelector on synthetic data and plots the cumulative selection score along the selection path.">
 
 .. only:: html
 
@@ -32,7 +32,7 @@ Introductory examples.
 
 .. raw:: html
 
-      <div class="sphx-glr-thumbnail-title">FOCISelector: T_n progression</div>
+      <div class="sphx-glr-thumbnail-title">FOCISelector: score progression</div>
     </div>
 
 
@@ -89,7 +89,7 @@ Introductory examples.
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="The Fuchs (2024) T_n formula contains the term">
+    <div class="sphx-glr-thumbcontainer" tooltip="When the target contains ties, rank_method=&quot;max&quot; can suffer from two failure modes (see average_vs_max_ranking in the User Guide for more information):">
 
 .. only:: html
 
@@ -101,6 +101,23 @@ Introductory examples.
 .. raw:: html
 
       <div class="sphx-glr-thumbnail-title">Average vs max rank in FOCI</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example illustrates the difference in score normalization between the two scoring methods on discrete (tied) target data:">
+
+.. only:: html
+
+  .. image:: /auto_examples/images/thumb/sphx_glr_plot_FOCISelector_methods_thumb.png
+    :alt:
+
+  :doc:`/auto_examples/plot_FOCISelector_methods`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Fuchs vs R-FOCI score normalization</div>
     </div>
 
 
@@ -119,6 +136,7 @@ Introductory examples.
    /auto_examples/plot_FOCISelector_bike_sharing
    /auto_examples/plot_FOCISelector_NN_tie_breaking
    /auto_examples/plot_FOCISelector_average_beats_max
+   /auto_examples/plot_FOCISelector_methods
 
 
 .. only:: html
