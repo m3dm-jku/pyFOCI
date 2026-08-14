@@ -17,7 +17,7 @@ below the constant-predictor baseline on held-out data (negative test R²).
 
 import matplotlib.pyplot as plt
 import numpy as np
-from sklearn.ensemble import HistGradientBoostingRegressor
+from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error, r2_score
 from sklearn.model_selection import train_test_split
 
@@ -127,11 +127,10 @@ for name, selector in runs:
     selected_names = feature_names[selected_idx].tolist()
 
     # Same downstream model for all FOCI runs.
-    predictor = HistGradientBoostingRegressor(
-        max_iter=200,
-        learning_rate=0.05,
-        max_leaf_nodes=31,
+    predictor = RandomForestRegressor(
+        n_estimators=100,
         random_state=PREDICTOR_RANDOM_STATE,
+        n_jobs=-1,
     )
     predictor.fit(X_train[:, selected_idx], y_train)
     y_pred = predictor.predict(X_test[:, selected_idx])

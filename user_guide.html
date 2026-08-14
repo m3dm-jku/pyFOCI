@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>User Guide &#8212; pyFOCI 0.7.0 documentation</title>
+    <title>User Guide &#8212; pyFOCI 0.7.1 documentation</title>
   
   
   
@@ -27,8 +27,8 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+  <link href="_static/styles/theme.css?digest=90905a2f556bf617f1a9" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=90905a2f556bf617f1a9" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="_static/css/pyFOCI.css" />
@@ -40,12 +40,12 @@
     <link rel="stylesheet" type="text/css" href="_static/css/pyFOCI.css" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="_static/scripts/fontawesome.js?digest=a95f357e85573c9b56d5"></script>
+  <script defer src="_static/scripts/fontawesome.js?digest=90905a2f556bf617f1a9"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5" />
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="_static/documentation_options.js?v=fe7df9b0"></script>
+    <script src="_static/documentation_options.js?v=5a057da9"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/sg-tags.js?v=d80f6fa4"></script>
@@ -59,7 +59,7 @@
     <link rel="prev" title="Getting started" href="quick_start.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.7.0" />
+  <meta name="docsearch:version" content="0.7.1" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -131,8 +131,8 @@
       
     
     
-    <img src="_static/logo.png" class="logo__image only-light" alt="pyFOCI 0.7.0 documentation - Home"/>
-    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt="pyFOCI 0.7.0 documentation - Home"/>
+    <img src="_static/logo.png" class="logo__image only-light" alt="pyFOCI 0.7.1 documentation - Home"/>
+    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt="pyFOCI 0.7.1 documentation - Home"/>
   
   
 </a></div>
@@ -488,10 +488,11 @@ rank in their tie group. This rank definition is necessary for the paper’s pro
 </li>
 </ol>
 <p><code class="docutils literal notranslate"><span class="pre">min_delta=0</span></code> corresponds to stopping when the score does not increase (matching the R reference’s <code class="docutils literal notranslate"><span class="pre">stop=TRUE</span></code>), while <code class="docutils literal notranslate"><span class="pre">min_delta=None</span></code> disables early stopping (matching <code class="docutils literal notranslate"><span class="pre">stop=FALSE</span></code>). The per-step selection scores along the path are recorded in the fitted attribute <code class="docutils literal notranslate"><span class="pre">score_path_</span></code>.</p>
-<p>We also offer the parameter <code class="docutils literal notranslate"><span class="pre">rank_method</span></code> to configure target rank tie handling: <code class="docutils literal notranslate"><span class="pre">rank_method=&quot;max&quot;</span></code> (default) corresponds to the original definition in <strong>Azadkia &amp; Chatterjee (2021)</strong> and is used in its estimator consistency proof, while <code class="docutils literal notranslate"><span class="pre">rank_method=&quot;average&quot;</span></code> assigns the average rank to tied target values, which improves selection on discrete or tied targets (see <a class="reference internal" href="#average-vs-max-ranking"><span class="std std-ref">Average vs. Max Ranking on Tied Targets</span></a> for details).</p>
-<p>Additionally, we offer a parameter <code class="docutils literal notranslate"><span class="pre">nn_tie_breaking</span></code> to switch from the original stochastic nearest-neighbor selection to a deterministic version (<code class="docutils literal notranslate"><span class="pre">nn_tie_breaking=&quot;mean&quot;</span></code>) that uses the mean target rank of all tied nearest neighbors.</p>
+<p>We also offer the parameter <code class="docutils literal notranslate"><span class="pre">rank_method</span></code> to configure target rank tie handling: <code class="docutils literal notranslate"><span class="pre">rank_method=&quot;max&quot;</span></code> (default) is the original definition in <strong>Azadkia &amp; Chatterjee (2021)</strong> and is used in its consistency proof, while <code class="docutils literal notranslate"><span class="pre">rank_method=&quot;average&quot;</span></code> assigns tied targets their average rank, which also keeps the Fuchs score calibrated (see <a class="reference internal" href="#average-vs-max-ranking"><span class="std std-ref">Average vs. Max Ranking on Tied Targets</span></a>).</p>
+<p>Additionally, we offer a parameter <code class="docutils literal notranslate"><span class="pre">nn_tie_breaking</span></code> to switch from the original stochastic nearest-neighbor selection to a deterministic version (<code class="docutils literal notranslate"><span class="pre">nn_tie_breaking=&quot;mean&quot;</span></code>) that uses the mean target rank of all tied nearest neighbors (see <a class="reference internal" href="auto_examples/plot_FOCISelector_NN_tie_breaking.html"><span class="doc">the NN tie-breaking example</span></a>).</p>
+</section>
 <section id="difference-between-azadkia-paper-and-r-reference-implementation">
-<h3>Difference between Azadkia Paper and R Reference Implementation<a class="headerlink" href="#difference-between-azadkia-paper-and-r-reference-implementation" title="Link to this heading">#</a></h3>
+<h2>Difference between Azadkia Paper and R Reference Implementation<a class="headerlink" href="#difference-between-azadkia-paper-and-r-reference-implementation" title="Link to this heading">#</a></h2>
 <p>Note that <code class="docutils literal notranslate"><span class="pre">method=&quot;r_foci&quot;</span></code> corresponds to the <strong>CRAN FOCI R reference implementation</strong>, which differs slightly from the theoretical algorithm description in Section 5 of <strong>Azadkia &amp; Chatterjee (2021)</strong>:</p>
 <ul class="simple">
 <li><p>The <strong>original paper algorithm</strong> evaluates candidates in the forward-selection loop using the <em>conditional</em> dependence coefficient <span class="math notranslate nohighlight">\(T_n(y, j \mid S_{k-1})\)</span>, which consists of a <em>conditional</em> numerator <span class="math notranslate nohighlight">\(Q_n(y, j \mid S_{k-1})\)</span> and a <em>conditional</em> denominator <span class="math notranslate nohighlight">\(S_n(y \mid S_{k-1})\)</span>.</p></li>
@@ -499,30 +500,20 @@ rank in their tie group. This rank definition is necessary for the paper’s pro
 </ul>
 <p>On continuous data, the candidate feature that maximizes the unconditional coefficient on <span class="math notranslate nohighlight">\(\{j\} \cup S_{k-1}\)</span> is identical to the one maximizing the conditional coefficient <span class="math notranslate nohighlight">\(T_n(y, j \mid S_{k-1})\)</span>, because the conditional numerator is the difference of the two unconditional numerators and the denominator <span class="math notranslate nohighlight">\(S(y)\)</span> depends only on <span class="math notranslate nohighlight">\(y\)</span>. Using the unconditional form avoids estimating sample-dependent conditional denominators at every step.</p>
 </section>
-</section>
 <section id="average-vs-max-ranking-on-tied-targets">
 <span id="average-vs-max-ranking"></span><h2>Average vs. Max Ranking on Tied Targets<a class="headerlink" href="#average-vs-max-ranking-on-tied-targets" title="Link to this heading">#</a></h2>
 <p>On continuous targets without ties, <span class="math notranslate nohighlight">\(Q_n / S(y)\)</span> and the Fuchs score are identical, and both ranking methods coincide.</p>
 <p>When the target variable <span class="math notranslate nohighlight">\(y\)</span> contains ties or is discrete (e.g. rounded measurements, counts, or binned categories), the choice of <code class="docutils literal notranslate"><span class="pre">rank_method</span></code> affects both scoring methods in two distinct ways:</p>
 <ol class="arabic">
 <li><p><strong>Feature ordering (affects both ``method=”fuchs”`` and ``method=”r_foci”``):</strong></p>
-<ul class="simple">
-<li><p><strong>Top-heavy asymmetry of max-ranking:</strong> Under <code class="docutils literal notranslate"><span class="pre">rank_method=&quot;max&quot;</span></code>, all tied observations in a group receive the highest rank in that group. Consequently, pairs of nearest neighbors matching at high target levels contribute much larger values to the nearest-neighbor agreement term (the pairwise minimums <span class="math notranslate nohighlight">\(\sum_{i=1}^n \min\{R_i, R_{N(i)}\}\)</span> in <span class="math notranslate nohighlight">\(Q_n\)</span>, or the equivalent rank differences in Fuchs) than pairs matching at low target levels. This creates an asymmetric top-heavy weighting that overemphasizes dependencies among high-target samples while under-weighting dependencies among lower-target samples.</p></li>
-<li><p><strong>Symmetric balance of average-ranking:</strong> Under <code class="docutils literal notranslate"><span class="pre">rank_method=&quot;average&quot;</span></code>, tied observations receive the midpoint rank of their group. This preserves symmetric rank intervals across all target levels and balances the contribution of nearest-neighbor agreements across the entire target distribution.</p></li>
-</ul>
-<p>How this can affect forward selection in both methods:</p>
-<ul class="simple">
-<li><p><strong>Premature early stopping:</strong> When adding a feature with moderate or subtle marginal gain (such as a complementary interacting feature), max-ranking’s top-heavy distortion can cause metric perturbations among high-rank nearest neighbors to outweigh the feature’s genuine discriminatory gain in lower or middle target levels. This can reduce the apparent score increment below the stopping threshold, causing selection to stop prematurely and miss the remaining signal features.</p></li>
-<li><p><strong>Selection of spurious distractor features:</strong> The disproportionate weight given to high-target matches under max-ranking can cause a noise feature with coincidental clustering among upper-tier samples to outscore genuine signal features that operate across middle or lower target levels.</p></li>
-</ul>
-<p>See <a class="reference internal" href="auto_examples/plot_FOCISelector_average_beats_max.html"><span class="doc">the rank method comparison example</span></a> for an empirical demonstration.</p>
+<p><code class="docutils literal notranslate"><span class="pre">rank_method=&quot;max&quot;</span></code> assigns all tied observations the group’s highest rank, producing a top-heavy weighting that overemphasizes dependencies among high-target samples, while <code class="docutils literal notranslate"><span class="pre">rank_method=&quot;average&quot;</span></code> assigns the group’s midpoint rank and weights all target levels symmetrically. The two orderings can therefore differ, and either method can stop prematurely or select a spurious distractor on a given dataset; over many datasets neither is uniformly better. See <a class="reference internal" href="auto_examples/plot_FOCISelector_average_vs_max.html"><span class="doc">the rank method comparison example</span></a> for an empirical demonstration.</p>
 </li>
 <li><p><strong>Score scaling and baseline calibration (specifically affects ``method=”fuchs”``):</strong></p>
 <ul class="simple">
 <li><p>The Fuchs formula contains the constant offset <span class="math notranslate nohighlight">\(-n(n+1)\)</span>, which is mathematically derived under the continuous target rank-sum assumption <span class="math notranslate nohighlight">\(\sum_{i=1}^n R_i = n(n+1)/2\)</span>.</p></li>
 <li><p>On tied data with <code class="docutils literal notranslate"><span class="pre">rank_method=&quot;max&quot;</span></code>, the sum of maximum ranks is inflated above <span class="math notranslate nohighlight">\(n(n+1)/2\)</span>. This breaks the offset cancellation, adding an artificial positive shift that frequently pushes Fuchs scores above 1.0 (escaping the unit interval <span class="math notranslate nohighlight">\([0, 1]\)</span>).</p></li>
 <li><p>With <code class="docutils literal notranslate"><span class="pre">rank_method=&quot;average&quot;</span></code>, the sum of average ranks <strong>always</strong> equals <span class="math notranslate nohighlight">\(n(n+1)/2\)</span> exactly, regardless of the number or size of ties. Average ranking thus restores the continuous target rank-sum identity, eliminating the baseline shift and keeping Fuchs scores properly bounded <span class="math notranslate nohighlight">\(\le 1.0\)</span>.</p></li>
-<li><p>In contrast, <code class="docutils literal notranslate"><span class="pre">method=&quot;r_foci&quot;</span></code> normalizes by the sample denominator <span class="math notranslate nohighlight">\(S(y) = \frac{1}{n^3} \sum L_i(n - L_i)\)</span> rather than relying on the continuous target rank-sum assumption, so its scores remain within <span class="math notranslate nohighlight">\([0, 1]\)</span> under both ranking methods while still benefiting from average ranking for feature ordering.</p></li>
+<li><p>In contrast, <code class="docutils literal notranslate"><span class="pre">method=&quot;r_foci&quot;</span></code> normalizes by the sample denominator <span class="math notranslate nohighlight">\(S(y) = \frac{1}{n^3} \sum L_i(n - L_i)\)</span> rather than relying on the continuous target rank-sum assumption, so its scores remain within <span class="math notranslate nohighlight">\([0, 1]\)</span> under both ranking methods.</p></li>
 </ul>
 <p>See <a class="reference internal" href="auto_examples/plot_FOCISelector_methods.html"><span class="doc">the score normalization comparison example</span></a> for an empirical demonstration.</p>
 </li>
@@ -638,10 +629,8 @@ options:
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-fociselector">Using <code class="docutils literal notranslate"><span class="pre">FOCISelector</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-original-foci-works">How original FOCI Works</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-our-implementation-works">How our Implementation Works</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#difference-between-azadkia-paper-and-r-reference-implementation">Difference between Azadkia Paper and R Reference Implementation</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-our-implementation-works">How our Implementation Works</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#difference-between-azadkia-paper-and-r-reference-implementation">Difference between Azadkia Paper and R Reference Implementation</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#average-vs-max-ranking-on-tied-targets">Average vs. Max Ranking on Tied Targets</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parallel-candidate-scoring">Parallel candidate scoring</a></li>
 </ul>
@@ -685,8 +674,8 @@ options:
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5"></script>
-<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5"></script>
+  <script defer src="_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -720,7 +709,7 @@ options:
         <div class="footer-item">
 <p class="theme-version">
   <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.19.0.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.20.0.
 </p></div>
       
     </div>

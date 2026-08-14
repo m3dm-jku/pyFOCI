@@ -33,7 +33,7 @@ selected feature subset while mean tie-breaking gives a deterministic result –
 in this case even better than the others. A poor random NN tie-breaking can even score
 below the constant-predictor baseline on held-out data (negative test R²).
 
-.. GENERATED FROM PYTHON SOURCE LINES 17-231
+.. GENERATED FROM PYTHON SOURCE LINES 17-230
 
 
 
@@ -53,24 +53,24 @@ below the constant-predictor baseline on held-out data (negative test R²).
     ========================================================================================
     Run              | Test R²  | MAE      | Features
     ----------------------------------------------------------------------------------------
-    random seed 0    |   0.3383 |    2.928 | ['x2', 'x0', 'x7', 'x9', 'x3', 'x1']
-    random seed 1    |   0.2248 |    3.217 | ['x0', 'x6', 'x19', 'x17', 'x1', 'x7']
-    random seed 2    |   0.1515 |    3.314 | ['x10', 'x31', 'x2', 'x9', 'x14', 'x1']
-    random seed 3    |   0.3843 |    2.757 | ['x9', 'x2', 'x11', 'x12', 'x4', 'x1']
-    random seed 4    |   0.0956 |    3.423 | ['x0', 'x1', 'x32', 'x23', 'x6', 'x13']
-    random seed 5    |   0.2757 |    3.157 | ['x12', 'x7', 'x2', 'x15', 'x5', 'x16']
-    random seed 6    |   0.0204 |    3.674 | ['x5', 'x3', 'x8', 'x12', 'x2', 'x32']
-    random seed 7    |   0.1943 |    3.309 | ['x28', 'x0', 'x11', 'x9', 'x1', 'x15']
-    random seed 8    |   0.3177 |    3.007 | ['x10', 'x4', 'x20', 'x1', 'x7', 'x0']
-    random seed 9    |  -0.0300 |    3.504 | ['x11', 'x22', 'x32', 'x0', 'x2', 'x31']
-    mean             |   0.4104 |    2.708 | ['x1', 'x0', 'x4', 'x11', 'x2', 'x10']
+    random seed 0    |   0.2904 |    2.986 | ['x2', 'x0', 'x7', 'x9', 'x3', 'x1']
+    random seed 1    |   0.1936 |    3.257 | ['x0', 'x6', 'x19', 'x17', 'x1', 'x7']
+    random seed 2    |   0.1587 |    3.219 | ['x10', 'x31', 'x2', 'x9', 'x14', 'x1']
+    random seed 3    |   0.3910 |    2.755 | ['x9', 'x2', 'x11', 'x12', 'x4', 'x1']
+    random seed 4    |   0.0154 |    3.560 | ['x0', 'x1', 'x32', 'x23', 'x6', 'x13']
+    random seed 5    |   0.2636 |    3.183 | ['x12', 'x7', 'x2', 'x15', 'x5', 'x16']
+    random seed 6    |   0.0643 |    3.549 | ['x5', 'x3', 'x8', 'x12', 'x2', 'x32']
+    random seed 7    |   0.2359 |    3.253 | ['x28', 'x0', 'x11', 'x9', 'x1', 'x15']
+    random seed 8    |   0.2717 |    3.214 | ['x10', 'x4', 'x20', 'x1', 'x7', 'x0']
+    random seed 9    |  -0.0086 |    3.516 | ['x11', 'x22', 'x32', 'x0', 'x2', 'x31']
+    mean             |   0.4019 |    2.767 | ['x1', 'x0', 'x4', 'x11', 'x2', 'x10']
     ========================================================================================
 
     Random tie-breaking summary
     --------------------------------------------------
     Unique selected feature sets: 10
-    Test R²:       mean=0.1973, std=0.1310
-    MAE:           mean=3.229, std=0.263
+    Test R²:       mean=0.1876, std=0.1230
+    MAE:           mean=3.249, std=0.240
     Overlap with mean run: mean=2.60 out of 6
     --------------------------------------------------
 
@@ -87,7 +87,7 @@ below the constant-predictor baseline on held-out data (negative test R²).
 
     import matplotlib.pyplot as plt
     import numpy as np
-    from sklearn.ensemble import HistGradientBoostingRegressor
+    from sklearn.ensemble import RandomForestRegressor
     from sklearn.metrics import mean_absolute_error, r2_score
     from sklearn.model_selection import train_test_split
 
@@ -197,11 +197,10 @@ below the constant-predictor baseline on held-out data (negative test R²).
         selected_names = feature_names[selected_idx].tolist()
 
         # Same downstream model for all FOCI runs.
-        predictor = HistGradientBoostingRegressor(
-            max_iter=200,
-            learning_rate=0.05,
-            max_leaf_nodes=31,
+        predictor = RandomForestRegressor(
+            n_estimators=100,
             random_state=PREDICTOR_RANDOM_STATE,
+            n_jobs=-1,
         )
         predictor.fit(X_train[:, selected_idx], y_train)
         y_pred = predictor.predict(X_test[:, selected_idx])
@@ -302,7 +301,7 @@ below the constant-predictor baseline on held-out data (negative test R²).
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 10.410 seconds)
+   **Total running time of the script:** (0 minutes 9.653 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_FOCISelector_NN_tie_breaking.py:

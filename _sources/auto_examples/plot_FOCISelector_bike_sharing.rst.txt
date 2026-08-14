@@ -35,7 +35,7 @@ We use a fixed chronological train/test split, a fixed five-feature budget for a
 methods, and the same nonlinear downstream regressor for evaluation. Lasso's
 regularization strength is selected by cross-validation.
 
-.. GENERATED FROM PYTHON SOURCE LINES 19-192
+.. GENERATED FROM PYTHON SOURCE LINES 19-191
 
 
 
@@ -55,9 +55,9 @@ regularization strength is selected by cross-validation.
     ===========================================================================================
     Method         | Time (s) | Test R²  | MAE      | Features
     -------------------------------------------------------------------------------------------
-    Mutual Info    |    0.298 |   0.5745 |    95.19 | ['month', 'hour', 'temp', 'feel_temp', 'humidity']
-    LassoCV top-k  |    0.100 |   0.7212 |    79.76 | ['season', 'year', 'hour', 'temp', 'humidity']
-    FOCI           |    3.878 |   0.8610 |    52.62 | ['year', 'hour', 'workingday', 'weather', 'feel_temp']
+    Mutual Info    |    0.280 |   0.5327 |   100.08 | ['month', 'hour', 'temp', 'feel_temp', 'humidity']
+    LassoCV top-k  |    0.094 |   0.6780 |    84.47 | ['season', 'year', 'hour', 'temp', 'humidity']
+    FOCI           |    3.498 |   0.8438 |    55.23 | ['year', 'hour', 'workingday', 'weather', 'feel_temp']
     ===========================================================================================
 
 
@@ -77,7 +77,7 @@ regularization strength is selected by cross-validation.
     import matplotlib.pyplot as plt
     import numpy as np
     from sklearn.datasets import fetch_openml
-    from sklearn.ensemble import HistGradientBoostingRegressor
+    from sklearn.ensemble import RandomForestRegressor
     from sklearn.feature_selection import (
         SelectFromModel,
         SelectKBest,
@@ -179,11 +179,10 @@ regularization strength is selected by cross-validation.
 
         # Same downstream model for all selectors: the comparison is about which
         # raw features are chosen, not about changing predictors between methods.
-        predictor = HistGradientBoostingRegressor(
-            max_iter=200,
-            learning_rate=0.05,
-            max_leaf_nodes=31,
+        predictor = RandomForestRegressor(
+            n_estimators=100,
             random_state=RANDOM_STATE,
+            n_jobs=-1,
         )
         predictor.fit(X_train[:, selected_idx], y_train)
         y_pred = predictor.predict(X_test[:, selected_idx])
@@ -247,7 +246,7 @@ regularization strength is selected by cross-validation.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 10.422 seconds)
+   **Total running time of the script:** (0 minutes 10.814 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_FOCISelector_bike_sharing.py:

@@ -89,18 +89,18 @@ Introductory examples.
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="When the target contains ties, rank_method=&quot;max&quot; can suffer from two failure modes (see average_vs_max_ranking in the User Guide for more information):">
+    <div class="sphx-glr-thumbcontainer" tooltip="When the target y contains ties (e.g. a discretised or rounded target), rank_method=&quot;average&quot; and rank_method=&quot;max&quot; rank the tied target values differently and can therefore select different features. This example compares the two methods&#x27; test R² on the seeds where they disagree; see average_vs_max_ranking for a discussion of why neither method is uniformly better.">
 
 .. only:: html
 
-  .. image:: /auto_examples/images/thumb/sphx_glr_plot_FOCISelector_average_beats_max_thumb.png
+  .. image:: /auto_examples/images/thumb/sphx_glr_plot_FOCISelector_average_vs_max_thumb.png
     :alt:
 
-  :doc:`/auto_examples/plot_FOCISelector_average_beats_max`
+  :doc:`/auto_examples/plot_FOCISelector_average_vs_max`
 
 .. raw:: html
 
-      <div class="sphx-glr-thumbnail-title">Average vs max rank in FOCI</div>
+      <div class="sphx-glr-thumbnail-title">Average vs max rank on tied data</div>
     </div>
 
 
@@ -135,7 +135,7 @@ Introductory examples.
    /auto_examples/plot_FOCISelector_comparison
    /auto_examples/plot_FOCISelector_bike_sharing
    /auto_examples/plot_FOCISelector_NN_tie_breaking
-   /auto_examples/plot_FOCISelector_average_beats_max
+   /auto_examples/plot_FOCISelector_average_vs_max
    /auto_examples/plot_FOCISelector_methods
 
 

@@ -120,12 +120,12 @@ The selection works as follows:
 
 ``min_delta=0`` corresponds to stopping when the score does not increase (matching the R reference's ``stop=TRUE``), while ``min_delta=None`` disables early stopping (matching ``stop=FALSE``). The per-step selection scores along the path are recorded in the fitted attribute ``score_path_``.
 
-We also offer the parameter ``rank_method`` to configure target rank tie handling: ``rank_method="max"`` (default) corresponds to the original definition in **Azadkia & Chatterjee (2021)** and is used in its estimator consistency proof, while ``rank_method="average"`` assigns the average rank to tied target values, which improves selection on discrete or tied targets (see :ref:`average_vs_max_ranking` for details).
+We also offer the parameter ``rank_method`` to configure target rank tie handling: ``rank_method="max"`` (default) is the original definition in **Azadkia & Chatterjee (2021)** and is used in its consistency proof, while ``rank_method="average"`` assigns tied targets their average rank, which also keeps the Fuchs score calibrated (see :ref:`average_vs_max_ranking`).
 
-Additionally, we offer a parameter ``nn_tie_breaking`` to switch from the original stochastic nearest-neighbor selection to a deterministic version (``nn_tie_breaking="mean"``) that uses the mean target rank of all tied nearest neighbors.
+Additionally, we offer a parameter ``nn_tie_breaking`` to switch from the original stochastic nearest-neighbor selection to a deterministic version (``nn_tie_breaking="mean"``) that uses the mean target rank of all tied nearest neighbors (see :doc:`the NN tie-breaking example </auto_examples/plot_FOCISelector_NN_tie_breaking>`).
 
 Difference between Azadkia Paper and R Reference Implementation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---------------------------------------------------------------
 
 Note that ``method="r_foci"`` corresponds to the **CRAN FOCI R reference implementation**, which differs slightly from the theoretical algorithm description in Section 5 of **Azadkia & Chatterjee (2021)**:
 
@@ -145,22 +145,14 @@ When the target variable :math:`y` contains ties or is discrete (e.g. rounded me
 
 1. **Feature ordering (affects both ``method="fuchs"`` and ``method="r_foci"``):**
 
-   - **Top-heavy asymmetry of max-ranking:** Under ``rank_method="max"``, all tied observations in a group receive the highest rank in that group. Consequently, pairs of nearest neighbors matching at high target levels contribute much larger values to the nearest-neighbor agreement term (the pairwise minimums :math:`\sum_{i=1}^n \min\{R_i, R_{N(i)}\}` in :math:`Q_n`, or the equivalent rank differences in Fuchs) than pairs matching at low target levels. This creates an asymmetric top-heavy weighting that overemphasizes dependencies among high-target samples while under-weighting dependencies among lower-target samples.
-   - **Symmetric balance of average-ranking:** Under ``rank_method="average"``, tied observations receive the midpoint rank of their group. This preserves symmetric rank intervals across all target levels and balances the contribution of nearest-neighbor agreements across the entire target distribution.
-
-   How this can affect forward selection in both methods:
-
-   - **Premature early stopping:** When adding a feature with moderate or subtle marginal gain (such as a complementary interacting feature), max-ranking's top-heavy distortion can cause metric perturbations among high-rank nearest neighbors to outweigh the feature's genuine discriminatory gain in lower or middle target levels. This can reduce the apparent score increment below the stopping threshold, causing selection to stop prematurely and miss the remaining signal features.
-   - **Selection of spurious distractor features:** The disproportionate weight given to high-target matches under max-ranking can cause a noise feature with coincidental clustering among upper-tier samples to outscore genuine signal features that operate across middle or lower target levels.
-
-   See :doc:`the rank method comparison example </auto_examples/plot_FOCISelector_average_beats_max>` for an empirical demonstration.
+   ``rank_method="max"`` assigns all tied observations the group's highest rank, producing a top-heavy weighting that overemphasizes dependencies among high-target samples, while ``rank_method="average"`` assigns the group's midpoint rank and weights all target levels symmetrically. The two orderings can therefore differ, and either method can stop prematurely or select a spurious distractor on a given dataset; over many datasets neither is uniformly better. See :doc:`the rank method comparison example </auto_examples/plot_FOCISelector_average_vs_max>` for an empirical demonstration.
 
 2. **Score scaling and baseline calibration (specifically affects ``method="fuchs"``):**
 
    - The Fuchs formula contains the constant offset :math:`-n(n+1)`, which is mathematically derived under the continuous target rank-sum assumption :math:`\sum_{i=1}^n R_i = n(n+1)/2`.
    - On tied data with ``rank_method="max"``, the sum of maximum ranks is inflated above :math:`n(n+1)/2`. This breaks the offset cancellation, adding an artificial positive shift that frequently pushes Fuchs scores above 1.0 (escaping the unit interval :math:`[0, 1]`).
    - With ``rank_method="average"``, the sum of average ranks **always** equals :math:`n(n+1)/2` exactly, regardless of the number or size of ties. Average ranking thus restores the continuous target rank-sum identity, eliminating the baseline shift and keeping Fuchs scores properly bounded :math:`\le 1.0`.
-   - In contrast, ``method="r_foci"`` normalizes by the sample denominator :math:`S(y) = \frac{1}{n^3} \sum L_i(n - L_i)` rather than relying on the continuous target rank-sum assumption, so its scores remain within :math:`[0, 1]` under both ranking methods while still benefiting from average ranking for feature ordering.
+   - In contrast, ``method="r_foci"`` normalizes by the sample denominator :math:`S(y) = \frac{1}{n^3} \sum L_i(n - L_i)` rather than relying on the continuous target rank-sum assumption, so its scores remain within :math:`[0, 1]` under both ranking methods.
 
    See :doc:`the score normalization comparison example </auto_examples/plot_FOCISelector_methods>` for an empirical demonstration.
 

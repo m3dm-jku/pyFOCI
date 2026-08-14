@@ -23,7 +23,7 @@ from functools import partial
 import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.datasets import fetch_openml
-from sklearn.ensemble import HistGradientBoostingRegressor
+from sklearn.ensemble import RandomForestRegressor
 from sklearn.feature_selection import (
     SelectFromModel,
     SelectKBest,
@@ -125,11 +125,10 @@ for name, selector in selectors:
 
     # Same downstream model for all selectors: the comparison is about which
     # raw features are chosen, not about changing predictors between methods.
-    predictor = HistGradientBoostingRegressor(
-        max_iter=200,
-        learning_rate=0.05,
-        max_leaf_nodes=31,
+    predictor = RandomForestRegressor(
+        n_estimators=100,
         random_state=RANDOM_STATE,
+        n_jobs=-1,
     )
     predictor.fit(X_train[:, selected_idx], y_train)
     y_pred = predictor.predict(X_test[:, selected_idx])
