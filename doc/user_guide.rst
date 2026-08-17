@@ -145,7 +145,7 @@ When the target variable :math:`y` contains ties or is discrete (e.g. rounded me
 
 1. **Feature ordering (affects both ``method="fuchs"`` and ``method="r_foci"``):**
 
-   ``rank_method="max"`` assigns all tied observations the group's highest rank, producing a top-heavy weighting that overemphasizes dependencies among high-target samples, while ``rank_method="average"`` assigns the group's midpoint rank and weights all target levels symmetrically. The two orderings can therefore differ, and either method can stop prematurely or select a spurious distractor on a given dataset; over many datasets neither is uniformly better. See :doc:`the rank method comparison example </auto_examples/plot_FOCISelector_average_vs_max>` for an empirical demonstration.
+   ``rank_method="max"`` assigns all tied observations the group's highest rank, producing a top-heavy weighting that overemphasizes dependencies among high-target samples, while ``rank_method="average"`` assigns the group's midpoint rank and weights all target levels symmetrically. The two orderings can therefore differ, and either method can stop prematurely or select a spurious distractor. Neither is uniformly better, as empirically demonstrated in :doc:`the rank method comparison example </auto_examples/plot_FOCISelector_average_vs_max>`.
 
 2. **Score scaling and baseline calibration (specifically affects ``method="fuchs"``):**
 
