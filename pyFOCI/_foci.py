@@ -456,7 +456,7 @@ class FOCISelector(SelectorMixin, BaseEstimator):
         If "average", tied values receive the average rank in their tie group.
 
     nn_strategy : {"grouping", "radius"}, default="grouping"
-        Strategy used to compute NN tie sets.
+        Strategy used to compute nearest neighbor tie sets.
 
     nn_tie_breaking : {"random", "mean"}, default="random"
         How to resolve ties among equally-distanced nearest neighbors.
