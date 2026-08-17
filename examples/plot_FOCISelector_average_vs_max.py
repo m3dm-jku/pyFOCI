@@ -12,8 +12,8 @@ uniformly better.
 
 By default only the fixed ``SEEDS_OF_INTEREST`` list is evaluated, keeping the
 documentation build fast. Set ``SEARCH_SEEDS = True`` to rescan the first
-``SEARCH_SEEDS_LIMIT`` seeds and print a refreshed list in Python syntax to
-paste back.
+``SEARCH_SEEDS_LIMIT`` seeds and, if necessary, print a refreshed list in Python
+syntax to paste back.
 """
 
 import matplotlib.pyplot as plt
@@ -34,8 +34,8 @@ TRAIN_FRACTION = 0.75
 K_FEAT_CAP = 10
 
 # Set SEARCH_SEEDS = True to re-run the seed search (slow) and print the
-# seeds where the two rank methods disagree; paste the result into
-# SEEDS_OF_INTEREST below.
+# seeds where the two rank methods disagree if they differ from the current
+# SEEDS_OF_INTEREST below; paste the result back into SEEDS_OF_INTEREST.
 SEARCH_SEEDS = False
 SEARCH_SEEDS_LIMIT = 500
 
@@ -122,9 +122,13 @@ for seed in seeds_to_scan:
 
 if SEARCH_SEEDS:
     found = [seed for seed, _, _ in results]
-    print("Seeds where the two rank methods disagree:")
-    print(f"SEEDS_OF_INTEREST = {found}")
-    print()
+    if found != SEEDS_OF_INTEREST:
+        print("Seeds where the two rank methods disagree:")
+        print(f"SEEDS_OF_INTEREST = {found}")
+        print()
+    else:
+        print("Found seeds match SEEDS_OF_INTEREST; nothing to update.")
+        print()
 
 if not results:
     raise SystemExit("No seeds with differing selections were found.")
