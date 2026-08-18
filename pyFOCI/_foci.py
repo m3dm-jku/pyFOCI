@@ -211,6 +211,45 @@ def _nn_grouping_based(X_sub, aggregator):
     return aggregated
 
 
+def _nearest_neighbor_y_rank(
+    X_sub,
+    y_rank,
+    random_state,
+    *,
+    nn_strategy="grouping",
+    nn_tie_breaking="random",
+):
+    """Return nearest-neighbor target ranks for T_n and Q_n statistics.
+
+    Both statistics use the same nearest-neighbor tie handling and differ only
+    in how the resulting neighbor ranks enter their formulas. This helper keeps
+    the shared tie-breaking and neighbor-strategy dispatch in one place.
+    """
+    if nn_tie_breaking not in ("random", "mean"):
+        raise ValueError(
+            "nn_tie_breaking must be one of {'random', 'mean'}, "
+            f"got {nn_tie_breaking!r}."
+        )
+
+    if nn_tie_breaking == "random":
+
+        def aggregate_nn_ties(nn_ties):
+            return float(y_rank[int(random_state.choice(nn_ties))])
+
+    else:
+        # nn_tie_breaking == "mean"
+        def aggregate_nn_ties(nn_ties):
+            return float(np.mean(y_rank[nn_ties], dtype=float))
+
+    # Neighbor target ranks are kept as float to support mean tie-breaking and
+    # average target ranks.
+    if nn_strategy == "grouping":
+        return _nn_grouping_based(X_sub, aggregate_nn_ties)
+
+    assert nn_strategy == "radius"
+    return _nn_radius_based(X_sub, aggregate_nn_ties)
+
+
 def _Tn(
     X_sub,
     y_rank,
@@ -249,32 +288,15 @@ def _Tn(
         Value of the :math:`T_n` statistic for ``X_sub`` and ``y_rank``.
     """
     X_sub = np.asarray(X_sub)
-    y_rank = np.asarray(y_rank)
+    y_rank = np.asarray(y_rank, dtype=float)
     n = X_sub.shape[0]
-
-    if nn_tie_breaking not in ("random", "mean"):
-        raise ValueError(
-            "nn_tie_breaking must be one of {'random', 'mean'}, "
-            f"got {nn_tie_breaking!r}."
-        )
-
-    if nn_tie_breaking == "random":
-
-        def aggregate_nn_ties(nn_ties):
-            return float(y_rank[int(random_state.choice(nn_ties))])
-
-    else:
-        # nn_tie_breaking == "mean"
-        def aggregate_nn_ties(nn_ties):
-            return float(np.mean(y_rank[nn_ties], dtype=float))
-
-    # Neighbor target ranks used in the T_n formula. Kept as float to support
-    # mean tie-breaking and average target ranks.
-    if nn_strategy == "grouping":
-        y_rank_nbr = _nn_grouping_based(X_sub, aggregate_nn_ties)
-    else:
-        assert nn_strategy == "radius"
-        y_rank_nbr = _nn_radius_based(X_sub, aggregate_nn_ties)
+    y_rank_nbr = _nearest_neighbor_y_rank(
+        X_sub,
+        y_rank,
+        random_state,
+        nn_strategy=nn_strategy,
+        nn_tie_breaking=nn_tie_breaking,
+    )
 
     # Apply the formula (indices are 0-based; y_rank is 1-based)
     term1 = np.sum(np.abs(y_rank - y_rank_nbr))
@@ -325,30 +347,13 @@ def _Qn(
     y_rank = np.asarray(y_rank, dtype=float)
     y_rank_neg = np.asarray(y_rank_neg, dtype=float)
     n = X_sub.shape[0]
-
-    if nn_tie_breaking not in ("random", "mean"):
-        raise ValueError(
-            "nn_tie_breaking must be one of {'random', 'mean'}, "
-            f"got {nn_tie_breaking!r}."
-        )
-
-    if nn_tie_breaking == "random":
-
-        def aggregate_nn_ties(nn_ties):
-            return float(y_rank[int(random_state.choice(nn_ties))])
-
-    else:
-        # nn_tie_breaking == "mean"
-        def aggregate_nn_ties(nn_ties):
-            return float(np.mean(y_rank[nn_ties], dtype=float))
-
-    # Neighbor target ranks used in the Q_n formula. Kept as float to support
-    # mean tie-breaking and average target ranks.
-    if nn_strategy == "grouping":
-        y_rank_nbr = _nn_grouping_based(X_sub, aggregate_nn_ties)
-    else:
-        assert nn_strategy == "radius"
-        y_rank_nbr = _nn_radius_based(X_sub, aggregate_nn_ties)
+    y_rank_nbr = _nearest_neighbor_y_rank(
+        X_sub,
+        y_rank,
+        random_state,
+        nn_strategy=nn_strategy,
+        nn_tie_breaking=nn_tie_breaking,
+    )
 
     Q = np.sum(np.minimum(y_rank, y_rank_nbr) - y_rank_neg**2 / n) / n**2
     return float(Q)
