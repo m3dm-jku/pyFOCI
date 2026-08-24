@@ -8,9 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- `FOCISelector` accepts `nn_tie_breaking="first"`, which queries a single
-  nearest neighbor per sample without computing tie sets: an option for
-  studying its impact on result, stability and speed.
+- `FOCISelector` now accepts `nn_tie_breaking="first"`, which queries a single
+  nearest neighbor per sample without computing tie sets.
+- New example showing the speed/quality tradeoff of `nn_tie_breaking="first"`.
 
 ## [0.7.1] - 2026-08-14
 

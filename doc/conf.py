@@ -121,6 +121,7 @@ sphinx_gallery_conf = {
             "plot_FOCISelector_comparison.py",
             "plot_FOCISelector_bike_sharing.py",
             "plot_FOCISelector_NN_tie_breaking.py",
+            "plot_FOCISelector_first_speed_and_order.py",
             "plot_FOCISelector_average_vs_max.py",
             "plot_FOCISelector_methods.py",
         ]
