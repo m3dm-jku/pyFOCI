@@ -114,6 +114,41 @@ def _nn_radius_based(X_sub, aggregator):
     return aggregated
 
 
+def _nn_first_based(X_sub):
+    """First nearest-neighbor selection without tie handling.
+
+    For each sample, return the index of a single nearest neighbor,
+    excluding the sample itself. If several neighbors are tied at the
+    minimal distance, whichever one the underlying nearest-neighbor method
+    returns first is used. No tie set is computed.
+
+    Parameters
+    ----------
+    X_sub : array-like of shape (n_samples, n_selected_features)
+        Sample subset used to compute nearest neighbors.
+
+    Returns
+    -------
+    nn_first : ndarray of shape (n_samples,), dtype=int
+        Index of the first nearest neighbor returned for each sample.
+    """
+    X_sub = np.asarray(X_sub)
+    n = X_sub.shape[0]
+
+    # Query the two nearest points. The query point itself is at distance 0
+    # and is usually the first returned index; in that case the second entry
+    # is a nearest neighbor. If the first returned index is not the query
+    # point (possible when at least two other points also have distance 0),
+    # both returned indices are tied nearest neighbors at distance 0 and the
+    # first one is used.
+    nbrs = NearestNeighbors(n_neighbors=2)
+    nbrs.fit(X_sub)
+    nn_idx = nbrs.kneighbors(return_distance=False)  # shape (n, 2)
+
+    first = nn_idx[:, 0]
+    return np.where(first == np.arange(n), nn_idx[:, 1], first)
+
+
 def _tied_min_distance_neighbors(group_idx, Xu, groups):
     """Return sample indices from all unique rows tied at minimal distance.
 
@@ -224,12 +259,20 @@ def _nearest_neighbor_y_rank(
     Both statistics use the same nearest-neighbor tie handling and differ only
     in how the resulting neighbor ranks enter their formulas. This helper keeps
     the shared tie-breaking and neighbor-strategy dispatch in one place.
+
+    With ``nn_tie_breaking="first"`` a single nearest neighbor is queried per
+    sample and no tie set is computed; ``nn_strategy`` and ``random_state`` are
+    ignored in this case.
     """
-    if nn_tie_breaking not in ("random", "mean"):
+    if nn_tie_breaking not in ("random", "mean", "first"):
         raise ValueError(
-            "nn_tie_breaking must be one of {'random', 'mean'}, "
+            "nn_tie_breaking must be one of {'random', 'mean', 'first'}, "
             f"got {nn_tie_breaking!r}."
         )
+
+    if nn_tie_breaking == "first":
+        # A single nearest neighbor per sample; no tie set is computed.
+        return y_rank[_nn_first_based(X_sub)]
 
     if nn_tie_breaking == "random":
 
@@ -274,13 +317,18 @@ def _Tn(
     y_rank : ndarray of shape (n_samples,)
         One-based ranks of the target values.
     random_state : numpy.random.RandomState
-        Random number generator used to break nearest-neighbor ties.
+        Random number generator used to break nearest-neighbor ties. Only
+        used for ``nn_tie_breaking="random"``.
     nn_strategy : {"grouping", "radius"}, default="grouping"
-        Strategy used to compute NN tie sets.
-    nn_tie_breaking : {"random", "mean"}, default="random"
+        Strategy used to compute nearest neighbor tie sets. Ignored when
+        ``nn_tie_breaking="first"``.
+    nn_tie_breaking : {"random", "mean", "first"}, default="random"
         How to resolve ties among equally-distanced nearest neighbors.
         If "random", one tied neighbor is selected at random.
         If "mean", the mean ``y_rank`` across all tied neighbors is used.
+        If "first", a single nearest neighbor per sample is queried; the first
+        one returned by the nearest-neighbor method is used without computing
+        tie sets.
 
     Returns
     -------
@@ -330,13 +378,18 @@ def _Qn(
     y_rank_neg : ndarray of shape (n_samples,)
         One-based ranks of the negated target values.
     random_state : numpy.random.RandomState
-        Random number generator used to break nearest-neighbor ties.
+        Random number generator used to break nearest-neighbor ties. Only
+        used for ``nn_tie_breaking="random"``.
     nn_strategy : {"grouping", "radius"}, default="grouping"
-        Strategy used to compute NN tie sets.
-    nn_tie_breaking : {"random", "mean"}, default="random"
+        Strategy used to compute nearest neighbor tie sets. Ignored when
+        ``nn_tie_breaking="first"``.
+    nn_tie_breaking : {"random", "mean", "first"}, default="random"
         How to resolve ties among equally-distanced nearest neighbors.
         If "random", one tied neighbor is selected at random.
         If "mean", the mean ``y_rank`` across all tied neighbors is used.
+        If "first", a single nearest neighbor per sample is queried; the first
+        one returned by the nearest-neighbor method is used without computing
+        tie sets.
 
     Returns
     -------
@@ -461,15 +514,21 @@ class FOCISelector(SelectorMixin, BaseEstimator):
         If "average", tied values receive the average rank in their tie group.
 
     nn_strategy : {"grouping", "radius"}, default="grouping"
-        Strategy used to compute nearest neighbor tie sets.
+        Strategy used to compute nearest neighbor tie sets. Ignored when
+        ``nn_tie_breaking="first"``.
 
-    nn_tie_breaking : {"random", "mean"}, default="random"
+    nn_tie_breaking : {"random", "mean", "first"}, default="random"
         How to resolve ties among equally-distanced nearest neighbors.
         If "random", one tied neighbor is selected at random.
         If "mean", the mean target rank across all tied neighbors is used.
+        If "first", a single nearest neighbor per sample is queried; the first
+        one returned by the nearest-neighbor method is used without computing
+        tie sets. This option is available to study its impact on the outcome,
+        stability and speed of the algorithm.
 
     random_state : int, RandomState instance or None, default=None
-        Controls the random tie-breaking among nearest neighbors. Pass an int
+        Controls the random tie-breaking among nearest neighbors.
+        Only used for ``nn_tie_breaking="random"``. Pass an int
         for reproducible results across multiple calls. If None, the global
         NumPy random state is used.
 
@@ -514,7 +573,7 @@ class FOCISelector(SelectorMixin, BaseEstimator):
         "standardize": [None, StrOptions({"normalize"})],
         "rank_method": [StrOptions({"max", "average"})],
         "nn_strategy": [StrOptions({"grouping", "radius"})],
-        "nn_tie_breaking": [StrOptions({"random", "mean"})],
+        "nn_tie_breaking": [StrOptions({"random", "mean", "first"})],
         "random_state": ["random_state"],
         "n_jobs": [
             None,

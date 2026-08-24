@@ -122,7 +122,7 @@ The selection works as follows:
 
 We also offer the parameter ``rank_method`` to configure target rank tie handling: ``rank_method="max"`` (default) is the original definition in **Azadkia & Chatterjee (2021)** and is used in its consistency proof, while ``rank_method="average"`` assigns tied targets their average rank, which also keeps the Fuchs score calibrated (see :ref:`average_vs_max_ranking`).
 
-Additionally, we offer a parameter ``nn_tie_breaking`` to switch from the original stochastic nearest-neighbor selection to a deterministic version (``nn_tie_breaking="mean"``) that uses the mean target rank of all tied nearest neighbors (see :doc:`the NN tie-breaking example </auto_examples/plot_FOCISelector_NN_tie_breaking>`).
+Additionally, we offer a parameter ``nn_tie_breaking`` to switch from the original stochastic nearest-neighbor selection to alternatives: ``nn_tie_breaking="mean"`` deterministically uses the mean target rank of all tied nearest neighbors, while ``nn_tie_breaking="first"`` lets the nearest-neighbor query return just one nearest neighbor per sample without computing tie sets. These options are available to study their impact on the result, stability and speed of the algorithm (see :doc:`the NN tie-breaking example </auto_examples/plot_FOCISelector_NN_tie_breaking>`).
 
 Difference between Azadkia Paper and R Reference Implementation
 ---------------------------------------------------------------

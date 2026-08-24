@@ -15,6 +15,7 @@ from sklearn.utils._testing import assert_allclose
 
 from pyFOCI import FOCISelector
 from pyFOCI._foci import (
+    _nn_first_based,
     _nn_grouping_based,
     _nn_radius_based,
     _Qn,
@@ -586,7 +587,10 @@ def test_Tn_invalid_tie_breaking_raises():
     y_rank = np.array([1.0, 2.0, 3.0])
     random_state = np.random.RandomState(0)
 
-    with pytest.raises(ValueError, match=re.escape("nn_tie_breaking must be one of")):
+    expected = (
+        "nn_tie_breaking must be one of {'random', 'mean', 'first'}, got 'invalid'."
+    )
+    with pytest.raises(ValueError, match=re.escape(expected)):
         _Tn(
             X,
             y_rank,
@@ -634,6 +638,148 @@ def test_Tn_mean_tie_breaking_radius():
         nn_tie_breaking="mean",
     )
     assert np.isfinite(tn)
+
+
+def test_nn_first_based_unique_neighbors():
+    """Hand-computed nearest neighbors on data without ties."""
+    X = np.array([[0.0], [2.0], [3.0], [100.0]])
+    expected = np.array([1, 2, 1, 2])
+    np.testing.assert_array_equal(_nn_first_based(X), expected)
+
+
+def test_nn_first_based_distance_tie():
+    """
+    On a distance tie, one of the tied neighbors is returned, never self.
+
+    For X = [[0], [-1], [1]], sample 0 has the two tied neighbors {1, 2}.
+    """
+    X = np.array([[0.0], [-1.0], [1.0]])
+    nn_first = _nn_first_based(X)
+    assert nn_first[0] in (1, 2)
+    assert nn_first[1] == 0
+    assert nn_first[2] == 0
+    assert np.all(nn_first != np.arange(3))
+
+
+def test_nn_first_based_identical_rows():
+    """With identical rows, a non-self identical sample is returned."""
+    X = np.array([[0.0], [0.0], [0.0]])
+    nn_first = _nn_first_based(X)
+    assert np.all(nn_first != np.arange(3))
+    assert set(nn_first.tolist()) <= {0, 1, 2}
+
+
+def test_nn_first_based_repeatable():
+    """Repeated calls return identical neighbors on the same system."""
+    X = np.random.RandomState(0).normal(size=(50, 3))
+    np.testing.assert_array_equal(_nn_first_based(X), _nn_first_based(X))
+
+
+def test_Tn_first_tie_breaking_hand_computed():
+    """
+    Explicit reference value for T_n with nn_tie_breaking="first".
+
+    On tie-free data the neighbor indices are unambiguous, so the result can
+    be computed by hand and serves as a regression check. On such data all
+    tie-breaking methods must agree.
+
+    For X = [[0], [2], [3]] and y_rank = [1, 2, 3] the nearest-neighbor
+    ranks are [2, 3, 2], giving
+    T_n = 1 - 3/8 * 3 + 3/8 * (7 + 6 - 12) = 0.25.
+    """
+    X = np.array([[0.0], [2.0], [3.0]])
+    y_rank = np.array([1.0, 2.0, 3.0])
+    random_state = np.random.RandomState(0)
+
+    tn = _Tn(
+        X,
+        y_rank,
+        random_state,
+        nn_strategy="grouping",
+        nn_tie_breaking="first",
+    )
+    assert tn == pytest.approx(0.25)
+
+    for nn_tie_breaking in ("random", "mean"):
+        tn_other = _Tn(
+            X,
+            y_rank,
+            random_state,
+            nn_strategy="grouping",
+            nn_tie_breaking=nn_tie_breaking,
+        )
+        assert tn_other == pytest.approx(tn)
+
+
+def test_Tn_first_tie_breaking_ignores_nn_strategy():
+    """nn_strategy is ignored for 'first': both strategies agree, even with ties."""
+    rng = np.random.RandomState(0)
+    X = rng.randn(30, 2)
+    # Create duplicate rows to exercise tie handling in grouping/radius
+    X[1] = X[0]
+    X[10] = X[9]
+    y_rank = rng.permutation(30).astype(float) + 1.0
+    random_state = np.random.RandomState(0)
+
+    tn_grouping = _Tn(
+        X,
+        y_rank,
+        random_state,
+        nn_strategy="grouping",
+        nn_tie_breaking="first",
+    )
+    tn_radius = _Tn(
+        X,
+        y_rank,
+        random_state,
+        nn_strategy="radius",
+        nn_tie_breaking="first",
+    )
+    assert tn_radius == pytest.approx(tn_grouping)
+
+
+def test_Qn_first_tie_breaking_hand_computed():
+    """
+    Explicit reference value for Q_n with nn_tie_breaking="first".
+
+    On tie-free data the neighbor indices are unambiguous, allowing a manual
+    calculation that serves as a regression check.
+
+    For X = [[0], [2], [3]], y = [1, 2, 3], rank_method="max":
+      R = [1, 2, 3], L = [3, 2, 1], neighbor ranks R_nbr = [2, 3, 2].
+      Q_n = sum(min(R, R_nbr) - L^2 / n) / n^2 = (5 - 14/3) / 9 = 1/27.
+    """
+    X = np.array([[0.0], [2.0], [3.0]])
+    y = np.array([1.0, 2.0, 3.0])
+    R = _rank(y, method="max")
+    L = _rank(-y, method="max")
+
+    qn = _Qn(
+        X,
+        R,
+        L,
+        np.random.RandomState(0),
+        nn_strategy="grouping",
+        nn_tie_breaking="first",
+    )
+    assert qn == pytest.approx(1.0 / 27.0)
+
+
+def test_first_tie_breaking_ignores_random_state():
+    """nn_tie_breaking="first" results are independent of random_state."""
+    X_df, y = make_data(n=100, p=10, seed=0)
+    results = []
+    for random_state in (0, 123):
+        selector = FOCISelector(
+            nn_tie_breaking="first",
+            random_state=random_state,
+            min_delta=None,
+            max_features=4,
+        ).fit(X_df, y)
+        results.append((selector.selected_indices_, selector.score_path_))
+
+    np.testing.assert_array_equal(results[0][0], results[1][0])
+    assert_allclose(results[0][1], results[1][1])
 
 
 def test_Qn_hand_computed_mean_ties():
@@ -690,7 +836,10 @@ def test_Qn_invalid_tie_breaking_raises():
     y_rank_neg = np.array([3.0, 2.0, 1.0])
     random_state = np.random.RandomState(0)
 
-    with pytest.raises(ValueError, match=re.escape("nn_tie_breaking must be one of")):
+    expected = (
+        "nn_tie_breaking must be one of {'random', 'mean', 'first'}, got 'invalid'."
+    )
+    with pytest.raises(ValueError, match=re.escape(expected)):
         _Qn(
             X,
             y_rank,
@@ -891,8 +1040,8 @@ def test_r_foci_accepts_both_rank_methods(rank_method):
 
 
 @pytest.mark.parametrize("strategy", ["grouping", "radius"])
-@pytest.mark.parametrize("tie_breaking", ["random", "mean"])
-def test_r_foci_accepts_both_nn_strategies_and_tie_breaking(strategy, tie_breaking):
+@pytest.mark.parametrize("tie_breaking", ["random", "mean", "first"])
+def test_r_foci_accepts_nn_strategies_and_tie_breaking(strategy, tie_breaking):
     X_df, y = make_data(n=200, p=10, seed=0)
     sel1 = FOCISelector(
         method="r_foci",
