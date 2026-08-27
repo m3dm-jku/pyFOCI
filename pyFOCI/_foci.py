@@ -277,12 +277,13 @@ def _nearest_neighbor_y_rank(
     if nn_tie_breaking == "random":
 
         def aggregate_nn_ties(nn_ties):
-            return float(y_rank[int(random_state.choice(nn_ties))])
+            return float(y_rank[nn_ties[random_state.randint(len(nn_ties))]])
 
     else:
         # nn_tie_breaking == "mean"
         def aggregate_nn_ties(nn_ties):
-            return float(np.mean(y_rank[nn_ties], dtype=float))
+            arr = y_rank[nn_ties]
+            return float(arr.sum() / len(arr))
 
     # Neighbor target ranks are kept as float to support mean tie-breaking and
     # average target ranks.
