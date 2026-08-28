@@ -504,7 +504,7 @@ class FOCISelector(SelectorMixin, BaseEstimator):
         - "r_foci" (default): Azadkia–Chatterjee :math:`Q_n/S(y)`
           numerator/denominator form, matching the FOCI R reference
           implementation's selection and stopping.
-        - "fuchs": Fuchs (2024) closed-form score.
+        - "fuchs": the form derived by Fuchs (2024) for continuous targets.
 
     standardize : {"normalize", None}, default="normalize"
         If "normalize", each column of X is standardized to zero mean and unit

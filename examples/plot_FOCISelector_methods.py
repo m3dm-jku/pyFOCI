@@ -6,10 +6,11 @@ Fuchs vs R-FOCI score normalization
 This example illustrates the difference in score normalization between the
 two scoring methods on discrete (tied) target data:
 
-- ``method="fuchs"`` (the Fuchs 2024 closed-form score)
+- ``method="fuchs"`` (the Fuchs 2024 form derived for continuous targets)
 - ``method="r_foci"`` (matching the FOCI R reference implementation)
 
-On tied target data, the continuous target rank-sum assumption in the Fuchs formula
+On tied (i.e., non-continuous) target data,
+the continuous target rank-sum assumption in the Fuchs formula
 causes its score to be shifted upwards and frequently exceed 1.0. In contrast,
 the FOCI R reference implementation (``method="r_foci"``) normalizes by the
 sample denominator :math:`S(y)`, keeping scores properly calibrated within

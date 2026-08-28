@@ -101,7 +101,7 @@ Our implementation provides two selection scoring methods via the ``method`` par
 
   where :math:`R_i = \text{rank}(y_i)`, :math:`L_i = \text{rank}(-y_i)`, and :math:`R_{N(i)}` is the target rank of the nearest neighbor of sample :math:`i` in :math:`\textbf{Z}`. The selection score is :math:`Q_n(y, \textbf{Z}) / S(y)` (or 1.0 if :math:`S(y) = 0`).
 
-- ``method="fuchs"``: uses the closed-form score from **Fuchs, S. (2024)**:
+- ``method="fuchs"``: uses the form derived for continuous targets by **Fuchs, S. (2024)**:
 
   .. math::
 
