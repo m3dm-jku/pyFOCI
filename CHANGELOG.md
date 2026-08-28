@@ -5,20 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/2.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.8.0]
 
 ### Added
 - `FOCISelector` now accepts `nn_tie_breaking="first"`, which queries a single
   nearest neighbor per sample without computing tie sets.
-- New example showing the speed/quality tradeoff of `nn_tie_breaking="first"`.
+- Added an example showing the speed/quality tradeoff of `nn_tie_breaking="first"`.
 
 ### Changed
+- Sped up nearest-neighbor tie aggregation (`nn_tie_breaking="random"` and
+  `"mean"`).
 - The default of the `FOCISelector` parameter `method` is now
   `"r_foci"` instead of `"fuchs"`, so FOCI selection now matches the FOCI R
   reference implementation by default. Unlike `method="fuchs"`, these scores
   stay within `[0, 1]` also for tied targets with `rank_method="max"`.
   To keep the previous behavior, pass `method="fuchs"` explicitly.
-- The benchmark script's `--method` option defaults to `r_foci` accordingly.
+- The benchmark script's `--method` option now defaults to `r_foci` accordingly.
 
 ## [0.7.1] - 2026-08-14
 
@@ -65,7 +67,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Made the target rank tie handling configurable. For this, the new keyword-only `FOCISelector` parameter
-  `rank_method` is introduced, with default value `"max"` for using the maximum rank as before,
+  `rank_method` was introduced, with default value `"max"` for using the maximum rank as before,
   and value `"average"` for using the average rank instead. With the maximum rank, the
   implemented conditional dependence coefficient estimator is proven to be consistent in the case of a
   continuous target. The average rank however empirically makes the estimator work better in case of
@@ -78,7 +80,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Introduced an alternative method to deal with nearest neighbor ties:
   Instead of selecting one of the tied neighbors randomly and then using its target rank,
   one can now switch to deterministically using the mean target rank of all tied neighbors instead.
-  For this, the new keyword-only `FOCISelector` parameter `nn_tie_breaking` is introduced,
+  For this, the new keyword-only `FOCISelector` parameter `nn_tie_breaking` was introduced,
   with default value `"random"` for the usual behavior, and value `"mean"` for the
   new deterministic tie breaking.
 
