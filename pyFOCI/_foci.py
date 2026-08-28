@@ -430,7 +430,7 @@ def _score_candidate(
     seed,
     nn_strategy,
     nn_tie_breaking,
-    method="fuchs",
+    method="r_foci",
 ):
     """Return the selection score for adding feature ``j`` to ``selected``.
 
@@ -439,16 +439,7 @@ def _score_candidate(
     """
     X_sub = X[:, selected + [j]]
     rng = np.random.RandomState(seed)
-    if method == "fuchs":
-        score = _Tn(
-            X_sub,
-            y_rank,
-            rng,
-            nn_strategy=nn_strategy,
-            nn_tie_breaking=nn_tie_breaking,
-        )
-    else:
-        assert method == "r_foci"
+    if method == "r_foci":
         qn = _Qn(
             X_sub,
             y_rank,
@@ -458,13 +449,23 @@ def _score_candidate(
             nn_tie_breaking=nn_tie_breaking,
         )
         score = qn / S_y if S_y > 0 else 1.0
+    else:
+        assert method == "fuchs"
+        score = _Tn(
+            X_sub,
+            y_rank,
+            rng,
+            nn_strategy=nn_strategy,
+            nn_tie_breaking=nn_tie_breaking,
+        )
     return j, score
 
 
 class FOCISelector(SelectorMixin, BaseEstimator):
     """
     Feature selector using hierarchical forward selection based on the
-    nonlinear Azadkia–Chatterjee T_n coefficient and its Fuchs form (see references).
+    nonlinear Azadkia–Chatterjee T_n coefficient, using the FOCI R reference
+    form by default and the Fuchs form as an alternative (see references).
 
     At each step, among remaining features, we choose the feature that maximizes
     the per-step score on the growing set S_k = S_{k-1} ∪ {j}.
@@ -497,12 +498,13 @@ class FOCISelector(SelectorMixin, BaseEstimator):
           - min_delta == 0 corresponds to stop=TRUE
           - min_delta is None corresponds to stop=FALSE
 
-    method : {"fuchs", "r_foci"}, default="fuchs"
+    method : {"r_foci", "fuchs"}, default="r_foci"
         Selection scoring method:
 
-        - "fuchs" (default): Fuchs (2024) closed-form score.
-        - "r_foci": Azadkia–Chatterjee :math:`Q_n/S(y)` numerator/denominator form,
-          matching the FOCI R reference implementation's selection and stopping.
+        - "r_foci" (default): Azadkia–Chatterjee :math:`Q_n/S(y)`
+          numerator/denominator form, matching the FOCI R reference
+          implementation's selection and stopping.
+        - "fuchs": Fuchs (2024) closed-form score.
 
     standardize : {"normalize", None}, default="normalize"
         If "normalize", each column of X is standardized to zero mean and unit
@@ -570,7 +572,7 @@ class FOCISelector(SelectorMixin, BaseEstimator):
     _parameter_constraints = {
         "max_features": [None, Interval(Integral, 1, None, closed="left")],
         "min_delta": [None, Interval(Real, None, None, closed="neither")],
-        "method": [StrOptions({"fuchs", "r_foci"})],
+        "method": [StrOptions({"r_foci", "fuchs"})],
         "standardize": [None, StrOptions({"normalize"})],
         "rank_method": [StrOptions({"max", "average"})],
         "nn_strategy": [StrOptions({"grouping", "radius"})],
@@ -588,7 +590,7 @@ class FOCISelector(SelectorMixin, BaseEstimator):
         max_features=None,
         min_delta=0,
         *,
-        method="fuchs",
+        method="r_foci",
         standardize="normalize",
         rank_method="max",
         nn_strategy="grouping",

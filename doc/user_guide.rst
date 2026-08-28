@@ -87,14 +87,7 @@ How our Implementation Works
 
 Our implementation provides two selection scoring methods via the ``method`` parameter:
 
-- ``method="fuchs"`` (default): uses the closed-form score from **Fuchs, S. (2024)**:
-
-  .. math::
-
-     T_n(y,\textbf{Z}) =
-     1-\frac{3}{n^2-1}\sum_{i=1}^n|R_i-R_{N(i)}|+\frac{3}{n^2-1}\left(\sum_{i=1}^n R_{N(i)} + \sum_{i=1}^n R_i - n(n+1)\right).
-
-- ``method="r_foci"``: uses the :math:`Q_n / S(y)` score corresponding to the `FOCI R reference implementation <https://cran.r-project.org/package=FOCI>`_ based on **Azadkia, M., & Chatterjee, S. (2021)**:
+- ``method="r_foci"`` (default): uses the :math:`Q_n / S(y)` score corresponding to the `FOCI R reference implementation <https://cran.r-project.org/package=FOCI>`_ based on **Azadkia, M., & Chatterjee, S. (2021)**:
 
   .. math::
 
@@ -107,6 +100,13 @@ Our implementation provides two selection scoring methods via the ``method`` par
      S(y) = \frac{1}{n^3} \sum_{i=1}^n L_i(n - L_i),
 
   where :math:`R_i = \text{rank}(y_i)`, :math:`L_i = \text{rank}(-y_i)`, and :math:`R_{N(i)}` is the target rank of the nearest neighbor of sample :math:`i` in :math:`\textbf{Z}`. The selection score is :math:`Q_n(y, \textbf{Z}) / S(y)` (or 1.0 if :math:`S(y) = 0`).
+
+- ``method="fuchs"``: uses the closed-form score from **Fuchs, S. (2024)**:
+
+  .. math::
+
+     T_n(y,\textbf{Z}) =
+     1-\frac{3}{n^2-1}\sum_{i=1}^n|R_i-R_{N(i)}|+\frac{3}{n^2-1}\left(\sum_{i=1}^n R_{N(i)} + \sum_{i=1}^n R_i - n(n+1)\right).
 
 The selection works as follows:
 
@@ -208,7 +208,7 @@ All available benchmark options can be displayed via ``--help``:
 
     usage: benchmark.py [-h] [--samples SAMPLES] [--features FEATURES]
                         [--max-features MAX_FEATURES] [--repeats REPEATS]
-                        [--seed SEED] [--method {fuchs,r_foci}]
+                        [--seed SEED] [--method {r_foci,fuchs}]
                         [--n-jobs N_JOBS [N_JOBS ...]]
 
     Measure local FOCISelector candidate-scoring parallelism. This is
@@ -223,6 +223,6 @@ All available benchmark options can be displayed via ``--help``:
       --repeats REPEATS
       --seed SEED
       --method {fuchs,r_foci}
-                            Selection scoring method: 'fuchs' (default) or 'r_foci'.
+                            Selection scoring method: 'r_foci' (default) or 'fuchs'.
       --n-jobs N_JOBS [N_JOBS ...]
                             Worker counts to measure; defaults to powers of two and -1.

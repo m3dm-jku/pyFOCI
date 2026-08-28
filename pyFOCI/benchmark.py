@@ -26,7 +26,7 @@ def _make_data(n_samples, n_features, seed):
     return X, y
 
 
-def _time_fit(X, y, n_jobs, max_features, repeats, method="fuchs"):
+def _time_fit(X, y, n_jobs, max_features, repeats, method="r_foci"):
     """Return the fastest of repeated fits after one warm-up fit."""
     params = dict(
         method=method,
@@ -55,9 +55,9 @@ def _main():
     parser.add_argument(
         "--method",
         type=str,
-        choices=["fuchs", "r_foci"],
-        default="fuchs",
-        help="Selection scoring method: 'fuchs' (default) or 'r_foci'.",
+        choices=["r_foci", "fuchs"],
+        default="r_foci",
+        help="Selection scoring method: 'r_foci' (default) or 'fuchs'.",
     )
     parser.add_argument(
         "--n-jobs",

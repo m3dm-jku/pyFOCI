@@ -40,7 +40,7 @@ def test_time_fit_warms_up_and_returns_fastest_repeat(monkeypatch):
     assert len(fits) == 3  # one warm-up and two timed fits
 
     # Parameters were forwarded correctly:
-    assert all(params["method"] == "fuchs" for params, _, _ in fits)
+    assert all(params["method"] == "r_foci" for params, _, _ in fits)
     assert all(params["n_jobs"] == 2 for params, _, _ in fits)
     assert all(params["max_features"] == 4 for params, _, _ in fits)
     assert all(params["min_delta"] is None for params, _, _ in fits)
@@ -63,8 +63,9 @@ def test_time_fit_method_forwarding(monkeypatch):
 
     X = np.ones((3, 5))
     y = np.ones(3)
-    benchmark._time_fit(X, y, n_jobs=1, max_features=2, repeats=1, method="r_foci")
-    assert all(params["method"] == "r_foci" for params in fits)
+    # Use a non-default method, so the assertion really checks the forwarding:
+    benchmark._time_fit(X, y, n_jobs=1, max_features=2, repeats=1, method="fuchs")
+    assert all(params["method"] == "fuchs" for params in fits)
 
 
 def test_main_uses_power_of_two_worker_counts(monkeypatch, capsys):
@@ -73,7 +74,7 @@ def test_main_uses_power_of_two_worker_counts(monkeypatch, capsys):
     monkeypatch.setattr(benchmark.os, "cpu_count", lambda: 4)
     monkeypatch.setattr(benchmark, "_make_data", lambda *args: ("X", "y"))
 
-    def time_fit(X, y, n_jobs, max_features, repeats, method="fuchs"):
+    def time_fit(X, y, n_jobs, max_features, repeats, method="r_foci"):
         worker_counts.append((X, y, n_jobs, max_features, repeats, method))
         return {1: 4.0, 2: 2.0, -1: 1.0}[n_jobs]
 
@@ -83,7 +84,7 @@ def test_main_uses_power_of_two_worker_counts(monkeypatch, capsys):
 
     # powers of two below cpu_count, and -1:
     assert [entry[2] for entry in worker_counts] == [1, 2, -1]
-    assert all(entry[5] == "fuchs" for entry in worker_counts)
+    assert all(entry[5] == "r_foci" for entry in worker_counts)
     # Additionally check the default baseline:
     assert "n_jobs=  1: 4.000s (1.00x)" in capsys.readouterr().out
 
@@ -94,7 +95,7 @@ def test_main_handles_one_or_unknown_cpu_and_explicit_worker_counts(
     worker_counts = []
     monkeypatch.setattr(benchmark, "_make_data", lambda *args: ("X", "y"))
 
-    def time_fit(X, y, n_jobs, max_features, repeats, method="fuchs"):
+    def time_fit(X, y, n_jobs, max_features, repeats, method="r_foci"):
         worker_counts.append(n_jobs)
         return 1.0
 
@@ -124,14 +125,15 @@ def test_main_uses_method_argument(monkeypatch, capsys):
     methods_passed = []
     monkeypatch.setattr(benchmark, "_make_data", lambda *args: ("X", "y"))
 
-    def time_fit(X, y, n_jobs, max_features, repeats, method="fuchs"):
+    def time_fit(X, y, n_jobs, max_features, repeats, method="r_foci"):
         methods_passed.append(method)
         return 1.0
 
     monkeypatch.setattr(benchmark, "_time_fit", time_fit)
     monkeypatch.setattr(benchmark.os, "cpu_count", lambda: 1)
 
-    monkeypatch.setattr(sys, "argv", ["benchmark", "--method", "r_foci"])
+    # Use a non-default method, so the assertion really checks the argument:
+    monkeypatch.setattr(sys, "argv", ["benchmark", "--method", "fuchs"])
     benchmark._main()
-    assert methods_passed == ["r_foci"]
-    assert "method='r_foci'" in capsys.readouterr().out
+    assert methods_passed == ["fuchs"]
+    assert "method='fuchs'" in capsys.readouterr().out

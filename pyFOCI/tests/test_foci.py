@@ -1013,15 +1013,15 @@ def test_method_invalid_raises():
         sel.fit(X, y)
 
 
-def test_fuchs_is_default():
+def test_r_foci_is_default():
     X_df, y = make_data(n=100, p=10, seed=0)
     sel_default = FOCISelector(random_state=0).fit(X_df, y)
-    sel_fuchs = FOCISelector(method="fuchs", random_state=0).fit(X_df, y)
+    sel_r_foci = FOCISelector(method="r_foci", random_state=0).fit(X_df, y)
 
     np.testing.assert_array_equal(
-        sel_default.selected_indices_, sel_fuchs.selected_indices_
+        sel_default.selected_indices_, sel_r_foci.selected_indices_
     )
-    assert_allclose(sel_default.score_path_, sel_fuchs.score_path_)
+    assert_allclose(sel_default.score_path_, sel_r_foci.score_path_)
 
 
 @pytest.mark.parametrize("rank_method", ["max", "average"])

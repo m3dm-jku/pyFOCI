@@ -12,6 +12,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   nearest neighbor per sample without computing tie sets.
 - New example showing the speed/quality tradeoff of `nn_tie_breaking="first"`.
 
+### Changed
+- The default of the `FOCISelector` parameter `method` is now
+  `"r_foci"` instead of `"fuchs"`, so FOCI selection now matches the FOCI R
+  reference implementation by default. Unlike `method="fuchs"`, these scores
+  stay within `[0, 1]` also for tied targets with `rank_method="max"`.
+  To keep the previous behavior, pass `method="fuchs"` explicitly.
+- The benchmark script's `--method` option defaults to `r_foci` accordingly.
+
 ## [0.7.1] - 2026-08-14
 
 ### Changed
