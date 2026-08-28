@@ -83,7 +83,24 @@ Introductory examples.
 
 .. raw:: html
 
-      <div class="sphx-glr-thumbnail-title">FOCISelector: nearest-neighbor tie breaking</div>
+      <div class="sphx-glr-thumbnail-title">FOCI rank-mean NN tie breaking</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="FOCISelector needs the nearest neighbor of each sample in the currently selected feature subspace. When features are discrete (or otherwise low-cardinality) many samples share the exact same distance, so ties of equally-close neighbors exist.">
+
+.. only:: html
+
+  .. image:: /auto_examples/images/thumb/sphx_glr_plot_FOCISelector_first_speed_and_order_thumb.png
+    :alt:
+
+  :doc:`/auto_examples/plot_FOCISelector_first_speed_and_order`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">FOCI tie-breaking: speed and stability</div>
     </div>
 
 
@@ -135,6 +152,7 @@ Introductory examples.
    /auto_examples/plot_FOCISelector_comparison
    /auto_examples/plot_FOCISelector_bike_sharing
    /auto_examples/plot_FOCISelector_NN_tie_breaking
+   /auto_examples/plot_FOCISelector_first_speed_and_order
    /auto_examples/plot_FOCISelector_average_vs_max
    /auto_examples/plot_FOCISelector_methods
 

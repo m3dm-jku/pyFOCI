@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**01:00.912** total execution time for 6 files **from auto_examples**:
+**01:06.006** total execution time for 7 files **from auto_examples**:
 
 .. container::
 
@@ -33,20 +33,23 @@ Computation times
      - Time
      - Mem (MB)
    * - :ref:`sphx_glr_auto_examples_plot_FOCISelector_average_vs_max.py` (``plot_FOCISelector_average_vs_max.py``)
-     - 00:21.381
+     - 00:18.572
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_plot_FOCISelector_first_speed_and_order.py` (``plot_FOCISelector_first_speed_and_order.py``)
+     - 00:15.994
      - 0.0
    * - :ref:`sphx_glr_auto_examples_plot_FOCISelector_comparison.py` (``plot_FOCISelector_comparison.py``)
-     - 00:12.974
+     - 00:12.051
      - 0.0
    * - :ref:`sphx_glr_auto_examples_plot_FOCISelector_bike_sharing.py` (``plot_FOCISelector_bike_sharing.py``)
-     - 00:10.814
+     - 00:07.998
      - 0.0
    * - :ref:`sphx_glr_auto_examples_plot_FOCISelector_NN_tie_breaking.py` (``plot_FOCISelector_NN_tie_breaking.py``)
-     - 00:09.653
+     - 00:07.112
      - 0.0
    * - :ref:`sphx_glr_auto_examples_plot_FOCISelector_methods.py` (``plot_FOCISelector_methods.py``)
-     - 00:04.249
+     - 00:02.973
      - 0.0
    * - :ref:`sphx_glr_auto_examples_plot_FOCISelector_progression.py` (``plot_FOCISelector_progression.py``)
-     - 00:01.840
+     - 00:01.306
      - 0.0

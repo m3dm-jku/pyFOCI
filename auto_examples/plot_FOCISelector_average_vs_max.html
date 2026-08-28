@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Average vs max rank on tied data &#8212; pyFOCI 0.7.1 documentation</title>
+    <title>Average vs max rank on tied data &#8212; pyFOCI 0.8.0 documentation</title>
   
   
   
@@ -45,7 +45,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../_static/documentation_options.js?v=5a057da9"></script>
+    <script src="../_static/documentation_options.js?v=486e5634"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/sg-tags.js?v=d80f6fa4"></script>
@@ -55,10 +55,10 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Fuchs vs R-FOCI score normalization" href="plot_FOCISelector_methods.html" />
-    <link rel="prev" title="FOCISelector: nearest-neighbor tie breaking" href="plot_FOCISelector_NN_tie_breaking.html" />
+    <link rel="prev" title="FOCI tie-breaking: speed and stability" href="plot_FOCISelector_first_speed_and_order.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.7.1" />
+  <meta name="docsearch:version" content="0.8.0" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -130,8 +130,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="pyFOCI 0.7.1 documentation - Home"/>
-    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="pyFOCI 0.7.1 documentation - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="pyFOCI 0.8.0 documentation - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="pyFOCI 0.8.0 documentation - Home"/>
   
   
 </a></div>
@@ -356,7 +356,8 @@
 <li class="toctree-l1"><a class="reference internal" href="plot_FOCISelector_progression.html">FOCISelector: score progression</a></li>
 <li class="toctree-l1"><a class="reference internal" href="plot_FOCISelector_comparison.html">FOCI vs others on synthetic dataset</a></li>
 <li class="toctree-l1"><a class="reference internal" href="plot_FOCISelector_bike_sharing.html">FOCI vs Lasso on real-world dataset</a></li>
-<li class="toctree-l1"><a class="reference internal" href="plot_FOCISelector_NN_tie_breaking.html">FOCISelector: nearest-neighbor tie breaking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plot_FOCISelector_NN_tie_breaking.html">FOCI rank-mean NN tie breaking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plot_FOCISelector_first_speed_and_order.html">FOCI tie-breaking: speed and stability</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Average vs max rank on tied data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="plot_FOCISelector_methods.html">Fuchs vs R-FOCI score normalization</a></li>
 </ul>
@@ -434,8 +435,8 @@ the two methods’ test R² on the seeds where they disagree; see
 uniformly better.</p>
 <p>By default only the fixed <code class="docutils literal notranslate"><span class="pre">SEEDS_OF_INTEREST</span></code> list is evaluated, keeping the
 documentation build fast. Set <code class="docutils literal notranslate"><span class="pre">SEARCH_SEEDS</span> <span class="pre">=</span> <span class="pre">True</span></code> to rescan the first
-<code class="docutils literal notranslate"><span class="pre">SEARCH_SEEDS_LIMIT</span></code> seeds and print a refreshed list in Python syntax to
-paste back.</p>
+<code class="docutils literal notranslate"><span class="pre">SEARCH_SEEDS_LIMIT</span></code> seeds and, if necessary, print a refreshed list in Python
+syntax to paste back.</p>
 <img src="../_images/sphx_glr_plot_FOCISelector_average_vs_max_001.png" srcset="../_images/sphx_glr_plot_FOCISelector_average_vs_max_001.png" alt="Seeds where average and max ranking disagree" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Seeds compared: 34
   average better test R² : 18
   max better test R²     : 16
@@ -464,8 +465,8 @@ paste back.</p>
 <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">K_FEAT_CAP</span></a> <span class="o">=</span> <span class="mi">10</span>
 
 <span class="c1"># Set SEARCH_SEEDS = True to re-run the seed search (slow) and print the</span>
-<span class="c1"># seeds where the two rank methods disagree; paste the result into</span>
-<span class="c1"># SEEDS_OF_INTEREST below.</span>
+<span class="c1"># seeds where the two rank methods disagree if they differ from the current</span>
+<span class="c1"># SEEDS_OF_INTEREST below; paste the result back into SEEDS_OF_INTEREST.</span>
 <a href="https://docs.python.org/3/library/functions.html#bool" title="builtins.bool" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">SEARCH_SEEDS</span></a> <span class="o">=</span> <span class="kc">False</span>
 <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">SEARCH_SEEDS_LIMIT</span></a> <span class="o">=</span> <span class="mi">500</span>
 
@@ -552,9 +553,13 @@ paste back.</p>
 
 <span class="k">if</span> <a href="https://docs.python.org/3/library/functions.html#bool" title="builtins.bool" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">SEARCH_SEEDS</span></a><span class="p">:</span>
     <span class="n">found</span> <span class="o">=</span> <span class="p">[</span><a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">seed</span></a> <span class="k">for</span> <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">seed</span></a><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">results</span></a><span class="p">]</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Seeds where the two rank methods disagree:&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;SEEDS_OF_INTEREST = </span><span class="si">{</span><span class="n">found</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">found</span> <span class="o">!=</span> <a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">SEEDS_OF_INTEREST</span></a><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Seeds where the two rank methods disagree:&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;SEEDS_OF_INTEREST = </span><span class="si">{</span><span class="n">found</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Found seeds match SEEDS_OF_INTEREST; nothing to update.&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">()</span>
 
 <span class="k">if</span> <span class="ow">not</span> <a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">results</span></a><span class="p">:</span>
     <span class="k">raise</span> <span class="ne">SystemExit</span><span class="p">(</span><span class="s2">&quot;No seeds with differing selections were found.&quot;</span><span class="p">)</span>
@@ -611,7 +616,7 @@ paste back.</p>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  mean R² difference (average - max): </span><span class="si">{</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">dr2</span></a><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">+.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 21.381 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 18.572 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-plot-fociselector-average-vs-max-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/1b3a4445ddac29ec004d1482031f8bf7/plot_FOCISelector_average_vs_max.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_FOCISelector_average_vs_max.ipynb</span></code></a></p>
@@ -637,12 +642,12 @@ paste back.</p>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="plot_FOCISelector_NN_tie_breaking.html"
+       href="plot_FOCISelector_first_speed_and_order.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">FOCISelector: nearest-neighbor tie breaking</p>
+        <p class="prev-next-title">FOCI tie-breaking: speed and stability</p>
       </div>
     </a>
     <a class="right-next"

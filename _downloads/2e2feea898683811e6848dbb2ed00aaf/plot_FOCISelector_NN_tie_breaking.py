@@ -1,6 +1,6 @@
 """
 ================================================
-FOCISelector: nearest-neighbor tie breaking
+FOCI rank-mean NN tie breaking
 ================================================
 
 This example compares FOCI with ``nn_tie_breaking="random"`` across several
@@ -9,7 +9,8 @@ seeds against deterministic ``nn_tie_breaking="mean"``.
 The synthetic features are discrete, which creates many nearest-neighbor ties
 in low-dimensional selected feature subspaces. The target depends on several
 similarly informative features, making the selection problem intentionally
-ambiguous. This makes it possible to see how random NN tie-breaking can affect the
+ambiguous. This makes it possible to see how random nearest-neighbor (NN) tie-breaking
+can affect the
 selected feature subset while mean tie-breaking gives a deterministic result –
 in this case even better than the others. A poor random NN tie-breaking can even score
 below the constant-predictor baseline on held-out data (negative test R²).

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>FOCISelector: nearest-neighbor tie breaking &#8212; pyFOCI 0.7.1 documentation</title>
+    <title>FOCI rank-mean NN tie breaking &#8212; pyFOCI 0.8.0 documentation</title>
   
   
   
@@ -45,7 +45,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../_static/documentation_options.js?v=5a057da9"></script>
+    <script src="../_static/documentation_options.js?v=486e5634"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/sg-tags.js?v=d80f6fa4"></script>
@@ -54,11 +54,11 @@
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Average vs max rank on tied data" href="plot_FOCISelector_average_vs_max.html" />
+    <link rel="next" title="FOCI tie-breaking: speed and stability" href="plot_FOCISelector_first_speed_and_order.html" />
     <link rel="prev" title="FOCI vs Lasso on real-world dataset" href="plot_FOCISelector_bike_sharing.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.7.1" />
+  <meta name="docsearch:version" content="0.8.0" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -130,8 +130,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="pyFOCI 0.7.1 documentation - Home"/>
-    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="pyFOCI 0.7.1 documentation - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="pyFOCI 0.8.0 documentation - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="pyFOCI 0.8.0 documentation - Home"/>
   
   
 </a></div>
@@ -356,7 +356,8 @@
 <li class="toctree-l1"><a class="reference internal" href="plot_FOCISelector_progression.html">FOCISelector: score progression</a></li>
 <li class="toctree-l1"><a class="reference internal" href="plot_FOCISelector_comparison.html">FOCI vs others on synthetic dataset</a></li>
 <li class="toctree-l1"><a class="reference internal" href="plot_FOCISelector_bike_sharing.html">FOCI vs Lasso on real-world dataset</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">FOCISelector: nearest-neighbor tie breaking</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">FOCI rank-mean NN tie breaking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plot_FOCISelector_first_speed_and_order.html">FOCI tie-breaking: speed and stability</a></li>
 <li class="toctree-l1"><a class="reference internal" href="plot_FOCISelector_average_vs_max.html">Average vs max rank on tied data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="plot_FOCISelector_methods.html">Fuchs vs R-FOCI score normalization</a></li>
 </ul>
@@ -402,7 +403,7 @@
     
     <li class="breadcrumb-item"><a href="index.html" class="nav-link">Example Gallery</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">FOCISelector: nearest-neighbor tie breaking</span></li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">FOCI rank-mean NN tie breaking</span></li>
   </ul>
 </nav>
 </div>
@@ -424,14 +425,15 @@
 <p><a class="reference internal" href="#sphx-glr-download-auto-examples-plot-fociselector-nn-tie-breaking-py"><span class="std std-ref">Go to the end</span></a>
 to download the full example code.</p>
 </div>
-<section class="sphx-glr-example-title" id="fociselector-nearest-neighbor-tie-breaking">
-<span id="sphx-glr-auto-examples-plot-fociselector-nn-tie-breaking-py"></span><h1>FOCISelector: nearest-neighbor tie breaking<a class="headerlink" href="#fociselector-nearest-neighbor-tie-breaking" title="Link to this heading">#</a></h1>
+<section class="sphx-glr-example-title" id="foci-rank-mean-nn-tie-breaking">
+<span id="sphx-glr-auto-examples-plot-fociselector-nn-tie-breaking-py"></span><h1>FOCI rank-mean NN tie breaking<a class="headerlink" href="#foci-rank-mean-nn-tie-breaking" title="Link to this heading">#</a></h1>
 <p>This example compares FOCI with <code class="docutils literal notranslate"><span class="pre">nn_tie_breaking=&quot;random&quot;</span></code> across several
 seeds against deterministic <code class="docutils literal notranslate"><span class="pre">nn_tie_breaking=&quot;mean&quot;</span></code>.</p>
 <p>The synthetic features are discrete, which creates many nearest-neighbor ties
 in low-dimensional selected feature subspaces. The target depends on several
 similarly informative features, making the selection problem intentionally
-ambiguous. This makes it possible to see how random NN tie-breaking can affect the
+ambiguous. This makes it possible to see how random nearest-neighbor (NN) tie-breaking
+can affect the
 selected feature subset while mean tie-breaking gives a deterministic result –
 in this case even better than the others. A poor random NN tie-breaking can even score
 below the constant-predictor baseline on held-out data (negative test R²).</p>
@@ -679,7 +681,7 @@ Overlap with mean run: mean=2.60 out of 6
 <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.show.html#matplotlib.pyplot.show" title="matplotlib.pyplot.show" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">show</span></a><span class="p">()</span>
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 9.653 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 7.112 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-plot-fociselector-nn-tie-breaking-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/cda5f543b9553dfa11649af809e3d351/plot_FOCISelector_NN_tie_breaking.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_FOCISelector_NN_tie_breaking.ipynb</span></code></a></p>
@@ -714,11 +716,11 @@ Overlap with mean run: mean=2.60 out of 6
       </div>
     </a>
     <a class="right-next"
-       href="plot_FOCISelector_average_vs_max.html"
+       href="plot_FOCISelector_first_speed_and_order.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Average vs max rank on tied data</p>
+        <p class="prev-next-title">FOCI tie-breaking: speed and stability</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
