@@ -1,9 +1,9 @@
 pyFOCI - Feature Ordering by Conditional Independence
 ============================================================
 
-![tests](https://github.com/m3dm-jku/pyFOCI/actions/workflows/python-app.yml/badge.svg)
+[![tests](https://github.com/m3dm-jku/pyFOCI/actions/workflows/python-app.yml/badge.svg)](https://github.com/m3dm-jku/pyFOCI/actions/workflows/python-app.yml)
 [![codecov](https://codecov.io/gh/m3dm-jku/pyFOCI/graph/badge.svg?token=L0XPWwoPLw)](https://codecov.io/gh/m3dm-jku/pyFOCI)
-![doc](https://github.com/m3dm-jku/pyFOCI/actions/workflows/deploy-gh-pages.yml/badge.svg)
+[![doc](https://github.com/m3dm-jku/pyFOCI/actions/workflows/deploy-gh-pages.yml/badge.svg)](https://m3dm-jku.github.io/pyFOCI/)
 
 **pyFOCI** provides the feature selection algorithm "Feature Ordering by Conditional Independence" (FOCI), based on a nonlinear generalization of the partial R² statistic. So it can be especially useful in strongly nonlinear data scenarios.
 
