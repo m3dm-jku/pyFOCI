@@ -222,7 +222,7 @@ All available benchmark options can be displayed via ``--help``:
       --max-features MAX_FEATURES
       --repeats REPEATS
       --seed SEED
-      --method {fuchs,r_foci}
+      --method {r_foci,fuchs}
                             Selection scoring method: 'r_foci' (default) or 'fuchs'.
       --n-jobs N_JOBS [N_JOBS ...]
                             Worker counts to measure; defaults to powers of two and -1.
