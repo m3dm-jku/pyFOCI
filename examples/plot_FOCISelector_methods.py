@@ -12,7 +12,7 @@ two scoring methods on discrete (tied) target data:
 On tied (i.e., non-continuous) target data,
 the continuous target rank-sum assumption in the Fuchs formula
 causes its score to be shifted upwards and frequently exceed 1.0. In contrast,
-the FOCI R reference implementation (``method="r_foci"``) normalizes by the
+the FOCI R reference implementation normalizes by the
 sample denominator :math:`S(y)`, keeping scores properly calibrated within
 the unit interval :math:`[0, 1]`.
 
