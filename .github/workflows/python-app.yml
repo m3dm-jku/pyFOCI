@@ -34,7 +34,7 @@ jobs:
         with:
           packages: "any::FOCI"
 
-      - uses: prefix-dev/setup-pixi@v0.10.1
+      - uses: prefix-dev/setup-pixi@v0.10.2
         with:
           pixi-version: v0.68.1
           environments: ${{ matrix.environment }}
