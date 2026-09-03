@@ -60,7 +60,7 @@ X[:, x0_distractors] = X[:, 0:1] + 0.01 * random_state.normal(size=(n, N_DISTRAC
 # True underlying signals, all even.
 y = (
     2 * (X[:, 0] ** 2 - 1)
-    + 2 * (X[:, 1] ** 2 - 1)
+    + 2 * np.where(np.abs(X[:, 1]) > 0.5, 1.0, -1.0)
     + 3 * np.exp(-X[:, 2] ** 2)
     + 2 * np.cos(2.0 * X[:, 3])
     + 0.1 * random_state.normal(size=n)
