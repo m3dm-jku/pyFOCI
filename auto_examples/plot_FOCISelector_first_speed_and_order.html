@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>FOCI tie-breaking: speed and stability &#8212; pyFOCI 0.8.0 documentation</title>
+    <title>FOCI tie-breaking: speed and stability &#8212; pyFOCI 0.9.0 documentation</title>
   
   
   
@@ -45,7 +45,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../_static/documentation_options.js?v=486e5634"></script>
+    <script src="../_static/documentation_options.js?v=39bb1c6d"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/sg-tags.js?v=d80f6fa4"></script>
@@ -58,7 +58,7 @@
     <link rel="prev" title="FOCI rank-mean NN tie breaking" href="plot_FOCISelector_NN_tie_breaking.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.8.0" />
+  <meta name="docsearch:version" content="0.9.0" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -130,8 +130,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="pyFOCI 0.8.0 documentation - Home"/>
-    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="pyFOCI 0.8.0 documentation - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="pyFOCI 0.9.0 documentation - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="pyFOCI 0.9.0 documentation - Home"/>
   
   
 </a></div>
@@ -359,7 +359,7 @@
 <li class="toctree-l1"><a class="reference internal" href="plot_FOCISelector_NN_tie_breaking.html">FOCI rank-mean NN tie breaking</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">FOCI tie-breaking: speed and stability</a></li>
 <li class="toctree-l1"><a class="reference internal" href="plot_FOCISelector_average_vs_max.html">Average vs max rank on tied data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="plot_FOCISelector_methods.html">Fuchs vs R-FOCI score normalization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plot_FOCISelector_methods.html">r_foci vs. ct_foci score normalization</a></li>
 </ul>
 </div>
 </nav></div>
@@ -436,11 +436,11 @@ so ties of equally-close neighbors exist.</p>
 speed and stability of the selection.</p>
 <img src="../_images/sphx_glr_plot_FOCISelector_first_speed_and_order_001.png" srcset="../_images/sphx_glr_plot_FOCISelector_first_speed_and_order_001.png" alt="Runtime, Stability over 10 train shuffles (fixed test set)" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Data: n=700, p=30, levels=3, k=5
 Train: 525, Test: 175
-random:  0.45s  -&gt; [1, 0, 3, 23, 4]
-mean  :  0.39s  -&gt; [1, 0, 3, 4, 6]
+random:  0.46s  -&gt; [1, 0, 3, 23, 4]
+mean  :  0.38s  -&gt; [1, 0, 3, 4, 6]
 first :  0.21s  -&gt; [9, 27, 29, 0, 1]
 
-Speed-up first vs random: 2.2x, vs mean: 1.9x
+Speed-up first vs random: 2.2x, vs mean: 1.8x
 
 random: 10 unique sets over 10 train shuffles | Test R² mean=0.5446 std=0.0605 min=0.4108 max=0.6080
 
@@ -599,7 +599,7 @@ first : 10 unique sets over 10 train shuffles | Test R² mean=0.3795 std=0.1422 
 <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.show.html#matplotlib.pyplot.show" title="matplotlib.pyplot.show" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">show</span></a><span class="p">()</span>
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 15.994 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 16.167 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-plot-fociselector-first-speed-and-order-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/3ca18ed31f33277c26424f5b57f30b39/plot_FOCISelector_first_speed_and_order.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_FOCISelector_first_speed_and_order.ipynb</span></code></a></p>

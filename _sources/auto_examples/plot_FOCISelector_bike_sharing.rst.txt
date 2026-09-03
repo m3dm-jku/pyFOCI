@@ -55,9 +55,9 @@ regularization strength is selected by cross-validation.
     ===========================================================================================
     Method         | Time (s) | Test R²  | MAE      | Features
     -------------------------------------------------------------------------------------------
-    Mutual Info    |    0.317 |   0.5327 |   100.08 | ['month', 'hour', 'temp', 'feel_temp', 'humidity']
-    LassoCV top-k  |    0.088 |   0.6780 |    84.47 | ['season', 'year', 'hour', 'temp', 'humidity']
-    FOCI           |    2.356 |   0.8438 |    55.23 | ['year', 'hour', 'workingday', 'weather', 'feel_temp']
+    Mutual Info    |    0.318 |   0.5327 |   100.08 | ['month', 'hour', 'temp', 'feel_temp', 'humidity']
+    LassoCV top-k  |    0.093 |   0.6780 |    84.47 | ['season', 'year', 'hour', 'temp', 'humidity']
+    FOCI           |    2.390 |   0.8438 |    55.23 | ['year', 'hour', 'workingday', 'weather', 'feel_temp']
     ===========================================================================================
 
 
@@ -246,7 +246,7 @@ regularization strength is selected by cross-validation.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 7.998 seconds)
+   **Total running time of the script:** (0 minutes 10.690 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_FOCISelector_bike_sharing.py:

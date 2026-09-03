@@ -18,19 +18,20 @@
 .. _sphx_glr_auto_examples_plot_FOCISelector_methods.py:
 
 
-===================================
-Fuchs vs R-FOCI score normalization
-===================================
+======================================
+r_foci vs. ct_foci score normalization
+======================================
 
 This example illustrates the difference in score normalization between the
 two scoring methods on discrete (tied) target data:
 
-- ``method="fuchs"`` (the Fuchs 2024 closed-form score)
 - ``method="r_foci"`` (matching the FOCI R reference implementation)
+- ``method="ct_foci"`` (the continuous-target form derived by Fuchs 2024)
 
-On tied target data, the continuous target rank-sum assumption in the Fuchs formula
+On tied (i.e., non-continuous) target data,
+the continuous target rank-sum assumption in the ``ct_foci`` formula
 causes its score to be shifted upwards and frequently exceed 1.0. In contrast,
-the FOCI R reference implementation (``method="r_foci"``) normalizes by the
+the FOCI R reference implementation normalizes by the
 sample denominator :math:`S(y)`, keeping scores properly calibrated within
 the unit interval :math:`[0, 1]`.
 
@@ -39,12 +40,12 @@ See :ref:`average_vs_max_ranking` in the User Guide for more information.
 This example fits both methods across 10 seeds on a 3-level discrete target
 and plots the resulting score paths relative to the unit interval boundary.
 
-.. GENERATED FROM PYTHON SOURCE LINES 23-156
+.. GENERATED FROM PYTHON SOURCE LINES 24-159
 
 
 
 .. image-sg:: /auto_examples/images/sphx_glr_plot_FOCISelector_methods_001.png
-   :alt: Selection score trajectories: 'fuchs' vs. 'r_foci' on tied data
+   :alt: Selection score trajectories: 'r_foci' vs. 'ct_foci' on tied data
    :srcset: /auto_examples/images/sphx_glr_plot_FOCISelector_methods_001.png
    :class: sphx-glr-single-img
 
@@ -54,8 +55,8 @@ and plots the resulting score paths relative to the unit interval boundary.
  .. code-block:: none
 
     Across 10 seeds on discrete target data:
-      Fuchs  score range: [1.296, 1.598] (100.0% of step scores > 1.0)
-      R-FOCI score range: [0.217, 0.557] (0.0% of step scores > 1.0)
+      r_foci  score range: [0.217, 0.557] (0.0% of step scores > 1.0)
+      ct_foci score range: [1.296, 1.598] (100.0% of step scores > 1.0)
 
 
 
@@ -101,18 +102,11 @@ and plots the resulting score paths relative to the unit interval boundary.
 
 
     # -- evaluate scores across seeds ------------------------------------------
-    fuchs_scores = []
     rfoci_scores = []
+    ct_foci_scores = []
 
     for s in range(N_SEEDS):
         X, y = make_data(s)
-        sel_f = FOCISelector(
-            method="fuchs",
-            rank_method="max",
-            max_features=K_FEAT_CAP,
-            min_delta=None,
-            random_state=0,
-        ).fit(X, y)
         sel_r = FOCISelector(
             method="r_foci",
             rank_method="max",
@@ -120,11 +114,18 @@ and plots the resulting score paths relative to the unit interval boundary.
             min_delta=None,
             random_state=0,
         ).fit(X, y)
-        fuchs_scores.append(sel_f.score_path_)
+        sel_f = FOCISelector(
+            method="ct_foci",
+            rank_method="max",
+            max_features=K_FEAT_CAP,
+            min_delta=None,
+            random_state=0,
+        ).fit(X, y)
         rfoci_scores.append(sel_r.score_path_)
+        ct_foci_scores.append(sel_f.score_path_)
 
-    fuchs_scores = np.array(fuchs_scores)
     rfoci_scores = np.array(rfoci_scores)
+    ct_foci_scores = np.array(ct_foci_scores)
 
     # -- plot ------------------------------------------------------------------
     fig, ax = plt.subplots(figsize=(7, 4.5))
@@ -135,37 +136,37 @@ and plots the resulting score paths relative to the unit interval boundary.
     for s in range(N_SEEDS):
         ax.plot(
             steps,
-            fuchs_scores[s],
-            color="tab:red",
-            alpha=0.35,
-            lw=1.0,
-            label="method='fuchs'" if s == 0 else "",
-        )
-        ax.plot(
-            steps,
             rfoci_scores[s],
             color="tab:blue",
             alpha=0.35,
             lw=1.0,
             label="method='r_foci'" if s == 0 else "",
         )
+        ax.plot(
+            steps,
+            ct_foci_scores[s],
+            color="tab:red",
+            alpha=0.35,
+            lw=1.0,
+            label="method='ct_foci'" if s == 0 else "",
+        )
 
     # Plot mean trajectories
-    ax.plot(
-        steps,
-        fuchs_scores.mean(axis=0),
-        "o-",
-        color="tab:red",
-        lw=2.5,
-        label="Fuchs (mean across seeds)",
-    )
     ax.plot(
         steps,
         rfoci_scores.mean(axis=0),
         "s-",
         color="tab:blue",
         lw=2.5,
-        label="R-FOCI (mean across seeds)",
+        label="r_foci (mean across seeds)",
+    )
+    ax.plot(
+        steps,
+        ct_foci_scores.mean(axis=0),
+        "o-",
+        color="tab:red",
+        lw=2.5,
+        label="ct_foci (mean across seeds)",
     )
 
     # Reference unit interval boundary
@@ -180,7 +181,7 @@ and plots the resulting score paths relative to the unit interval boundary.
 
     ax.set_xlabel("Selection step")
     ax.set_ylabel("Selection score")
-    ax.set_title("Selection score trajectories: 'fuchs' vs. 'r_foci' on tied data")
+    ax.set_title("Selection score trajectories: 'r_foci' vs. 'ct_foci' on tied data")
     ax.set_xticks(steps)
     ax.set_ylim(0.0, 1.8)
     ax.legend(loc="upper left", fontsize=8.5)
@@ -192,18 +193,20 @@ and plots the resulting score paths relative to the unit interval boundary.
     # -- numeric summary -------------------------------------------------------
     print(f"Across {N_SEEDS} seeds on discrete target data:")
     print(
-        f"  Fuchs  score range: [{fuchs_scores.min():.3f}, {fuchs_scores.max():.3f}] "
-        f"({np.mean(fuchs_scores > 1.0):.1%} of step scores > 1.0)"
+        f"  r_foci  score range: "
+        f"[{rfoci_scores.min():.3f}, {rfoci_scores.max():.3f}] "
+        f"({np.mean(rfoci_scores > 1.0):.1%} of step scores > 1.0)"
     )
     print(
-        f"  R-FOCI score range: [{rfoci_scores.min():.3f}, {rfoci_scores.max():.3f}] "
-        f"({np.mean(rfoci_scores > 1.0):.1%} of step scores > 1.0)"
+        f"  ct_foci score range: "
+        f"[{ct_foci_scores.min():.3f}, {ct_foci_scores.max():.3f}] "
+        f"({np.mean(ct_foci_scores > 1.0):.1%} of step scores > 1.0)"
     )
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 2.973 seconds)
+   **Total running time of the script:** (0 minutes 3.019 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_FOCISelector_methods.py:

@@ -1,17 +1,18 @@
 """
-===================================
-Fuchs vs R-FOCI score normalization
-===================================
+======================================
+r_foci vs. ct_foci score normalization
+======================================
 
 This example illustrates the difference in score normalization between the
 two scoring methods on discrete (tied) target data:
 
-- ``method="fuchs"`` (the Fuchs 2024 closed-form score)
 - ``method="r_foci"`` (matching the FOCI R reference implementation)
+- ``method="ct_foci"`` (the continuous-target form derived by Fuchs 2024)
 
-On tied target data, the continuous target rank-sum assumption in the Fuchs formula
+On tied (i.e., non-continuous) target data,
+the continuous target rank-sum assumption in the ``ct_foci`` formula
 causes its score to be shifted upwards and frequently exceed 1.0. In contrast,
-the FOCI R reference implementation (``method="r_foci"``) normalizes by the
+the FOCI R reference implementation normalizes by the
 sample denominator :math:`S(y)`, keeping scores properly calibrated within
 the unit interval :math:`[0, 1]`.
 
@@ -55,18 +56,11 @@ def make_data(seed, n=N_SAMPLES, p=N_FEATURES, n_levels=N_LEVELS, sigma=NOISE_SI
 
 
 # -- evaluate scores across seeds ------------------------------------------
-fuchs_scores = []
 rfoci_scores = []
+ct_foci_scores = []
 
 for s in range(N_SEEDS):
     X, y = make_data(s)
-    sel_f = FOCISelector(
-        method="fuchs",
-        rank_method="max",
-        max_features=K_FEAT_CAP,
-        min_delta=None,
-        random_state=0,
-    ).fit(X, y)
     sel_r = FOCISelector(
         method="r_foci",
         rank_method="max",
@@ -74,11 +68,18 @@ for s in range(N_SEEDS):
         min_delta=None,
         random_state=0,
     ).fit(X, y)
-    fuchs_scores.append(sel_f.score_path_)
+    sel_f = FOCISelector(
+        method="ct_foci",
+        rank_method="max",
+        max_features=K_FEAT_CAP,
+        min_delta=None,
+        random_state=0,
+    ).fit(X, y)
     rfoci_scores.append(sel_r.score_path_)
+    ct_foci_scores.append(sel_f.score_path_)
 
-fuchs_scores = np.array(fuchs_scores)
 rfoci_scores = np.array(rfoci_scores)
+ct_foci_scores = np.array(ct_foci_scores)
 
 # -- plot ------------------------------------------------------------------
 fig, ax = plt.subplots(figsize=(7, 4.5))
@@ -89,37 +90,37 @@ steps = np.arange(1, K_FEAT_CAP + 1)
 for s in range(N_SEEDS):
     ax.plot(
         steps,
-        fuchs_scores[s],
-        color="tab:red",
-        alpha=0.35,
-        lw=1.0,
-        label="method='fuchs'" if s == 0 else "",
-    )
-    ax.plot(
-        steps,
         rfoci_scores[s],
         color="tab:blue",
         alpha=0.35,
         lw=1.0,
         label="method='r_foci'" if s == 0 else "",
     )
+    ax.plot(
+        steps,
+        ct_foci_scores[s],
+        color="tab:red",
+        alpha=0.35,
+        lw=1.0,
+        label="method='ct_foci'" if s == 0 else "",
+    )
 
 # Plot mean trajectories
-ax.plot(
-    steps,
-    fuchs_scores.mean(axis=0),
-    "o-",
-    color="tab:red",
-    lw=2.5,
-    label="Fuchs (mean across seeds)",
-)
 ax.plot(
     steps,
     rfoci_scores.mean(axis=0),
     "s-",
     color="tab:blue",
     lw=2.5,
-    label="R-FOCI (mean across seeds)",
+    label="r_foci (mean across seeds)",
+)
+ax.plot(
+    steps,
+    ct_foci_scores.mean(axis=0),
+    "o-",
+    color="tab:red",
+    lw=2.5,
+    label="ct_foci (mean across seeds)",
 )
 
 # Reference unit interval boundary
@@ -134,7 +135,7 @@ ax.axhspan(0.0, 1.0, color="tab:blue", alpha=0.06, label="Unit interval [0, 1]")
 
 ax.set_xlabel("Selection step")
 ax.set_ylabel("Selection score")
-ax.set_title("Selection score trajectories: 'fuchs' vs. 'r_foci' on tied data")
+ax.set_title("Selection score trajectories: 'r_foci' vs. 'ct_foci' on tied data")
 ax.set_xticks(steps)
 ax.set_ylim(0.0, 1.8)
 ax.legend(loc="upper left", fontsize=8.5)
@@ -146,10 +147,12 @@ plt.show()
 # -- numeric summary -------------------------------------------------------
 print(f"Across {N_SEEDS} seeds on discrete target data:")
 print(
-    f"  Fuchs  score range: [{fuchs_scores.min():.3f}, {fuchs_scores.max():.3f}] "
-    f"({np.mean(fuchs_scores > 1.0):.1%} of step scores > 1.0)"
+    f"  r_foci  score range: "
+    f"[{rfoci_scores.min():.3f}, {rfoci_scores.max():.3f}] "
+    f"({np.mean(rfoci_scores > 1.0):.1%} of step scores > 1.0)"
 )
 print(
-    f"  R-FOCI score range: [{rfoci_scores.min():.3f}, {rfoci_scores.max():.3f}] "
-    f"({np.mean(rfoci_scores > 1.0):.1%} of step scores > 1.0)"
+    f"  ct_foci score range: "
+    f"[{ct_foci_scores.min():.3f}, {ct_foci_scores.max():.3f}] "
+    f"({np.mean(ct_foci_scores > 1.0):.1%} of step scores > 1.0)"
 )

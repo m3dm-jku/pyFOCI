@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>FOCI vs Lasso on real-world dataset &#8212; pyFOCI 0.8.0 documentation</title>
+    <title>FOCI vs Lasso on real-world dataset &#8212; pyFOCI 0.9.0 documentation</title>
   
   
   
@@ -45,7 +45,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../_static/documentation_options.js?v=486e5634"></script>
+    <script src="../_static/documentation_options.js?v=39bb1c6d"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/sg-tags.js?v=d80f6fa4"></script>
@@ -58,7 +58,7 @@
     <link rel="prev" title="FOCI vs others on synthetic dataset" href="plot_FOCISelector_comparison.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.8.0" />
+  <meta name="docsearch:version" content="0.9.0" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -130,8 +130,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="pyFOCI 0.8.0 documentation - Home"/>
-    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="pyFOCI 0.8.0 documentation - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="pyFOCI 0.9.0 documentation - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="pyFOCI 0.9.0 documentation - Home"/>
   
   
 </a></div>
@@ -359,7 +359,7 @@
 <li class="toctree-l1"><a class="reference internal" href="plot_FOCISelector_NN_tie_breaking.html">FOCI rank-mean NN tie breaking</a></li>
 <li class="toctree-l1"><a class="reference internal" href="plot_FOCISelector_first_speed_and_order.html">FOCI tie-breaking: speed and stability</a></li>
 <li class="toctree-l1"><a class="reference internal" href="plot_FOCISelector_average_vs_max.html">Average vs max rank on tied data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="plot_FOCISelector_methods.html">Fuchs vs R-FOCI score normalization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plot_FOCISelector_methods.html">r_foci vs. ct_foci score normalization</a></li>
 </ul>
 </div>
 </nav></div>
@@ -442,9 +442,9 @@ Feature selector comparison on Bike Sharing Demand (n=8690, p=12, k=5)
 ===========================================================================================
 Method         | Time (s) | Test R²  | MAE      | Features
 -------------------------------------------------------------------------------------------
-Mutual Info    |    0.317 |   0.5327 |   100.08 | [&#39;month&#39;, &#39;hour&#39;, &#39;temp&#39;, &#39;feel_temp&#39;, &#39;humidity&#39;]
-LassoCV top-k  |    0.088 |   0.6780 |    84.47 | [&#39;season&#39;, &#39;year&#39;, &#39;hour&#39;, &#39;temp&#39;, &#39;humidity&#39;]
-FOCI           |    2.356 |   0.8438 |    55.23 | [&#39;year&#39;, &#39;hour&#39;, &#39;workingday&#39;, &#39;weather&#39;, &#39;feel_temp&#39;]
+Mutual Info    |    0.318 |   0.5327 |   100.08 | [&#39;month&#39;, &#39;hour&#39;, &#39;temp&#39;, &#39;feel_temp&#39;, &#39;humidity&#39;]
+LassoCV top-k  |    0.093 |   0.6780 |    84.47 | [&#39;season&#39;, &#39;year&#39;, &#39;hour&#39;, &#39;temp&#39;, &#39;humidity&#39;]
+FOCI           |    2.390 |   0.8438 |    55.23 | [&#39;year&#39;, &#39;hour&#39;, &#39;workingday&#39;, &#39;weather&#39;, &#39;feel_temp&#39;]
 ===========================================================================================
 </pre></div>
 </div>
@@ -624,7 +624,7 @@ FOCI           |    2.356 |   0.8438 |    55.23 | [&#39;year&#39;, &#39;hour&#39
 <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.show.html#matplotlib.pyplot.show" title="matplotlib.pyplot.show" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">show</span></a><span class="p">()</span>
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 7.998 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 10.690 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-plot-fociselector-bike-sharing-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/43940fc6a08428ddd642a2fbec28f7a8/plot_FOCISelector_bike_sharing.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_FOCISelector_bike_sharing.ipynb</span></code></a></p>

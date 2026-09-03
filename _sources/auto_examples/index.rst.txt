@@ -134,7 +134,7 @@ Introductory examples.
 
 .. raw:: html
 
-      <div class="sphx-glr-thumbnail-title">Fuchs vs R-FOCI score normalization</div>
+      <div class="sphx-glr-thumbnail-title">r_foci vs. ct_foci score normalization</div>
     </div>
 
 

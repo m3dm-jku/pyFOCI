@@ -47,11 +47,11 @@ speed and stability of the selection.
 
     Data: n=700, p=30, levels=3, k=5
     Train: 525, Test: 175
-    random:  0.45s  -> [1, 0, 3, 23, 4]
-    mean  :  0.39s  -> [1, 0, 3, 4, 6]
+    random:  0.46s  -> [1, 0, 3, 23, 4]
+    mean  :  0.38s  -> [1, 0, 3, 4, 6]
     first :  0.21s  -> [9, 27, 29, 0, 1]
 
-    Speed-up first vs random: 2.2x, vs mean: 1.9x
+    Speed-up first vs random: 2.2x, vs mean: 1.8x
 
     random: 10 unique sets over 10 train shuffles | Test R² mean=0.5446 std=0.0605 min=0.4108 max=0.6080
 
@@ -218,7 +218,7 @@ speed and stability of the selection.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 15.994 seconds)
+   **Total running time of the script:** (0 minutes 16.167 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_FOCISelector_first_speed_and_order.py:
