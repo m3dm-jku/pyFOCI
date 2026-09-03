@@ -18,6 +18,8 @@ pixi run -e latest test
 
 pixi run -e doc build-doc
 # Also examine the resulting example plot.
+# Run single examples with:
+# pixi run -e doc python examples/filename.py
 
 Commit to a dev branch.
 
