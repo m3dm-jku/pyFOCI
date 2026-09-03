@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/2.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.9.0] - 2026-09-03
 
 ### Changed
 - **Breaking:** renamed the `FOCISelector` parameter value `method="fuchs"`
@@ -14,7 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Replaced the second squared feature by a step function, which is another
   different nonlinear signal.
 
-## [0.8.0]
+## [0.8.0] - 2026-08-28
 
 ### Added
 - `FOCISelector` now accepts `nn_tie_breaking="first"`, which queries a single
