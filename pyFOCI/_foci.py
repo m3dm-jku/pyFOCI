@@ -450,7 +450,7 @@ def _score_candidate(
         )
         score = qn / S_y if S_y > 0 else 1.0
     else:
-        assert method == "fuchs"
+        assert method == "ct_foci"
         score = _Tn(
             X_sub,
             y_rank,
@@ -465,7 +465,8 @@ class FOCISelector(SelectorMixin, BaseEstimator):
     """
     Feature selector using hierarchical forward selection based on the
     nonlinear Azadkia–Chatterjee T_n coefficient, using the FOCI R reference
-    form by default and the Fuchs form as an alternative (see references).
+    form by default and the continuous-target form derived by Fuchs as an
+    alternative (see ``method`` and the references).
 
     At each step, among remaining features, we choose the feature that maximizes
     the per-step score on the growing set S_k = S_{k-1} ∪ {j}.
@@ -498,13 +499,14 @@ class FOCISelector(SelectorMixin, BaseEstimator):
           - min_delta == 0 corresponds to stop=TRUE
           - min_delta is None corresponds to stop=FALSE
 
-    method : {"r_foci", "fuchs"}, default="r_foci"
+    method : {"r_foci", "ct_foci"}, default="r_foci"
         Selection scoring method:
 
         - "r_foci" (default): Azadkia–Chatterjee :math:`Q_n/S(y)`
           numerator/denominator form, matching the FOCI R reference
           implementation's selection and stopping.
-        - "fuchs": the form derived by Fuchs (2024) for continuous targets.
+        - "ct_foci": the continuous-target ("ct") form of the
+          Azadkia–Chatterjee estimator, derived by Fuchs (2024).
 
     standardize : {"normalize", None}, default="normalize"
         If "normalize", each column of X is standardized to zero mean and unit
@@ -572,7 +574,7 @@ class FOCISelector(SelectorMixin, BaseEstimator):
     _parameter_constraints = {
         "max_features": [None, Interval(Integral, 1, None, closed="left")],
         "min_delta": [None, Interval(Real, None, None, closed="neither")],
-        "method": [StrOptions({"r_foci", "fuchs"})],
+        "method": [StrOptions({"r_foci", "ct_foci"})],
         "standardize": [None, StrOptions({"normalize"})],
         "rank_method": [StrOptions({"max", "average"})],
         "nn_strategy": [StrOptions({"grouping", "radius"})],

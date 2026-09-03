@@ -947,7 +947,7 @@ def test_score_candidate_uses_its_assigned_random_seed():
         seed,
         nn_strategy="grouping",
         nn_tie_breaking="random",
-        method="fuchs",
+        method="ct_foci",
     )
 
     assert j == 1
@@ -1066,13 +1066,6 @@ def test_r_foci_accepts_nn_strategies_and_tie_breaking(strategy, tie_breaking):
 def test_methods_agree_on_continuous_data():
     X_df, y = make_data(n=400, p=20, seed=0)
 
-    sel_fuchs = FOCISelector(
-        method="fuchs",
-        nn_tie_breaking="mean",
-        min_delta=None,
-        max_features=5,
-        random_state=0,
-    ).fit(X_df, y)
     sel_rfoci = FOCISelector(
         method="r_foci",
         nn_tie_breaking="mean",
@@ -1080,27 +1073,34 @@ def test_methods_agree_on_continuous_data():
         max_features=5,
         random_state=0,
     ).fit(X_df, y)
-    np.testing.assert_array_equal(
-        sel_fuchs.selected_indices_, sel_rfoci.selected_indices_
-    )
-    assert_allclose(sel_fuchs.score_path_, sel_rfoci.score_path_, atol=1e-10)
-
-    sel_fuchs_stop = FOCISelector(
-        method="fuchs",
+    sel_ctfoci = FOCISelector(
+        method="ct_foci",
         nn_tie_breaking="mean",
-        min_delta=0,
+        min_delta=None,
+        max_features=5,
         random_state=0,
     ).fit(X_df, y)
+    np.testing.assert_array_equal(
+        sel_rfoci.selected_indices_, sel_ctfoci.selected_indices_
+    )
+    assert_allclose(sel_rfoci.score_path_, sel_ctfoci.score_path_, atol=1e-10)
+
     sel_rfoci_stop = FOCISelector(
         method="r_foci",
         nn_tie_breaking="mean",
         min_delta=0,
         random_state=0,
     ).fit(X_df, y)
+    sel_ctfoci_stop = FOCISelector(
+        method="ct_foci",
+        nn_tie_breaking="mean",
+        min_delta=0,
+        random_state=0,
+    ).fit(X_df, y)
     np.testing.assert_array_equal(
-        sel_fuchs_stop.selected_indices_, sel_rfoci_stop.selected_indices_
+        sel_rfoci_stop.selected_indices_, sel_ctfoci_stop.selected_indices_
     )
-    assert_allclose(sel_fuchs_stop.score_path_, sel_rfoci_stop.score_path_, atol=1e-10)
+    assert_allclose(sel_rfoci_stop.score_path_, sel_ctfoci_stop.score_path_, atol=1e-10)
 
 
 def test_r_foci_min_delta_zero_may_select_none_on_independent_data():
@@ -1143,7 +1143,7 @@ def test_r_foci_min_delta_enforces_gap():
     assert np.all(diffs > min_delta)
 
 
-@pytest.mark.parametrize("method", ["fuchs", "r_foci"])
+@pytest.mark.parametrize("method", ["r_foci", "ct_foci"])
 def test_r_foci_constant_y_selects_none(method):
     X = np.random.RandomState(0).normal(size=(20, 3))
     y = np.ones(20)

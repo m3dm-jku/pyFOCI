@@ -101,7 +101,7 @@ Our implementation provides two selection scoring methods via the ``method`` par
 
   where :math:`R_i = \text{rank}(y_i)`, :math:`L_i = \text{rank}(-y_i)`, and :math:`R_{N(i)}` is the target rank of the nearest neighbor of sample :math:`i` in :math:`\textbf{Z}`. The selection score is :math:`Q_n(y, \textbf{Z}) / S(y)` (or 1.0 if :math:`S(y) = 0`).
 
-- ``method="fuchs"``: uses the form derived for continuous targets by **Fuchs, S. (2024)**:
+- ``method="ct_foci"``: uses the continuous-target form derived by **Fuchs, S. (2024)**:
 
   .. math::
 
@@ -120,7 +120,7 @@ The selection works as follows:
 
 ``min_delta=0`` corresponds to stopping when the score does not increase (matching the R reference's ``stop=TRUE``), while ``min_delta=None`` disables early stopping (matching ``stop=FALSE``). The per-step selection scores along the path are recorded in the fitted attribute ``score_path_``.
 
-We also offer the parameter ``rank_method`` to configure target rank tie handling: ``rank_method="max"`` (default) is the original definition in **Azadkia & Chatterjee (2021)** and is used in its consistency proof, while ``rank_method="average"`` assigns tied targets their average rank, which also keeps the Fuchs score calibrated (see :ref:`average_vs_max_ranking`).
+We also offer the parameter ``rank_method`` to configure target rank tie handling: ``rank_method="max"`` (default) is the original definition in **Azadkia & Chatterjee (2021)** and is used in its consistency proof, while ``rank_method="average"`` assigns tied targets their average rank, which also keeps the ``method="ct_foci"`` score calibrated (see :ref:`average_vs_max_ranking`).
 
 Additionally, we offer a parameter ``nn_tie_breaking`` to switch from the original stochastic nearest-neighbor selection to alternatives: ``nn_tie_breaking="mean"`` deterministically uses the mean target rank of all tied nearest neighbors, while ``nn_tie_breaking="first"`` lets the nearest-neighbor query return just one nearest neighbor per sample without computing tie sets. These options are available to study their impact on the result, stability and speed of the algorithm (see :doc:`the rank-mean NN tie-breaking example </auto_examples/plot_FOCISelector_NN_tie_breaking>` and :doc:`the example comparing speed and stability <auto_examples/plot_FOCISelector_first_speed_and_order>`).
 
@@ -139,19 +139,19 @@ On continuous data, the candidate feature that maximizes the unconditional coeff
 Average vs. Max Ranking on Tied Targets
 ---------------------------------------
 
-On continuous targets without ties, :math:`Q_n / S(y)` and the Fuchs score are identical, and both ranking methods coincide.
+On continuous targets without ties, :math:`Q_n / S(y)` and the ``ct_foci`` score are identical, and both ranking methods coincide.
 
 When the target variable :math:`y` contains ties or is discrete (e.g. rounded measurements, counts, or binned categories), the choice of ``rank_method`` affects both scoring methods in two distinct ways:
 
-1. **Feature ordering (affects both ``method="fuchs"`` and ``method="r_foci"``):**
+1. **Feature ordering (affects both ``method="r_foci"`` and ``method="ct_foci"``):**
 
    ``rank_method="max"`` assigns all tied observations the group's highest rank, producing a top-heavy weighting that overemphasizes dependencies among high-target samples, while ``rank_method="average"`` assigns the group's midpoint rank and weights all target levels symmetrically. The two orderings can therefore differ, and either method can stop prematurely or select a spurious distractor. Neither is uniformly better, as empirically demonstrated in :doc:`the rank method comparison example </auto_examples/plot_FOCISelector_average_vs_max>`.
 
-2. **Score scaling and baseline calibration (specifically affects ``method="fuchs"``):**
+2. **Score scaling and baseline calibration (specifically affects ``method="ct_foci"``):**
 
-   - The Fuchs formula contains the constant offset :math:`-n(n+1)`, which is mathematically derived under the continuous target rank-sum assumption :math:`\sum_{i=1}^n R_i = n(n+1)/2`.
-   - On tied data with ``rank_method="max"``, the sum of maximum ranks is inflated above :math:`n(n+1)/2`. This breaks the offset cancellation, adding an artificial positive shift that frequently pushes Fuchs scores above 1.0 (escaping the unit interval :math:`[0, 1]`).
-   - With ``rank_method="average"``, the sum of average ranks **always** equals :math:`n(n+1)/2` exactly, regardless of the number or size of ties. Average ranking thus restores the continuous target rank-sum identity, eliminating the baseline shift and keeping Fuchs scores properly bounded :math:`\le 1.0`.
+   - The ``ct_foci`` formula contains the constant offset :math:`-n(n+1)`, which is mathematically derived under the continuous target rank-sum assumption :math:`\sum_{i=1}^n R_i = n(n+1)/2`.
+   - On tied data with ``rank_method="max"``, the sum of maximum ranks is inflated above :math:`n(n+1)/2`. This breaks the offset cancellation, adding an artificial positive shift that frequently pushes ``ct_foci`` scores above 1.0 (escaping the unit interval :math:`[0, 1]`).
+   - With ``rank_method="average"``, the sum of average ranks **always** equals :math:`n(n+1)/2` exactly, regardless of the number or size of ties. Average ranking thus restores the continuous target rank-sum identity, eliminating the baseline shift and keeping ``ct_foci`` scores properly bounded :math:`\le 1.0`.
    - In contrast, ``method="r_foci"`` normalizes by the sample denominator :math:`S(y) = \frac{1}{n^3} \sum L_i(n - L_i)` rather than relying on the continuous target rank-sum assumption, so its scores remain within :math:`[0, 1]` under both ranking methods.
 
    See :doc:`the score normalization comparison example </auto_examples/plot_FOCISelector_methods>` for an empirical demonstration.
@@ -208,7 +208,7 @@ All available benchmark options can be displayed via ``--help``:
 
     usage: benchmark.py [-h] [--samples SAMPLES] [--features FEATURES]
                         [--max-features MAX_FEATURES] [--repeats REPEATS]
-                        [--seed SEED] [--method {r_foci,fuchs}]
+                        [--seed SEED] [--method {r_foci,ct_foci}]
                         [--n-jobs N_JOBS [N_JOBS ...]]
 
     Measure local FOCISelector candidate-scoring parallelism. This is
@@ -222,7 +222,7 @@ All available benchmark options can be displayed via ``--help``:
       --max-features MAX_FEATURES
       --repeats REPEATS
       --seed SEED
-      --method {r_foci,fuchs}
-                            Selection scoring method: 'r_foci' (default) or 'fuchs'.
+      --method {r_foci,ct_foci}
+                            Selection scoring method: 'r_foci' (default) or 'ct_foci'.
       --n-jobs N_JOBS [N_JOBS ...]
                             Worker counts to measure; defaults to powers of two and -1.

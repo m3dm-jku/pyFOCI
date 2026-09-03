@@ -64,8 +64,8 @@ def test_time_fit_method_forwarding(monkeypatch):
     X = np.ones((3, 5))
     y = np.ones(3)
     # Use a non-default method, so the assertion really checks the forwarding:
-    benchmark._time_fit(X, y, n_jobs=1, max_features=2, repeats=1, method="fuchs")
-    assert all(params["method"] == "fuchs" for params in fits)
+    benchmark._time_fit(X, y, n_jobs=1, max_features=2, repeats=1, method="ct_foci")
+    assert all(params["method"] == "ct_foci" for params in fits)
 
 
 def test_main_uses_power_of_two_worker_counts(monkeypatch, capsys):
@@ -133,7 +133,7 @@ def test_main_uses_method_argument(monkeypatch, capsys):
     monkeypatch.setattr(benchmark.os, "cpu_count", lambda: 1)
 
     # Use a non-default method, so the assertion really checks the argument:
-    monkeypatch.setattr(sys, "argv", ["benchmark", "--method", "fuchs"])
+    monkeypatch.setattr(sys, "argv", ["benchmark", "--method", "ct_foci"])
     benchmark._main()
-    assert methods_passed == ["fuchs"]
-    assert "method='fuchs'" in capsys.readouterr().out
+    assert methods_passed == ["ct_foci"]
+    assert "method='ct_foci'" in capsys.readouterr().out

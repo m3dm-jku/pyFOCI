@@ -55,9 +55,9 @@ def _main():
     parser.add_argument(
         "--method",
         type=str,
-        choices=["r_foci", "fuchs"],
+        choices=["r_foci", "ct_foci"],
         default="r_foci",
-        help="Selection scoring method: 'r_foci' (default) or 'fuchs'.",
+        help="Selection scoring method: 'r_foci' (default) or 'ct_foci'.",
     )
     parser.add_argument(
         "--n-jobs",
