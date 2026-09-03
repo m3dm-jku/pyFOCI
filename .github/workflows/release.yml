@@ -6,6 +6,19 @@ on:
       - "v*"
 
 jobs:
+  test:
+    name: Unit tests
+    uses: ./.github/workflows/python-app.yml
+    secrets: inherit
+
+  lint:
+    name: Lint
+    uses: ./.github/workflows/lint.yml
+
+  docs:
+    name: Documentation
+    uses: ./.github/workflows/deploy-gh-pages.yml
+
   build:
     name: Build distributions
     runs-on: ubuntu-latest
@@ -33,7 +46,7 @@ jobs:
 
   publish-testpypi:
     name: Publish to TestPyPI
-    needs: build
+    needs: [build, test, lint, docs]
     runs-on: ubuntu-latest
     environment:
       name: testpypi
