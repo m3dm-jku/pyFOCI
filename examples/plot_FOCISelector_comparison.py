@@ -8,7 +8,8 @@ distractor features to demonstrate how Feature Ordering by Conditional Independe
 (FOCI) isolates complementary nonlinear signals, in comparison with some basic
 scikit-learn feature selectors.
 
-Univariate feature selectors (SelectKBest) evaluate features marginally, ranking
+Univariate feature selectors (SelectKBest, here with F-regression and Mutual
+Information) evaluate features marginally, ranking
 redundant collinear features equally high. Lasso is a (sparse) linear method,
 therefore does not work well on strongly nonlinear data, similar to Recursive Feature
 Elimination (RFE) with a linear model, which also cannot deal well with collinear
