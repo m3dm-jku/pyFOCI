@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - **Breaking:** renamed the `FOCISelector` parameter value `method="fuchs"`
   to `method="ct_foci"`. The new value names the
-  continuous-target ("ct") assumption that distinguishes them.
+  continuous-target ("ct") assumption that distinguishes the methods.
 - Replaced the second squared feature by a step function, which is another
   different nonlinear signal.
 
