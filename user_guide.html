@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>User Guide &#8212; pyFOCI 0.9.0 documentation</title>
+    <title>User Guide &#8212; pyFOCI 0.10.0 documentation</title>
   
   
   
@@ -45,7 +45,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="_static/documentation_options.js?v=39bb1c6d"></script>
+    <script src="_static/documentation_options.js?v=82662543"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/sg-tags.js?v=d80f6fa4"></script>
@@ -59,7 +59,7 @@
     <link rel="prev" title="Getting started" href="quick_start.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.9.0" />
+  <meta name="docsearch:version" content="0.10.0" />
   
     
     <script src="_static/searchtools.js"></script>
@@ -131,8 +131,8 @@
       
     
     
-    <img src="_static/logo.png" class="logo__image only-light" alt="pyFOCI 0.9.0 documentation - Home"/>
-    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt="pyFOCI 0.9.0 documentation - Home"/>
+    <img src="_static/logo.png" class="logo__image only-light" alt="pyFOCI 0.10.0 documentation - Home"/>
+    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt="pyFOCI 0.10.0 documentation - Home"/>
   
   
 </a></div>
@@ -519,6 +519,22 @@ rank in their tie group. This rank definition is necessary for the paper’s pro
 </li>
 </ol>
 </section>
+<section id="selection-progress-reporting">
+<h2>Selection progress reporting<a class="headerlink" href="#selection-progress-reporting" title="Link to this heading">#</a></h2>
+<p>Set <code class="docutils literal notranslate"><span class="pre">verbose</span></code> to a non-zero value to print each selected feature and its score with <code class="docutils literal notranslate"><span class="pre">print(score,</span>
+<span class="pre">feature_name)</span></code> as soon as it is accepted during <code class="docutils literal notranslate"><span class="pre">fit</span></code>.</p>
+<p>For example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">selector</span> <span class="o">=</span> <span class="n">FOCISelector</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">selector</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Example output:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>0.08732941230541721 x3
+0.12964076398721665 x1
+0.17490260851003244 x0
+</pre></div>
+</div>
+</section>
 <section id="parallel-candidate-scoring">
 <h2>Parallel candidate scoring<a class="headerlink" href="#parallel-candidate-scoring" title="Link to this heading">#</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">FOCISelector</span></code> can score the remaining candidate features in each forward-selection
@@ -559,9 +575,8 @@ backend, also set MKL_NUM_THREADS=1 or OMP_NUM_THREADS=1, respectively.</p>
                     [--seed SEED] [--method {r_foci,ct_foci}]
                     [--n-jobs N_JOBS [N_JOBS ...]]
 
-Measure local FOCISelector candidate-scoring parallelism. This is
-intentionally a benchmark script, rather than a test: performance varies with
-available CPUs, BLAS threading, and host load.
+Measure local FOCISelector candidate-scoring parallelism. Note that performance
+varies with available CPUs, BLAS threading, and host load.
 
 options:
   -h, --help            show this help message and exit
@@ -632,6 +647,7 @@ options:
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-our-implementation-works">How our Implementation Works</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#difference-between-azadkia-paper-and-r-reference-implementation">Difference between Azadkia Paper and R Reference Implementation</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#average-vs-max-ranking-on-tied-targets">Average vs. Max Ranking on Tied Targets</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#selection-progress-reporting">Selection progress reporting</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parallel-candidate-scoring">Parallel candidate scoring</a></li>
 </ul>
   </nav></div>
